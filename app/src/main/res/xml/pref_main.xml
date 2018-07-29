@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_category_data_title"
+        android:key = "pref_category_data">
+        <SwitchPreference
+            android:key="pref_sync_with_server"
+            android:defaultValue="false"
+            android:summary="@string/pref_sync_with_server_summary"
+            android:title="@string/pref_sync_with_server_title" />
+        <com.kapirawan.financial_tracker.dialog.DialogUserLoginSettings
+            android:key="@string/PREF_USER"
+            android:defaultValue="@string/pref_user_name_default_value"
+            android:summary="@string/pref_user_name_summary"
+            android:title="@string/pref_user_name_title"/>
+    </PreferenceCategory>
+</PreferenceScreen>
