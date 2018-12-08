@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ActivityAccountOptions">
+
+    <TextView
+        android:id="@+id/textView_account_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:text="Account Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_funds"
+        android:layout_width="223dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:text="Funds"
+        app:layout_constraintEnd_toEndOf="@+id/button_expenses"
+        app:layout_constraintStart_toStartOf="@+id/button_expenses"
+        app:layout_constraintTop_toBottomOf="@+id/button_expenses" />
+
+    <Button
+        android:id="@+id/button_budgets"
+        android:layout_width="223dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:text="Budgets"
+        app:layout_constraintEnd_toEndOf="@+id/button_expenses"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/button_expenses"
+        app:layout_constraintTop_toBottomOf="@+id/button_funds" />
+
+    <Button
+        android:id="@+id/button_categories"
+        android:layout_width="223dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:text="Categories"
+        app:layout_constraintEnd_toEndOf="@+id/button_expenses"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/button_expenses"
+        app:layout_constraintTop_toBottomOf="@+id/button_budgets" />
+
+    <Button
+        android:id="@+id/button_sources"
+        android:layout_width="223dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:text="Sources"
+        app:layout_constraintEnd_toEndOf="@+id/button_expenses"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/button_expenses"
+        app:layout_constraintTop_toBottomOf="@+id/button_categories" />
+
+    <Button
+        android:id="@+id/button_expenses"
+        android:layout_width="223dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="Expenses"
+        android:onClick="expenseOptionSelected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_account_name" />
+</android.support.constraint.ConstraintLayout>

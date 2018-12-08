@@ -9,11 +9,11 @@ import com.kapirawan.financial_tracker.repository.AppRepository;
 
 import java.util.List;
 
-public class AppViewModel extends AndroidViewModel {
+public class ViewModelAccount extends AndroidViewModel {
     private AppRepository appRepository;
     private LiveData<List<Account>> accounts;
 
-    public AppViewModel (Application app){
+    public ViewModelAccount(Application app){
         super(app);
         appRepository = new AppRepository(app);
         accounts = appRepository.getAccounts();

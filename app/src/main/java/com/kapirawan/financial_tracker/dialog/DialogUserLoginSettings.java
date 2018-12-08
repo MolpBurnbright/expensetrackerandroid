@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.entity.User;
-import com.kapirawan.financial_tracker.entity.UserCredentials;
+import com.kapirawan.financial_tracker.model.User;
+import com.kapirawan.financial_tracker.model.UserCredentials;
 import com.kapirawan.financial_tracker.webservice.RetrofitClient;
 import com.kapirawan.financial_tracker.webservice.WebServiceAPILogin;
 

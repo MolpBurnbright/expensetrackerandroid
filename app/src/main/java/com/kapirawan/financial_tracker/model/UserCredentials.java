@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.entity;
+package com.kapirawan.financial_tracker.model;
 
 public class UserCredentials {
     private String username;

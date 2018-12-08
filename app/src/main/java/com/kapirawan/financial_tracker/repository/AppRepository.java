@@ -2,61 +2,45 @@ package com.kapirawan.financial_tracker.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.os.AsyncTask;
 
-import com.kapirawan.financial_tracker.dao.DaoAccount;
 import com.kapirawan.financial_tracker.database.AppRoomDatabase;
 import com.kapirawan.financial_tracker.entity.Account;
+import com.kapirawan.financial_tracker.entity.Budget;
+import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.entity.Fund;
+import com.kapirawan.financial_tracker.helper.AsyncAccountInsert;
+import com.kapirawan.financial_tracker.helper.AsyncAccountMultipleInsert;
 
 import java.util.List;
 
 public class AppRepository {
-    private DaoAccount daoAccount;
-    private LiveData<List<Account>> accounts;
+    AppRoomDatabase db;
 
     public AppRepository(Application app) {
-        AppRoomDatabase db = AppRoomDatabase.getDatabase(app);
-        daoAccount = db.daoAccount();
-        accounts = daoAccount.getAllAccounts();
+        db = AppRoomDatabase.getDatabase(app);
     }
 
-    public LiveData<List<Account>> getAccounts(){
-        return accounts;
+    public LiveData<List<Account>> getAccounts() {
+        return db.daoAccount().getAllAccounts();
     }
 
-    public void insert (Account account){
-        new insertSingleAccountAsync(daoAccount).execute(account);
+    public LiveData<List<Expense>> getExpenses(long accountId) {
+        return db.daoExpense().getAccountExpenses(accountId);
     }
 
-    public void insert (Account[] accounts){
-        new insertMultipleAccountAsync(daoAccount).execute(accounts);
+    public LiveData<List<Budget>> getBudgets(long accountId) {
+        return db.daoBudget().getAccountBudgets(accountId);
     }
 
-    private static class insertSingleAccountAsync extends AsyncTask<Account, Void, Void> {
-        private DaoAccount asyncTaskDao;
-
-        insertSingleAccountAsync(DaoAccount dao){
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Account... params){
-            asyncTaskDao.insert(params[0]);
-            return null;
-        }
+    public LiveData<List<Fund>> getFunds(long accountId) {
+        return db.daoFund().getFunds(accountId);
     }
 
-    private static class insertMultipleAccountAsync extends AsyncTask<Account[], Void, Void> {
-        private DaoAccount asyncTaskDao;
+    public void insert (Account account) {
+        new AsyncAccountInsert(db.daoAccount()).execute(account);
+    }
 
-        insertMultipleAccountAsync(DaoAccount dao){
-            asyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Account[]... params){
-            asyncTaskDao.insert(params[0]);
-            return null;
-        }
+    public void insert (Account[] accounts) {
+        new AsyncAccountMultipleInsert(db.daoAccount()).execute(accounts);
     }
 }

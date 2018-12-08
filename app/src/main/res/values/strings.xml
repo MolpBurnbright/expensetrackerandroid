@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">financial_tracker</string>
+    <string name="app_name">Expense Tracker</string>
 
     <!-- Strings for Action Bar Menu-->
     <string name="action_refresh">Refresh</string>
@@ -26,5 +26,6 @@
     <!-- constants names-->
     <string name="PREF_USER">PREF_USER</string>
     <string name="refresh">Refresh</string>
+    <string name="title_activity_expenses">ActivityExpenses</string>
 
 </resources>

@@ -1,8 +1,8 @@
 package com.kapirawan.financial_tracker.webservice;
 
 import com.kapirawan.financial_tracker.entity.Account;
-import com.kapirawan.financial_tracker.entity.User;
-import com.kapirawan.financial_tracker.entity.UserCredentials;
+import com.kapirawan.financial_tracker.model.User;
+import com.kapirawan.financial_tracker.model.UserCredentials;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;

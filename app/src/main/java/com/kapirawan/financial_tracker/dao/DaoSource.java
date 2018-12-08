@@ -8,29 +8,28 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.entity.Source;
 
 import java.util.List;
 
 @Dao
-public interface DaoExpense {
-
+public interface DaoSource {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Expense expense);
+    void insert(Source source);
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
-    void insert(Expense[] expenses);
+    void insert(Source[] sources);
 
-    @Query("SELECT * from expense")
-    LiveData<List<Expense>> getAllExpenses();
+    @Query("SELECT * from source")
+    LiveData<List<Source>> getAllSources();
 
-    @Query("SELECT * from expense where accountId = :accountId")
-    LiveData<List<Expense>> getAccountExpenses(long accountId);
+    @Query("SELECT * from source where accountId = :accountId")
+    LiveData<List<Source>> getAccountSources(long accountId);
 
     @Update
-    void updateExpense(Expense expense);
+    void updateSource(Source source);
 
     @Delete
-    void deleteExpense(Expense expense);
+    void deleteSource(Source source);
 
 }

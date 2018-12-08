@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.kapirawan.financial_tracker.fragment.SettingsFragment;
 
-public class SettingsActivity extends Activity {
+public class ActivitySettings extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

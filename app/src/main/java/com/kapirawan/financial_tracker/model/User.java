@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.entity;
+package com.kapirawan.financial_tracker.model;
 
 public class User {
     private long _id;
