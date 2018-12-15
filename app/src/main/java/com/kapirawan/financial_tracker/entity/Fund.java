@@ -10,6 +10,7 @@ public class Fund {
     @PrimaryKey
     @NonNull
     public long _id;
+    public long datasourceId;
     public long accountId;
     public Date date;
     public double amount;
@@ -17,9 +18,10 @@ public class Fund {
     public String details;
     public Date updateTimestamp;
 
-    public Fund(long _id, long accountId, Date date, double amount, String source,
+    public Fund(long _id, long datasourceId, long accountId, Date date, double amount, String source,
                    String details, Date updateTimestamp){
         this._id = _id;
+        this.datasourceId = datasourceId;
         this.accountId = accountId;
         this.date = date;
         this.amount = amount;

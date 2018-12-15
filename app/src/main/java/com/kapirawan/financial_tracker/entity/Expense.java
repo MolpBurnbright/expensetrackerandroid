@@ -12,6 +12,7 @@ public class Expense {
     @PrimaryKey
     @NonNull
     public long _id;
+    public long datasourceId;
     public long accountId;
     public Date date;
     public double amount;
@@ -19,9 +20,10 @@ public class Expense {
     public String details;
     public Date updateTimestamp;
 
-    public Expense(long _id, long accountId, Date date, double amount, String type,
+    public Expense(long _id, long datasourceId, long accountId, Date date, double amount, String type,
                    String details, Date updateTimestamp){
         this._id = _id;
+        this.datasourceId = datasourceId;
         this.accountId = accountId;
         this.date = date;
         this.amount = amount;

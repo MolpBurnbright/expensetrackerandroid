@@ -10,12 +10,14 @@ public class Source {
     @PrimaryKey
     @NonNull
     public long _id;
+    public long datasourceId;
     public long accountId;
     public String name;
     public Date updateTimestamp;
 
-    public Source(long _id, long accountId, String name, Date updateTimestamp){
+    public Source(long _id, long datasourceId, long accountId, String name, Date updateTimestamp){
         this._id = _id;
+        this.datasourceId = datasourceId;
         this.accountId = accountId;
         this.name = name;
         this.updateTimestamp = updateTimestamp;

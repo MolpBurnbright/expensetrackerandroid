@@ -50,7 +50,7 @@ public class ViewModelMainSummary extends AndroidViewModel{
         });
     }
 
-    private void constructSetSelectedMonthYear(){
+/*    private void constructSetSelectedMonthYear(){
         String currDateFormatter = new SimpleDateFormat("yyyy-MM-dd",
                 Locale.getDefault()).format(new Date());
         selectedMonth = Integer.getInteger(currDateFormatter.substring(5, 7));
@@ -88,4 +88,5 @@ public class ViewModelMainSummary extends AndroidViewModel{
     public void insert(Account[] accounts){
         accountRepository.insert(accounts);
     }
+*/
 }
