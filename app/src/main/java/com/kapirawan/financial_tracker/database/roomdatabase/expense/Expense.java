@@ -1,16 +1,14 @@
-package com.kapirawan.financial_tracker.entity;
+package com.kapirawan.financial_tracker.database.roomdatabase.expense;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 import java.util.Date;
 
-@Entity
+@Entity(primaryKeys = {"_id", "datasourceId", "accountId"})
 public class Expense {
 
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey (autoGenerate = true)
     public long _id;
     public long datasourceId;
     public long accountId;

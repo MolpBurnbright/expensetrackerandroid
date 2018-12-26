@@ -4,20 +4,15 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 
-import com.kapirawan.financial_tracker.entity.Account;
+import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.entity.Budget;
-import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.entity.Fund;
 import com.kapirawan.financial_tracker.model.ExpenseBudgetSummary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ViewModelMainSummary extends AndroidViewModel{
     AppRepository repository;
@@ -30,7 +25,7 @@ public class ViewModelMainSummary extends AndroidViewModel{
     public ViewModelMainSummary(Application app){
         super(app);
         repository = new AppRepository(app);
-        accounts = repository.getAccounts();
+//        accounts = repository.getAccounts();
     }
 
     public LiveData<List<ExpenseBudgetSummary>> getAccountSummary(long acountID){
@@ -38,9 +33,9 @@ public class ViewModelMainSummary extends AndroidViewModel{
     }
 
     public void setAccount(long accountID){
-        expenses = repository.getExpenses(accountID);
-        budgets = repository.getBudgets(accountID);
-        funds = repository.getFunds(accountID);
+//        expenses = repository.getExpenses(accountID);
+//        budgets = repository.getBudgets(accountID);
+//        funds = repository.getFunds(accountID);
 
         final MediatorLiveData dataMerger = new MediatorLiveData<List<ExpenseBudgetSummary>>();
 

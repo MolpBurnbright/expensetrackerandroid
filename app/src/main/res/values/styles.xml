@@ -1,5 +1,5 @@
 <resources>
-    <!-- Base applica tion theme. -->
+    <!-- DaoBase applica tion theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

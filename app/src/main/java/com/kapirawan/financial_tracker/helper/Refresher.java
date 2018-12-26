@@ -8,11 +8,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.database.AppRoomDatabase;
-import com.kapirawan.financial_tracker.entity.Account;
+import com.kapirawan.financial_tracker.database.roomdatabase.AppRoomDatabase;
+import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.entity.Budget;
 import com.kapirawan.financial_tracker.entity.Category;
-import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.entity.Fund;
 import com.kapirawan.financial_tracker.entity.Source;
 import com.kapirawan.financial_tracker.model.User;
@@ -57,14 +57,16 @@ public class Refresher {
                     Account[] accounts = response.body();
                     Log.i("Refresher", "Accounts retrieved successfully");
                     Log.i("Refresher", "Number of Accounts: " + accounts.length);
-                    new AsyncAccountMultipleInsert(db.daoAccount()).execute(accounts);
+/*                    new AsyncAccountMultipleInsert(db.daoAccount()).execute(accounts);
                     for(Account account: accounts){
                         getExpenses(account._id);
                         getBudgets(account._id);
                         getFunds(account._id);
                         getCategories(account._id);
                         getSources(account._id);
+
                     }
+*/
                 } else {
                     Log.e("Refresher", "Connection failed on retrieving accounts, response code: " + response.code());
                     Log.e("Refresher", "Message: " + response.message());
@@ -84,7 +86,7 @@ public class Refresher {
             public void onResponse(Call<Expense[]> call, Response<Expense[]> response) {
                 if(response.code() == 200){
                     Expense[] expenses = response.body();
-                    new AsyncExpenseMultipleInsert(db.daoExpense()).execute(expenses);
+//                    new AsyncExpenseMultipleInsert(db.daoExpense()).execute(expenses);
                     Log.i("Refresher", "Expenses retrieved successfully for account " + accountId);
                     Log.i("Refresher", "Number of Expenses: " + expenses.length);
                 } else {

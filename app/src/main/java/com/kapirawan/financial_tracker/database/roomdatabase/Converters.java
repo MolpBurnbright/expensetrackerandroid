@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.helper;
+package com.kapirawan.financial_tracker.database.roomdatabase;
 
 import android.arch.persistence.room.TypeConverter;
 

@@ -1,8 +1,8 @@
 package com.kapirawan.financial_tracker.webservice;
-import com.kapirawan.financial_tracker.entity.Account;
+import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.entity.Budget;
 import com.kapirawan.financial_tracker.entity.Category;
-import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.entity.Fund;
 import com.kapirawan.financial_tracker.entity.Source;
 

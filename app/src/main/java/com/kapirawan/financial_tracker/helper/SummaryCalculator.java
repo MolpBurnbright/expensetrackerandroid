@@ -1,7 +1,7 @@
 package com.kapirawan.financial_tracker.helper;
 
 import com.kapirawan.financial_tracker.entity.Budget;
-import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.entity.Fund;
 import com.kapirawan.financial_tracker.model.ExpenseBudgetSummary;
 

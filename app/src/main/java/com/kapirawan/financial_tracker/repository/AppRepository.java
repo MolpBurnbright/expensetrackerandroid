@@ -1,46 +1,111 @@
 package com.kapirawan.financial_tracker.repository;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 
-import com.kapirawan.financial_tracker.database.AppRoomDatabase;
-import com.kapirawan.financial_tracker.entity.Account;
-import com.kapirawan.financial_tracker.entity.Budget;
-import com.kapirawan.financial_tracker.entity.Expense;
-import com.kapirawan.financial_tracker.entity.Fund;
-import com.kapirawan.financial_tracker.helper.AsyncAccountInsert;
-import com.kapirawan.financial_tracker.helper.AsyncAccountMultipleInsert;
+import com.kapirawan.financial_tracker.database.roomdatabase.LocalDatabase;
+import com.kapirawan.financial_tracker.database.roomdatabase.user.User;
+import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
 
 import java.util.List;
 
 public class AppRepository {
-    AppRoomDatabase db;
+    private LocalDatabase localDb;
 
-    public AppRepository(Application app) {
-        db = AppRoomDatabase.getDatabase(app);
+    private static AppRepository INSTANCE;
+
+    public static AppRepository getInstance(Application app) {
+        if (INSTANCE == null) {
+            synchronized (AppRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new AppRepository(app);
+                }
+            }
+        }
+        return INSTANCE;
     }
 
-    public LiveData<List<Account>> getAccounts() {
-        return db.daoAccount().getAllAccounts();
+    private AppRepository(Application app) {
+        localDb = new LocalDatabase(app);
     }
 
-    public LiveData<List<Expense>> getExpenses(long accountId) {
-        return db.daoExpense().getAccountExpenses(accountId);
+    /*** CRUD for User ***/
+    
+    public void createUser (User user, Callback callback){
+        localDb.createUser(user, () -> callback.onTaskCompleted());
     }
 
-    public LiveData<List<Budget>> getBudgets(long accountId) {
-        return db.daoBudget().getAccountBudgets(accountId);
+    public void readUser (long userId, CallbackReturnUser callback){
+        localDb.readUser(userId, (user) -> callback.onTaskCompleted(user));
     }
 
-    public LiveData<List<Fund>> getFunds(long accountId) {
-        return db.daoFund().getFunds(accountId);
+    public void readAllUsers(CallbackReturnMultipleUsers callback){
+        localDb.readAllUsers((users) -> callback.onTaskCompleted(users));
     }
 
-    public void insert (Account account) {
-        new AsyncAccountInsert(db.daoAccount()).execute(account);
+    public void updateUser (User user, Callback callback){
+        localDb.updateUser(user, () -> callback.onTaskCompleted());
     }
 
-    public void insert (Account[] accounts) {
-        new AsyncAccountMultipleInsert(db.daoAccount()).execute(accounts);
+    public void deleteUser (User user, Callback callback){
+        localDb.deleteUser(user, () -> callback.onTaskCompleted());
     }
+
+    public void deleteAllUsers(Callback callback){
+        localDb.deleteAllUsers(() -> callback.onTaskCompleted());
+    }
+
+    public interface Callback {
+        void onTaskCompleted();
+    }
+
+    public interface CallbackReturnUser{
+        void onTaskCompleted(User user);
+    }
+
+    public interface  CallbackReturnMultipleUsers{
+        void onTaskCompleted(List<User> users);
+    }
+
+    /*** CRUD for Expense ***/
+
+    public void createExpense (Expense expense, Callback callback){
+        localDb.createExpense(expense, () -> callback.onTaskCompleted());
+    }
+
+    public void createMultipleExpense (List<Expense> expenses, Callback callback){
+        localDb.createMultipleExpenses(expenses, () -> callback.onTaskCompleted());
+    }
+
+    public void readExpense (long expenseId, CallbackReturnExpense callback){
+        localDb.readExpense(expenseId, (expense) -> callback.onTaskCompleted(expense));
+    }
+
+    public void readAccountExpense(long accountId, CallbackReturnMultipleExpenses callback){
+        localDb.readAccountExpenses(accountId, (expenses) -> callback.onTaskCompleted(expenses));
+    }
+
+    public void readAllExpenses(CallbackReturnMultipleExpenses callback){
+        localDb.readAllExpenses((expenses) -> callback.onTaskCompleted(expenses));
+    }
+
+    public void updateExpense (Expense expense, Callback callback){
+        localDb.updateExpense(expense, () -> callback.onTaskCompleted());
+    }
+
+    public void deleteExpense (Expense expense, Callback callback){
+        localDb.deleteExpense(expense, () -> callback.onTaskCompleted());
+    }
+
+    public void deleteAllExpenses(Callback callback){
+        localDb.deleteAllExpenses(() -> callback.onTaskCompleted());
+    }
+
+    public interface CallbackReturnExpense{
+        void onTaskCompleted(Expense expense);
+    }
+
+    public interface  CallbackReturnMultipleExpenses{
+        void onTaskCompleted(List<Expense> expenses);
+    }
+
 }

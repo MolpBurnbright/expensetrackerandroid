@@ -14,8 +14,8 @@ import android.view.View;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.adapter.ExpenseAdapter;
-import com.kapirawan.financial_tracker.entity.Account;
-import com.kapirawan.financial_tracker.entity.Expense;
+import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelExpense;
 
 import java.util.List;
@@ -63,12 +63,13 @@ public class ActivityExpenses extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         //Setup the ViewModel for Expenses RecyclerView
         viewModelExpense = ViewModelProviders.of(this).get(ViewModelExpense.class);
-        viewModelExpense.init(account);
+/*        viewModelExpense.init(account);
         viewModelExpense.getExpenses().observe(this, new Observer<List<Expense>>() {
             @Override
             public void onChanged(@Nullable List<Expense> expenses) {
                 adapter.setExpenses(expenses);
             }
         });
+*/
     }
 }
