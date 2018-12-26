@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 
 public class ActivityAccountOptions extends AppCompatActivity {
     private Account account;

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
 import java.util.List;

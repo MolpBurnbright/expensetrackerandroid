@@ -2,9 +2,9 @@ package com.kapirawan.financial_tracker.repository;
 
 import android.app.Application;
 
-import com.kapirawan.financial_tracker.database.roomdatabase.LocalDatabase;
-import com.kapirawan.financial_tracker.database.roomdatabase.user.User;
-import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.LocalDatabase;
+import com.kapirawan.financial_tracker.roomdatabase.user.User;
+import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
 import java.util.List;
 

@@ -18,11 +18,10 @@ import android.view.MenuItem;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.adapter.AccountAdapter;
-import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.testing.ExpenseTesting;
-import com.kapirawan.financial_tracker.testing.UserTesting;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelAccount;
 
 import java.util.List;

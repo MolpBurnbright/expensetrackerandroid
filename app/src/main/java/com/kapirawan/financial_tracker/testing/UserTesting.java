@@ -3,7 +3,7 @@ package com.kapirawan.financial_tracker.testing;
 import android.app.Application;
 import android.util.Log;
 
-import com.kapirawan.financial_tracker.database.roomdatabase.user.User;
+import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
 import java.util.Date;

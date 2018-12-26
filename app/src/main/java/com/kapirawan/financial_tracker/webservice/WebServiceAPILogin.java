@@ -1,6 +1,6 @@
 package com.kapirawan.financial_tracker.webservice;
 
-import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.model.User;
 import com.kapirawan.financial_tracker.model.UserCredentials;
 

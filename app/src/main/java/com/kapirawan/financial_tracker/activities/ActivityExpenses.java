@@ -1,9 +1,7 @@
 package com.kapirawan.financial_tracker.activities;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +12,9 @@ import android.view.View;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.adapter.ExpenseAdapter;
-import com.kapirawan.financial_tracker.database.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.database.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelExpense;
-
-import java.util.List;
 
 public class ActivityExpenses extends AppCompatActivity {
 
