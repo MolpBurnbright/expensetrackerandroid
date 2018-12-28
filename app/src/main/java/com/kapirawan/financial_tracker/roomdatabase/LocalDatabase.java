@@ -2,10 +2,11 @@ package com.kapirawan.financial_tracker.roomdatabase;
 
 import android.app.Application;
 
+import com.kapirawan.financial_tracker.roomdatabase.account.AsyncAccountMaxId;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncRetrieveUserFirstDatasource;
-import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncUpdateLastObjectId;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncDeleteAllExpenses;
+import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncExpenseMaxId;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncRetrieveAccountExpenses;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncRetrieveAllExpenses;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncRetrieveExpense;
@@ -38,6 +39,15 @@ public class LocalDatabase {
         void onTaskCompleted(List<T> objects);
     }
 
+    private class MaxId {
+        public long accountMaxId = 0;
+        public long expenseMaxId = 0;
+    }
+
+    private enum ObjectType {
+        ACCOUNT, EXPENSE
+    }
+
     private static LocalDatabase INSTANCE;
 
     public static LocalDatabase getInstance(Application app) {
@@ -53,21 +63,22 @@ public class LocalDatabase {
 
     private AppRoomDatabase db;
     private Datasource datasource;
+    private MaxId maxIds;
 
     private LocalDatabase(Application app) {
         db = AppRoomDatabase.getDatabase(app);
-        setDatasource(null);
+        setDatasource(() -> setMaxIds());
     }
 
-    private void setDatasource(CallbackReturnObject<Datasource> callback){
+    private void setDatasource(Callback callback){
         if(datasource == null){
             getDatasource(datasource -> {
-                synchronized (this){
+                synchronized (this.datasource){
                     if (this.datasource == null)
                         this.datasource = datasource;
                 }
                 if(callback != null)
-                    callback.onTaskCompleted(datasource);
+                    callback.onTaskCompleted();
             });
         }
     }
@@ -81,7 +92,7 @@ public class LocalDatabase {
                             callback.onTaskCompleted(datasource);
                         else{
                             final Datasource newDatasource = new Datasource(0, 0,
-                                    "Default Datasource", 0, new Date());
+                                    "Default Datasource", new Date());
                             new AsyncInsert<Datasource>(db.daoDatasource(),
                                     () -> callback.onTaskCompleted(newDatasource)).execute(newDatasource);
                         }
@@ -90,7 +101,6 @@ public class LocalDatabase {
             }
         }
     }
-
 
     private void getUser(CallbackReturnObject<User> callback){
         new AsyncRetrieveFirstUser(db.daoUser(), user -> {
@@ -104,24 +114,53 @@ public class LocalDatabase {
         }).execute();
     }
 
-    private void getObjectId(CallbackReturnObject<Long> callback){
-        synchronized (this){
-            if(this.datasource != null){
-                long prevObjectId = this.datasource.lastObjectId;
-                this.datasource.lastObjectId += 1;
-                new AsyncUpdateLastObjectId(db.daoDatasource(), () -> {
-                    callback.onTaskCompleted(datasource.lastObjectId);
-                }).execute(datasource._id, prevObjectId, datasource.lastObjectId);
-            }else {
-                setDatasource(datasource -> {
-                    long prevObjectId = datasource.lastObjectId;
-                    datasource.lastObjectId += 1;
-                    new AsyncUpdateLastObjectId(db.daoDatasource(), () -> {
-                        callback.onTaskCompleted(datasource.lastObjectId);
-                    }).execute(datasource._id, prevObjectId, datasource.lastObjectId);
-                });
+    private void setMaxIds(){
+        if(this.maxIds == null){
+            synchronized (this.maxIds) {
+                this.maxIds = new MaxId();
+                setAccountMaxId();
+                setExpenseMaxId();
             }
         }
+    }
+
+    private void setAccountMaxId(){
+        new AsyncAccountMaxId(db.daoAccount(), maxId -> {
+            synchronized (this.maxIds) {
+                this.maxIds.accountMaxId = maxId;
+            }
+        }).execute(this.datasource._id);
+    }
+
+    private void setExpenseMaxId(){
+        new AsyncExpenseMaxId(db.daoExpense(), maxId -> {
+            synchronized (this) {
+                this.maxIds.expenseMaxId = maxId;
+            }
+        }).execute(this.datasource._id);
+    }
+
+    private long getNewId(ObjectType type){
+        long id = 0;
+        if(this.maxIds == null) {
+            //Wait for a few milliseconds so the constructor thread can setup the maxIds..
+            try {
+                Thread.sleep(100);
+            }catch(Exception ex){
+
+            }
+        }
+        synchronized (this.maxIds) {
+            switch (type) {
+                case ACCOUNT:
+                    this.maxIds.accountMaxId += 1;
+                    id = this.maxIds.accountMaxId;
+                case EXPENSE:
+                    this.maxIds.expenseMaxId += 1;
+                    id = maxIds.expenseMaxId;
+            }
+        }
+        return id;
     }
 
     /*** CRUD for User Entity ***/
@@ -153,15 +192,9 @@ public class LocalDatabase {
     /*** CRUD for Expenses Entity ***/
 
     public void createExpense (Expense expense, Callback callback){
-        if(expense._id == 0){
-            getObjectId(objectId -> {
-                expense._id = objectId;
-                new AsyncInsert<Expense>(db.daoExpense(),
-                        callback::onTaskCompleted).execute(expense);
-            });
-        }else
-            new AsyncInsert<Expense>(db.daoExpense(),
-                    callback::onTaskCompleted).execute(expense);
+        if(expense._id == 0)
+            expense._id = getNewId(ObjectType.EXPENSE);
+        new AsyncInsert<Expense>(db.daoExpense(), callback::onTaskCompleted).execute(expense);
     }
 
     public void createMultipleExpenses (List<Expense> expenses, Callback callback){
@@ -169,14 +202,16 @@ public class LocalDatabase {
                 callback::onTaskCompleted).execute(expenses);
     }
 
-    public void readExpense (long expenseId, CallbackReturnObject<Expense> callback){
-        new AsyncRetrieveExpense(db.daoExpense(), callback::onTaskCompleted).execute(expenseId);
+    public void readExpense (long expenseId, long datasourceId,
+                             CallbackReturnObject<Expense> callback){
+        new AsyncRetrieveExpense(db.daoExpense(), callback::onTaskCompleted)
+                .execute(expenseId, datasourceId);
     }
 
-    public void readAccountExpenses (long accountId,
+    public void readAccountExpenses (long accountId, long accountDatasourceId,
                                      CallbackReturnMultipleObjects<Expense> callback){
         new AsyncRetrieveAccountExpenses(db.daoExpense(), callback::onTaskCompleted)
-                .execute(accountId);
+                .execute(accountId, accountDatasourceId);
     }
 
     public void readAllExpenses(CallbackReturnMultipleObjects<Expense> callback){

@@ -77,12 +77,13 @@ public class AppRepository {
         localDb.createMultipleExpenses(expenses, callback::onTaskCompleted);
     }
 
-    public void readExpense (long expenseId, CallbackReturnObject<Expense> callback){
-        localDb.readExpense(expenseId, callback::onTaskCompleted);
+    public void readExpense (long expenseId, long datasourceId, CallbackReturnObject<Expense> callback){
+        localDb.readExpense(expenseId, datasourceId, callback::onTaskCompleted);
     }
 
-    public void readAccountExpense(long accountId, CallbackReturnMultipleObjects<Expense> callback){
-        localDb.readAccountExpenses(accountId, callback::onTaskCompleted);
+    public void readAccountExpense(long accountId, long accountDatasourceId,
+                                   CallbackReturnMultipleObjects<Expense> callback){
+        localDb.readAccountExpenses(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 
     public void readAllExpenses(CallbackReturnMultipleObjects<Expense> callback){

@@ -22,10 +22,6 @@ public interface DaoDatasource extends DaoBase<Datasource> {
     @Query("select * from Datasource where _id = :id")
     Datasource getDatasource(long id);
 
-    @Query("update Datasource set lastObjectId = :newObjectId " +
-            "where _id = :datasourceId and lastObjectId = :lastObjectId")
-    void updateLastId(long datasourceId, long lastObjectId, long newObjectId);
-
     @Query ("delete from Datasource where userId = :userId")
     void deleteUserDatasource(long userId);
 

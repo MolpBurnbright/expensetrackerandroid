@@ -13,7 +13,7 @@ public class AsyncRetrieveAccount extends AsyncTask<Long, Void, Account> {
 
     @Override
     protected Account doInBackground(final Long... params) {
-        return this.dao.getAccount(params[0]);
+        return this.dao.getAccount(params[0], params[1]);
     }
 
     @Override

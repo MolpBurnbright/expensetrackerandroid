@@ -15,7 +15,7 @@ public class AsyncRetrieveAccountExpenses extends AsyncTask<Long, Void, List<Exp
 
     @Override
     protected List<Expense> doInBackground(final Long... params) {
-        return this.dao.getAccountExpenses(params[0]);
+        return this.dao.getAccountExpenses(params[0], params[1]);
     }
 
     @Override

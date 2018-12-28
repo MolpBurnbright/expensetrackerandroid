@@ -5,22 +5,25 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity
+@Entity (primaryKeys = {"_id", "datasourceId"})
 public class Expense {
 
-    @PrimaryKey
     public long _id;
+    public long datasourceId;
     public long accountId;
+    public long accountDatasourceId;
     public Date date;
     public double amount;
     public String type;
     public String details;
     public Date updateTimestamp;
 
-    public Expense(long _id, long accountId, Date date, double amount, String type,
-                   String details, Date updateTimestamp){
+    public Expense(long _id, long datasourceId, long accountId, long accountDatasourceId, Date date,
+                   double amount, String type, String details, Date updateTimestamp){
         this._id = _id;
+        this.datasourceId = datasourceId;
         this.accountId = accountId;
+        this.accountDatasourceId = accountDatasourceId;
         this.date = date;
         this.amount = amount;
         this.type = type;

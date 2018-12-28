@@ -25,8 +25,8 @@ public class ExpenseTesting {
 
     private void insertExpenses() {
         Log.i(label, "Inserting new Expenses..");
-        Expense expense = new Expense(0, 01, new Date(), 100.25, "Food",
-                "Rice Bigas", new Date());
+        Expense expense = new Expense(0, 0, 1, 0, new Date(),
+                100.25, "Food", "Rice Bigas", new Date());
         List<Expense> expenses = new ArrayList<>();
         expenses.add(new Expense(2, 01, new Date(), 200.50, "Fare",
                 "Bus fare", new Date()));
