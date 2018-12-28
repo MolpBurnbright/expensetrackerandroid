@@ -13,6 +13,10 @@ public interface DaoUser extends DaoBase<User> {
     @Query("select * from User")
     List<User> getAllUsers();
 
+    // Selects the first user
+    @Query("select * from User limit 1")
+    User getFirstUser();
+
     @Query("select * from User where _id = :id")
     User getUser(long id);
 

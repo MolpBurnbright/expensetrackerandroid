@@ -11,14 +11,14 @@ public class Datasource {
     public long _id;
     public long userId;
     public String name;
-    public long lastId;
+    public long lastObjectId;
     public Date updateTimestamp;
 
-    public Datasource(long _id, long userId, String name, long lastId, Date updateTimestamp){
+    public Datasource(long _id, long userId, String name, long lastObjectId, Date updateTimestamp){
         this._id = _id;
         this.userId = userId;
         this.name = name;
-        this.lastId = lastId;
+        this.lastObjectId = lastObjectId;
         this.updateTimestamp = updateTimestamp;
     }
 }

@@ -52,6 +52,7 @@ public class ActivityMain extends AppCompatActivity{
         //Setup the account recycler view
 //        onCreateSetupAccountRecyclerView();
         //Setup the refresher
+        //Setup the refresher
         refresher = new Refresher(this.getApplication());
         appRepository = AppRepository.getInstance(this.getApplication());
 

@@ -15,7 +15,7 @@ public class ViewModelAccount extends AndroidViewModel {
 
     public ViewModelAccount(Application app){
         super(app);
-        appRepository = new AppRepository(app);
+//        appRepository = new AppRepository(app);
 //        accounts = appRepository.getAccounts();
     }
 

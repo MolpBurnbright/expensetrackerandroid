@@ -9,6 +9,8 @@ import android.content.Context;
 import com.kapirawan.financial_tracker.roomdatabase.account.DaoAccount;
 import com.kapirawan.financial_tracker.dao.DaoBudget;
 import com.kapirawan.financial_tracker.dao.DaoCategory;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.DaoDatasource;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.expense.DaoExpense;
 import com.kapirawan.financial_tracker.dao.DaoFund;
 import com.kapirawan.financial_tracker.dao.DaoSource;
@@ -21,11 +23,13 @@ import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.entity.Fund;
 import com.kapirawan.financial_tracker.entity.Source;
 
-@Database(entities = {User.class, Account.class, Expense.class, Budget.class, Fund.class, Category.class,
-        Source.class}, version = 1)
+@Database(entities = {User.class, Datasource.class, Account.class, Expense.class, Budget.class,
+        Fund.class, Category.class, Source.class},
+        version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppRoomDatabase extends RoomDatabase {
     public abstract DaoUser daoUser();
+    public abstract DaoDatasource daoDatasource();
     public abstract DaoAccount daoAccount();
     public abstract DaoExpense daoExpense();
     public abstract DaoBudget daoBudget();

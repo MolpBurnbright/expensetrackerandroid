@@ -24,7 +24,7 @@ public class ViewModelMainSummary extends AndroidViewModel{
 
     public ViewModelMainSummary(Application app){
         super(app);
-        repository = new AppRepository(app);
+        repository = AppRepository.getInstance(app);
 //        accounts = repository.getAccounts();
     }
 

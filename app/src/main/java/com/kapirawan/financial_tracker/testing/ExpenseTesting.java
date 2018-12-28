@@ -1,6 +1,5 @@
 package com.kapirawan.financial_tracker.testing;
 
-import android.app.Application;
 import android.util.Log;
 
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
@@ -26,21 +25,21 @@ public class ExpenseTesting {
 
     private void insertExpenses() {
         Log.i(label, "Inserting new Expenses..");
-        Expense expense = new Expense(01, 01, 01, new Date(), 100.25,
-                "Food", "Rice Bigas", new Date());
+        Expense expense = new Expense(0, 01, new Date(), 100.25, "Food",
+                "Rice Bigas", new Date());
         List<Expense> expenses = new ArrayList<>();
-        expenses.add(new Expense(0, 01, 01, new Date(), 200.50,
-                "Fare", "Bus fare", new Date()));
-        expenses.add(new Expense(0, 01, 01, new Date(), 300.75,
-                "Food", "Lunch out", new Date()));
-        expenses.add(new Expense(0, 01, 02, new Date(), 400.25,
-                "Allowance", "Allowance for Nice", new Date()));
-        expenses.add(new Expense(0, 01, 02, new Date(), 521.75,
-                "Utilities", "Electric Bill", new Date()));
-        expenses.add(new Expense(0, 01, 02, new Date(), 674.55,
-                "Food", "Dinner", new Date()));
-        expenses.add(new Expense(0, 01, 02, new Date(), 730.65,
-                "Food", "Beef", new Date()));
+        expenses.add(new Expense(2, 01, new Date(), 200.50, "Fare",
+                "Bus fare", new Date()));
+        expenses.add(new Expense(3, 01, new Date(), 300.75, "Food",
+                "Lunch out", new Date()));
+        expenses.add(new Expense(4, 02, new Date(), 400.25, "Allowance",
+                "Allowance for Nice", new Date()));
+        expenses.add(new Expense(5, 02, new Date(), 521.75, "Utilities",
+                "Electric Bill", new Date()));
+        expenses.add(new Expense(6, 02, new Date(), 674.55, "Food",
+                "Dinner", new Date()));
+        expenses.add(new Expense(7, 02, new Date(), 730.65, "Food",
+                "Beef", new Date()));
         repository.createExpense(expense,() -> Log.i(label, "One Record Insert Successful.."));
         repository.createMultipleExpense(expenses, () -> {
             Log.i(label, "Multiple Records Insert Successful..");
@@ -77,7 +76,6 @@ public class ExpenseTesting {
 
     private void printExpense(Expense expense){
         Log.i(label, "_id: " + expense._id);
-        Log.i(label, "datasourceId: " + expense.datasourceId);
         Log.i(label, "accountId: " + expense.accountId);
         Log.i(label, "date: " + new SimpleDateFormat("yyyy-MM-dd").format(expense.date));
         Log.i(label, "amount: " + expense.amount);
@@ -89,8 +87,8 @@ public class ExpenseTesting {
 
     private void updateExpenses() {
         Log.i(label, " Updating Expense 01..");
-        Expense expense = new Expense(01, 03, 03, new Date(), 888.88,
-                "Others", "Other Expense", new Date());
+        Expense expense = new Expense(01, 03, new Date(), 888.88, "Others",
+                "Other Expense", new Date());
         repository.updateExpense(expense, () -> {
             Log.i(label, "Update successful");
             Log.i(label, "Retrieving all expenses again..");
@@ -106,9 +104,10 @@ public class ExpenseTesting {
     }
 
     private void deleteExpenses() {
+        repository.deleteExpense(new Expense(01, 0, null, 0, null,
+                        null, null),
+                () -> Log.i(label, "Expense with _id: 01 and datasource: 0 has been deleted"));
         Log.i(label, " Deleting All expenses..");
-        repository.deleteAllExpenses(() -> {
-            Log.i(label, "All expenses deleted..");
-        });
+        repository.deleteAllExpenses(() -> Log.i(label, "All expenses deleted.."));
     }
 }
