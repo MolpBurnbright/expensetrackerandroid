@@ -3,6 +3,7 @@ package com.kapirawan.financial_tracker.repository;
 import android.app.Application;
 
 import com.kapirawan.financial_tracker.roomdatabase.LocalDatabase;
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
@@ -65,6 +66,40 @@ public class AppRepository {
 
     public void deleteAllUsers(Callback callback){
         localDb.deleteAllUsers(callback::onTaskCompleted);
+    }
+
+    /*** CRUD for Account ***/
+
+    public void createAccount (Account account, Callback callback){
+        localDb.createAccount(account, callback::onTaskCompleted);
+    }
+
+    public void createMultipleAccount (List<Account> accounts, Callback callback){
+        localDb.createMultipleAccounts(accounts, callback::onTaskCompleted);
+    }
+
+    public void readAccount (long accountId, long datasourceId, CallbackReturnObject<Account> callback){
+        localDb.readAccount(accountId, datasourceId, callback::onTaskCompleted);
+    }
+
+    public void readUserAccounts (long userId, CallbackReturnObject<List<Account>> callback){
+        localDb.readUserAccounts(userId, callback::onTaskCompleted);
+    }
+
+    public void readAllAccounts(CallbackReturnMultipleObjects<Account> callback){
+        localDb.readAllAccounts(callback::onTaskCompleted);
+    }
+
+    public void updateAccount (Account account, Callback callback){
+        localDb.updateAccount(account, callback::onTaskCompleted);
+    }
+
+    public void deleteAccount (Account account, Callback callback){
+        localDb.deleteAccount(account, callback::onTaskCompleted);
+    }
+
+    public void deleteAllAccounts(Callback callback){
+        localDb.deleteAllAccounts(callback::onTaskCompleted);
     }
 
     /*** CRUD for Expense ***/

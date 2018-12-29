@@ -10,7 +10,7 @@ public interface DaoBase <T>{
     void insert(T obj);
 
     @Insert (onConflict = OnConflictStrategy.FAIL)
-    void insert(T[] objs);
+    void insertMultiple(T[] objs);
 
     @Update
     void update(T obj);

@@ -21,6 +21,7 @@ import com.kapirawan.financial_tracker.adapter.AccountAdapter;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
+import com.kapirawan.financial_tracker.testing.AccountTesting;
 import com.kapirawan.financial_tracker.testing.ExpenseTesting;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelAccount;
 
@@ -49,7 +50,7 @@ public class ActivityMain extends AppCompatActivity{
                         .setAction("Action", null).show();
             }
         });
-        //Setup the account recycler view
+        //Setup the  account recycler view
 //        onCreateSetupAccountRecyclerView();
         //Setup the refresher
         //Setup the refresher
@@ -58,7 +59,9 @@ public class ActivityMain extends AppCompatActivity{
 
         //TESTING
 //        new UserTesting(appRepository).test();
-        new ExpenseTesting(appRepository).test();
+        new AccountTesting(appRepository).test(() ->
+            new ExpenseTesting(appRepository).test(() -> {})
+        );
     }
 
     private void onCreateSetupAccountRecyclerView(){

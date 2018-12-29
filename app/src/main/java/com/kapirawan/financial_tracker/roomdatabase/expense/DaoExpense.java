@@ -18,7 +18,7 @@ public interface DaoExpense extends DaoBase<Expense> {
     List<Expense> getAccountExpenses(long accountId, long accountDatasourceId);
 
     @Query("select MAX(_id) from expense where datasourceId = :datasourceId")
-    long getMaxId(long datasourceId);
+    long getMaxId  (long datasourceId);
 
     @Query("select * from expense")
     List<Expense> getAllExpenses();

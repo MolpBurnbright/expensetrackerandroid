@@ -6,7 +6,7 @@ import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Objects;
 
-public class AsyncInsertMultiple <T> extends AsyncTask<List<T>, Void, Void> {
+public class AsyncInsertMultiple <T> extends AsyncTask<T[], Void, Void> {
     private DaoBase asyncTaskDao;
     private OnTaskCompleted listener;
 
@@ -16,10 +16,8 @@ public class AsyncInsertMultiple <T> extends AsyncTask<List<T>, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(final List<T>... params) {
-        T[] objects = (T[]) new Object[params[0].size()];
-        objects = params[0].toArray(objects);
-        asyncTaskDao.insert(objects);
+    protected Void doInBackground(final T[]... params) {
+        asyncTaskDao.insertMultiple(params[0]);
         return null;
     }
 
