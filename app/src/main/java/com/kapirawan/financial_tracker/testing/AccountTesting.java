@@ -51,7 +51,7 @@ public class AccountTesting {
         accounts.add(new Account(1, 01, 2, "Account 3", new Date()));
         accounts.add(new Account(2, 01, 2, "Account 4", new Date()));
         accounts.add(new Account(3, 01, 2, "Account 5", new Date()));
-        repository.createMultipleAccount(accounts, () -> {
+        repository.createMultipleAccounts(accounts, () -> {
             Log.i(label, "Multiple Records Insert Successful..");
             retrieveAccount();
         });

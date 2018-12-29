@@ -10,10 +10,10 @@ import com.google.gson.Gson;
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.roomdatabase.AppRoomDatabase;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.entity.Budget;
 import com.kapirawan.financial_tracker.entity.Category;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
-import com.kapirawan.financial_tracker.entity.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 import com.kapirawan.financial_tracker.entity.Source;
 import com.kapirawan.financial_tracker.model.User;
 import com.kapirawan.financial_tracker.webservice.RetrofitClient;
@@ -110,7 +110,7 @@ public class Refresher {
             public void onResponse(Call<Budget[]> call, Response<Budget[]> response) {
                 if(response.code() == 200){
                     Budget[] budgets = response.body();
-                    new AsyncBudgetMultipleInsert(db.daoBudget()).execute(budgets);
+//                    new AsyncBudgetMultipleInsert(db.daoBudget()).execute(budgets);
                     Log.i("Refresher", "Budgets retrieved successfully for account " + accountId);
                     Log.i("Refresher", "Number of Budgets: " + budgets.length);
                 } else {
@@ -134,7 +134,7 @@ public class Refresher {
             public void onResponse(Call<Fund[]> call, Response<Fund[]> response) {
                 if(response.code() == 200){
                     Fund[] funds = response.body();
-                    new AsyncFundMultipleInsert(db.daoFund()).execute(funds);
+//                    new AsyncFundMultipleInsert(db.daoFund()).execute(funds);
                     Log.i("Refresher", "Funds retrieved successfully for account " + accountId);
                     Log.i("Refresher", "Number of Funds: " + funds.length);
                 } else {

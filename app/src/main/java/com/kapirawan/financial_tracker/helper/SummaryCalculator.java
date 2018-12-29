@@ -1,8 +1,8 @@
 package com.kapirawan.financial_tracker.helper;
 
-import com.kapirawan.financial_tracker.entity.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
-import com.kapirawan.financial_tracker.entity.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 import com.kapirawan.financial_tracker.model.ExpenseBudgetSummary;
 
 import java.util.ArrayList;

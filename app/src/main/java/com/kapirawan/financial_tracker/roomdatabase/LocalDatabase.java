@@ -8,12 +8,29 @@ import com.kapirawan.financial_tracker.roomdatabase.account.AsyncDeleteAllAccoun
 import com.kapirawan.financial_tracker.roomdatabase.account.AsyncRetrieveAccount;
 import com.kapirawan.financial_tracker.roomdatabase.account.AsyncRetrieveAllAccounts;
 import com.kapirawan.financial_tracker.roomdatabase.account.AsyncRetrieveUserAccounts;
+import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncBudgetMaxId;
+import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncDeleteAllBudgets;
+import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncRetrieveAccountBudgets;
+import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncRetrieveAllBudgets;
+import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncRetrieveBudget;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncDeleteAllDatasources;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncRetrieveAllDatasources;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncRetrieveDatasource;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncRetrieveUserFirstDatasource;
+import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncDeleteAllExpenses;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncExpenseMaxId;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncRetrieveAccountExpenses;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncRetrieveAllExpenses;
 import com.kapirawan.financial_tracker.roomdatabase.expense.AsyncRetrieveExpense;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncDeleteAllFunds;
+import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncFundMaxId;
+import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveAccountFunds;
+import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveAllFunds;
+import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveFund;
+import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncDeleteAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveUser;
@@ -65,6 +82,11 @@ public class LocalDatabase {
         new AsyncInsert<User> (db.daoUser(), callback::onTaskCompleted).execute(user);
     }
 
+    public void createMultipleUsers (List<User> users, Callback callback){
+        User[] userArray = new User[users.size()];
+        userArray = users.toArray(userArray);
+        new AsyncInsertMultiple<User>(db.daoUser(), callback::onTaskCompleted).execute(userArray);
+    }
     public void readUser (long userId, CallbackReturnObject<User> callback){
         new AsyncRetrieveUser(db.daoUser(), callback::onTaskCompleted).execute(userId);
     }
@@ -83,6 +105,47 @@ public class LocalDatabase {
 
     public void deleteAllUsers(Callback callback){
         new AsyncDeleteAllUsers(db.daoUser(), callback::onTaskCompleted).execute();
+    }
+
+    /*** CRUD for Datasource Entity ***/
+
+    public void createDatasource (Datasource datasource, Callback callback){
+        new AsyncInsert<Datasource> (db.daoDatasource(),
+                callback::onTaskCompleted).execute(datasource);
+    }
+
+    public void createMultipleDatasources (List<Datasource> datasources, Callback callback){
+        Datasource[] datasourceArray = new Datasource[datasources.size()];
+        datasourceArray = datasources.toArray(datasourceArray);
+        new AsyncInsertMultiple<Datasource>(db.daoDatasource(),
+                callback::onTaskCompleted).execute(datasourceArray);
+    }
+    public void readDatasource (long datasourceId, CallbackReturnObject<Datasource> callback){
+        new AsyncRetrieveDatasource(db.daoDatasource(),
+                callback::onTaskCompleted).execute(datasourceId);
+    }
+
+    public void readAllDatasources(CallbackReturnMultipleObjects<Datasource> callback){
+        new AsyncRetrieveAllDatasources(db.daoDatasource(), callback::onTaskCompleted).execute();
+    }
+
+    public void readUserFirstDatasource(long userId, CallbackReturnObject<Datasource> callback){
+        new AsyncRetrieveUserFirstDatasource(db.daoDatasource(), callback::onTaskCompleted)
+                .execute(userId);
+    }
+
+    public void updateDatasource(Datasource datasource, Callback callback){
+        new AsyncUpdate<Datasource> (db.daoDatasource(),
+                callback::onTaskCompleted).execute(datasource);
+    }
+
+    public void deleteDatasource(Datasource datasource, Callback callback){
+        new AsyncDelete <Datasource> (db.daoDatasource(),
+                callback::onTaskCompleted).execute(datasource);
+    }
+
+    public void deleteAllDatasources(Callback callback){
+        new AsyncDeleteAllDatasources(db.daoDatasource(), callback::onTaskCompleted).execute();
     }
     
     /*** CRUD for Account Entity ***/
@@ -178,5 +241,101 @@ public class LocalDatabase {
 
     public void deleteAllExpenses(Callback callback){
         new AsyncDeleteAllExpenses(db.daoExpense(), callback::onTaskCompleted).execute();
+    }
+
+    /*** CRUD for Budgets Entity ***/
+
+    public void createBudget (Budget budget, Callback callback) {
+        if (budget._id == 0) {
+            new AsyncBudgetMaxId(db.daoBudget(), maxId -> {
+                budget._id = maxId + 1;
+                new AsyncInsert<Budget>(db.daoBudget(), callback::onTaskCompleted)
+                        .execute(budget);
+            }).execute(budget.datasourceId);
+        } else
+            new AsyncInsert<Budget>(db.daoBudget(), callback::onTaskCompleted).execute(budget);
+    }
+
+    public void createMultipleBudgets (List<Budget> budgets, Callback callback){
+        Budget[] budgetArray = new Budget[budgets.size()];
+        budgetArray = budgets.toArray(budgetArray);
+        new AsyncInsertMultiple<Budget> (db.daoBudget(),
+                callback::onTaskCompleted).execute(budgetArray);
+    }
+
+    public void readBudget (long budgetId, long datasourceId,
+                             CallbackReturnObject<Budget> callback){
+        new AsyncRetrieveBudget(db.daoBudget(), callback::onTaskCompleted)
+                .execute(budgetId, datasourceId);
+    }
+
+    public void readAccountBudgets (long accountId, long accountDatasourceId,
+                                     CallbackReturnMultipleObjects<Budget> callback){
+        new AsyncRetrieveAccountBudgets(db.daoBudget(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public void readAllBudgets(CallbackReturnMultipleObjects<Budget> callback){
+        new AsyncRetrieveAllBudgets(db.daoBudget(), callback::onTaskCompleted).execute();
+    }
+
+    public void updateBudget(Budget budget, Callback callback){
+        new AsyncUpdate<Budget> (db.daoBudget(), callback::onTaskCompleted).execute(budget);
+    }
+
+    public void deleteBudget(Budget budget, Callback callback){
+        new AsyncDelete<Budget> (db.daoBudget(), callback::onTaskCompleted).execute(budget);
+    }
+
+    public void deleteAllBudgets(Callback callback){
+        new AsyncDeleteAllBudgets(db.daoBudget(), callback::onTaskCompleted).execute();
+    }
+    
+    /*** CRUD for Funds Entity ***/
+
+    public void createFund (Fund fund, Callback callback) {
+        if (fund._id == 0) {
+            new AsyncFundMaxId(db.daoFund(), maxId -> {
+                fund._id = maxId + 1;
+                new AsyncInsert<Fund>(db.daoFund(), callback::onTaskCompleted)
+                        .execute(fund);
+            }).execute(fund.datasourceId);
+        } else
+            new AsyncInsert<Fund>(db.daoFund(), callback::onTaskCompleted).execute(fund);
+    }
+
+    public void createMultipleFunds (List<Fund> funds, Callback callback){
+        Fund[] fundArray = new Fund[funds.size()];
+        fundArray = funds.toArray(fundArray);
+        new AsyncInsertMultiple<Fund> (db.daoFund(),
+                callback::onTaskCompleted).execute(fundArray);
+    }
+
+    public void readFund (long fundId, long datasourceId,
+                            CallbackReturnObject<Fund> callback){
+        new AsyncRetrieveFund(db.daoFund(), callback::onTaskCompleted)
+                .execute(fundId, datasourceId);
+    }
+
+    public void readAccountFunds (long accountId, long accountDatasourceId,
+                                    CallbackReturnMultipleObjects<Fund> callback){
+        new AsyncRetrieveAccountFunds(db.daoFund(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public void readAllFunds(CallbackReturnMultipleObjects<Fund> callback){
+        new AsyncRetrieveAllFunds(db.daoFund(), callback::onTaskCompleted).execute();
+    }
+
+    public void updateFund(Fund fund, Callback callback){
+        new AsyncUpdate<Fund> (db.daoFund(), callback::onTaskCompleted).execute(fund);
+    }
+
+    public void deleteFund(Fund fund, Callback callback){
+        new AsyncDelete<Fund> (db.daoFund(), callback::onTaskCompleted).execute(fund);
+    }
+
+    public void deleteAllFunds(Callback callback){
+        new AsyncDeleteAllFunds(db.daoFund(), callback::onTaskCompleted).execute();
     }
 }

@@ -22,7 +22,11 @@ import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.testing.AccountTesting;
+import com.kapirawan.financial_tracker.testing.BudgetTesting;
+import com.kapirawan.financial_tracker.testing.DatasourceTesting;
 import com.kapirawan.financial_tracker.testing.ExpenseTesting;
+import com.kapirawan.financial_tracker.testing.FundTesting;
+import com.kapirawan.financial_tracker.testing.UserTesting;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelAccount;
 
 import java.util.List;
@@ -58,10 +62,16 @@ public class ActivityMain extends AppCompatActivity{
         appRepository = AppRepository.getInstance(this.getApplication());
 
         //TESTING
-//        new UserTesting(appRepository).test();
-        new AccountTesting(appRepository).test(() ->
-            new ExpenseTesting(appRepository).test(() -> {})
-        );
+        /*
+        new UserTesting(appRepository).test(() -> {
+            new AccountTesting(appRepository).test(() ->
+                    new ExpenseTesting(appRepository).test(() -> {})
+            );
+        });
+        */
+        //new DatasourceTesting(appRepository).test(() -> {});
+        //new BudgetTesting(appRepository).test(() -> {});
+        new FundTesting(appRepository).test(() -> {});
     }
 
     private void onCreateSetupAccountRecyclerView(){

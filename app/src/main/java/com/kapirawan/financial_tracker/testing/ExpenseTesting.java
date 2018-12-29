@@ -63,7 +63,7 @@ public class ExpenseTesting {
                 674.55, "Food", "Dinner", new Date()));
         expenses.add(new Expense(6, 01, 2, 1, new Date(),
                 730.65, "Food", "Beef", new Date()));
-        repository.createMultipleExpense(expenses, () -> {
+        repository.createMultipleExpenses(expenses, () -> {
             Log.i(label, "Multiple Records Insert Successful..");
             retrieveExpense();
         });
@@ -119,7 +119,7 @@ public class ExpenseTesting {
     }
 
     private void updateExpenses() {
-        Log.i(label, " Updating Expense 01..");
+        Log.i(label, " Updating Expense with _id 01 and datasourceId 01..");
         Expense expense = new Expense(01, 1, 03, 3,
                 new Date(), 888.88, "Others", "Other Expense", new Date());
         repository.updateExpense(expense, () -> {

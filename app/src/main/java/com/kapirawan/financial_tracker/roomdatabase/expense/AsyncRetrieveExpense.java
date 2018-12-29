@@ -2,8 +2,6 @@ package com.kapirawan.financial_tracker.roomdatabase.expense;
 
 import android.os.AsyncTask;
 
-import java.util.List;
-
 public class AsyncRetrieveExpense extends AsyncTask<Long, Void, Expense> {
     private DaoExpense dao;
     private OnTaskCompleted listener;

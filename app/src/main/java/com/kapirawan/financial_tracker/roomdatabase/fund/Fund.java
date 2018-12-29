@@ -1,31 +1,31 @@
-package com.kapirawan.financial_tracker.entity;
+package com.kapirawan.financial_tracker.roomdatabase.fund;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 import java.util.Date;
-@Entity
+
+@Entity (primaryKeys = {"_id", "datasourceId"})
 public class Fund {
-    @PrimaryKey
-    @NonNull
+
     public long _id;
     public long datasourceId;
     public long accountId;
+    public long accountDatasourceId;
     public Date date;
     public double amount;
-    public String source;
+    public String type;
     public String details;
     public Date updateTimestamp;
 
-    public Fund(long _id, long datasourceId, long accountId, Date date, double amount, String source,
-                   String details, Date updateTimestamp){
+    public Fund(long _id, long datasourceId, long accountId, long accountDatasourceId, Date date,
+                   double amount, String type, String details, Date updateTimestamp){
         this._id = _id;
         this.datasourceId = datasourceId;
         this.accountId = accountId;
+        this.accountDatasourceId = accountDatasourceId;
         this.date = date;
         this.amount = amount;
-        this.source = source;
+        this.type = type;
         this.details = details;
         this.updateTimestamp = updateTimestamp;
     }

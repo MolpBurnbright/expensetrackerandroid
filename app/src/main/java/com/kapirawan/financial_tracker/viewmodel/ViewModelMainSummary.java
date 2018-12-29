@@ -6,9 +6,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.entity.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
-import com.kapirawan.financial_tracker.entity.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 import com.kapirawan.financial_tracker.model.ExpenseBudgetSummary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
