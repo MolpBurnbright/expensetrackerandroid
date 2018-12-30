@@ -5,8 +5,10 @@ import android.app.Application;
 import com.kapirawan.financial_tracker.roomdatabase.LocalDatabase;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
@@ -250,5 +252,77 @@ public class AppRepository {
 
     public void deleteAllFunds(Callback callback){
         localDb.deleteAllFunds(callback::onTaskCompleted);
+    }
+
+    /*** CRUD for Category ***/
+
+    public void createCategory (Category category, Callback callback){
+        localDb.createCategory(category, callback::onTaskCompleted);
+    }
+
+    public void createMultipleCategories (List<Category> categories, Callback callback){
+        localDb.createMultipleCategories(categories, callback::onTaskCompleted);
+    }
+
+    public void readCategory (long categoryId, long datasourceId,
+                          CallbackReturnObject<Category> callback){
+        localDb.readCategory(categoryId, datasourceId, callback::onTaskCompleted);
+    }
+
+    public void readAccountCategory(long accountId, long accountDatasourceId,
+                                CallbackReturnMultipleObjects<Category> callback){
+        localDb.readAccountCategories(accountId, accountDatasourceId, callback::onTaskCompleted);
+    }
+
+    public void readAllCategories(CallbackReturnMultipleObjects<Category> callback){
+        localDb.readAllCategories(callback::onTaskCompleted);
+    }
+
+    public void updateCategory (Category category, Callback callback){
+        localDb.updateCategory(category, callback::onTaskCompleted);
+    }
+
+    public void deleteCategory (Category category, Callback callback){
+        localDb.deleteCategory(category, callback::onTaskCompleted);
+    }
+
+    public void deleteAllCategories(Callback callback){
+        localDb.deleteAllCategories(callback::onTaskCompleted);
+    }
+    
+    /*** CRUD for Source ***/
+
+    public void createSource (Source source, Callback callback){
+        localDb.createSource(source, callback::onTaskCompleted);
+    }
+
+    public void createMultipleSources (List<Source> sources, Callback callback){
+        localDb.createMultipleSources(sources, callback::onTaskCompleted);
+    }
+
+    public void readSource (long sourceId, long datasourceId,
+                          CallbackReturnObject<Source> callback){
+        localDb.readSource(sourceId, datasourceId, callback::onTaskCompleted);
+    }
+
+    public void readAccountSource(long accountId, long accountDatasourceId,
+                                CallbackReturnMultipleObjects<Source> callback){
+        localDb.readAccountSources(accountId, accountDatasourceId, callback::onTaskCompleted);
+    }
+
+    public void readAllSources(CallbackReturnMultipleObjects<Source> callback){
+        localDb.readAllSources(callback::onTaskCompleted);
+    }
+
+    public void updateSource (Source source, Callback callback){
+        localDb.updateSource(source, callback::onTaskCompleted);
+    }
+
+    public void deleteSource (Source source, Callback callback){
+        localDb.deleteSource(source, callback::onTaskCompleted);
+    }
+
+    public void deleteAllSources(Callback callback){
+        localDb.deleteAllSources(callback::onTaskCompleted);
     }
 }

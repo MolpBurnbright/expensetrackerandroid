@@ -10,12 +10,12 @@ import com.google.gson.Gson;
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.roomdatabase.AppRoomDatabase;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.entity.Category;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.entity.Source;
 import com.kapirawan.financial_tracker.model.User;
+import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.webservice.RetrofitClient;
 import com.kapirawan.financial_tracker.webservice.WebServiceAPIAccount;
 
@@ -158,7 +158,7 @@ public class Refresher {
             public void onResponse(Call<Category[]> call, Response<Category[]> response) {
                 if(response.code() == 200){
                     Category[] budgets = response.body();
-                    new AsyncCategoryMultipleInsert(db.daoCategory()).execute(budgets);
+//                    new AsyncCategoryMultipleInsert(db.daoCategory()).execute(budgets);
                     Log.i("Refresher", "Categories retrieved successfully for account " + accountId);
                     Log.i("Refresher", "Number of Categories: " + budgets.length);
                 } else {
@@ -182,7 +182,7 @@ public class Refresher {
             public void onResponse(Call<Source[]> call, Response<Source[]> response) {
                 if(response.code() == 200){
                     Source[] budgets = response.body();
-                    new AsyncSourceMultipleInsert(db.daoSource()).execute(budgets);
+//                    new AsyncSourceMultipleInsert(db.daoSource()).execute(budgets);
                     Log.i("Refresher", "Sources retrieved successfully for account " + accountId);
                     Log.i("Refresher", "Number of Sources: " + budgets.length);
                 } else {

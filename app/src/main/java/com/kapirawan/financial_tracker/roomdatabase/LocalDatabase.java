@@ -14,6 +14,12 @@ import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncRetrieveAccountB
 import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncRetrieveAllBudgets;
 import com.kapirawan.financial_tracker.roomdatabase.budget.AsyncRetrieveBudget;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.category.AsyncCategoryMaxId;
+import com.kapirawan.financial_tracker.roomdatabase.category.AsyncDeleteAllCategories;
+import com.kapirawan.financial_tracker.roomdatabase.category.AsyncRetrieveAccountCategories;
+import com.kapirawan.financial_tracker.roomdatabase.category.AsyncRetrieveAllCategories;
+import com.kapirawan.financial_tracker.roomdatabase.category.AsyncRetrieveCategory;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncDeleteAllDatasources;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncRetrieveAllDatasources;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.AsyncRetrieveDatasource;
@@ -31,6 +37,12 @@ import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveAccountFun
 import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveAllFunds;
 import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveFund;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.source.AsyncDeleteAllSources;
+import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveAccountSources;
+import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveAllSources;
+import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveSource;
+import com.kapirawan.financial_tracker.roomdatabase.source.AsyncSourceMaxId;
+import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncDeleteAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveUser;
@@ -337,5 +349,101 @@ public class LocalDatabase {
 
     public void deleteAllFunds(Callback callback){
         new AsyncDeleteAllFunds(db.daoFund(), callback::onTaskCompleted).execute();
+    }
+
+    /*** CRUD for Categories Entity ***/
+
+    public void createCategory (Category category, Callback callback) {
+        if (category._id == 0) {
+            new AsyncCategoryMaxId(db.daoCategory(), maxId -> {
+                category._id = maxId + 1;
+                new AsyncInsert<Category>(db.daoCategory(), callback::onTaskCompleted)
+                        .execute(category);
+            }).execute(category.datasourceId);
+        } else
+            new AsyncInsert<Category>(db.daoCategory(), callback::onTaskCompleted).execute(category);
+    }
+
+    public void createMultipleCategories (List<Category> categories, Callback callback){
+        Category[] categoryArray = new Category[categories.size()];
+        categoryArray = categories.toArray(categoryArray);
+        new AsyncInsertMultiple<Category> (db.daoCategory(),
+                callback::onTaskCompleted).execute(categoryArray);
+    }
+
+    public void readCategory (long categoryId, long datasourceId,
+                          CallbackReturnObject<Category> callback){
+        new AsyncRetrieveCategory(db.daoCategory(), callback::onTaskCompleted)
+                .execute(categoryId, datasourceId);
+    }
+
+    public void readAccountCategories (long accountId, long accountDatasourceId,
+                                  CallbackReturnMultipleObjects<Category> callback){
+        new AsyncRetrieveAccountCategories(db.daoCategory(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public void readAllCategories(CallbackReturnMultipleObjects<Category> callback){
+        new AsyncRetrieveAllCategories(db.daoCategory(), callback::onTaskCompleted).execute();
+    }
+
+    public void updateCategory(Category category, Callback callback){
+        new AsyncUpdate<Category> (db.daoCategory(), callback::onTaskCompleted).execute(category);
+    }
+
+    public void deleteCategory(Category category, Callback callback){
+        new AsyncDelete<Category> (db.daoCategory(), callback::onTaskCompleted).execute(category);
+    }
+
+    public void deleteAllCategories(Callback callback){
+        new AsyncDeleteAllCategories(db.daoCategory(), callback::onTaskCompleted).execute();
+    }
+
+    /*** CRUD for Sources Entity ***/
+
+    public void createSource (Source source, Callback callback) {
+        if (source._id == 0) {
+            new AsyncSourceMaxId(db.daoSource(), maxId -> {
+                source._id = maxId + 1;
+                new AsyncInsert<Source>(db.daoSource(), callback::onTaskCompleted)
+                        .execute(source);
+            }).execute(source.datasourceId);
+        } else
+            new AsyncInsert<Source>(db.daoSource(), callback::onTaskCompleted).execute(source);
+    }
+
+    public void createMultipleSources (List<Source> sources, Callback callback){
+        Source[] sourceArray = new Source[sources.size()];
+        sourceArray = sources.toArray(sourceArray);
+        new AsyncInsertMultiple<Source> (db.daoSource(),
+                callback::onTaskCompleted).execute(sourceArray);
+    }
+
+    public void readSource (long sourceId, long datasourceId,
+                          CallbackReturnObject<Source> callback){
+        new AsyncRetrieveSource(db.daoSource(), callback::onTaskCompleted)
+                .execute(sourceId, datasourceId);
+    }
+
+    public void readAccountSources (long accountId, long accountDatasourceId,
+                                  CallbackReturnMultipleObjects<Source> callback){
+        new AsyncRetrieveAccountSources(db.daoSource(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public void readAllSources(CallbackReturnMultipleObjects<Source> callback){
+        new AsyncRetrieveAllSources(db.daoSource(), callback::onTaskCompleted).execute();
+    }
+
+    public void updateSource(Source source, Callback callback){
+        new AsyncUpdate<Source> (db.daoSource(), callback::onTaskCompleted).execute(source);
+    }
+
+    public void deleteSource(Source source, Callback callback){
+        new AsyncDelete<Source> (db.daoSource(), callback::onTaskCompleted).execute(source);
+    }
+
+    public void deleteAllSources(Callback callback){
+        new AsyncDeleteAllSources(db.daoSource(), callback::onTaskCompleted).execute();
     }
 }

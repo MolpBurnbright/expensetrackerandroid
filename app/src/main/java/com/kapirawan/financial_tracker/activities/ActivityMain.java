@@ -23,6 +23,7 @@ import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.testing.AccountTesting;
 import com.kapirawan.financial_tracker.testing.BudgetTesting;
+import com.kapirawan.financial_tracker.testing.CategoryTesting;
 import com.kapirawan.financial_tracker.testing.DatasourceTesting;
 import com.kapirawan.financial_tracker.testing.ExpenseTesting;
 import com.kapirawan.financial_tracker.testing.FundTesting;
@@ -71,7 +72,9 @@ public class ActivityMain extends AppCompatActivity{
         */
         //new DatasourceTesting(appRepository).test(() -> {});
         //new BudgetTesting(appRepository).test(() -> {});
-        new FundTesting(appRepository).test(() -> {});
+        //new FundTesting(appRepository).test(() -> {});
+        new CategoryTesting(appRepository).test(() ->
+                new DatasourceTesting(appRepository).test(() -> {}));
     }
 
     private void onCreateSetupAccountRecyclerView(){

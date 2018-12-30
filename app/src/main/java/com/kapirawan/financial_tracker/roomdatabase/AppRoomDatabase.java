@@ -6,22 +6,22 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.account.DaoAccount;
-import com.kapirawan.financial_tracker.roomdatabase.budget.DaoBudget;
-import com.kapirawan.financial_tracker.dao.DaoCategory;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.budget.DaoBudget;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
+import com.kapirawan.financial_tracker.roomdatabase.category.DaoCategory;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.DaoDatasource;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.expense.DaoExpense;
+import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.DaoFund;
-import com.kapirawan.financial_tracker.dao.DaoSource;
-import com.kapirawan.financial_tracker.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.source.DaoSource;
+import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.roomdatabase.user.DaoUser;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
-import com.kapirawan.financial_tracker.entity.Category;
-import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
-import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.entity.Source;
 
 @Database(entities = {User.class, Datasource.class, Account.class, Expense.class, Budget.class,
         Fund.class, Category.class, Source.class},

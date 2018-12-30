@@ -1,10 +1,10 @@
 package com.kapirawan.financial_tracker.webservice;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.entity.Category;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.entity.Source;
+import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 
 import retrofit2.http.GET;
 import retrofit2.Call;

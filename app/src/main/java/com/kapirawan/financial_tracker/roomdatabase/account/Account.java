@@ -1,12 +1,14 @@
 package com.kapirawan.financial_tracker.roomdatabase.account;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Index;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(primaryKeys = {"_id", "datasourceId"})
+@Entity(primaryKeys = {"_id", "datasourceId"},
+        indices = {@Index(value = {"name", "userId"}, unique = true)})
+
 public class Account implements Serializable{
 
     public long _id;
