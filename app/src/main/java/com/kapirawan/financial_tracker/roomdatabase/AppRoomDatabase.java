@@ -22,6 +22,7 @@ import com.kapirawan.financial_tracker.roomdatabase.fund.DaoFund;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 import com.kapirawan.financial_tracker.roomdatabase.source.DaoSource;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
+import com.kapirawan.financial_tracker.roomdatabase.sum.DaoSum;
 import com.kapirawan.financial_tracker.roomdatabase.user.DaoUser;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 
@@ -41,6 +42,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
     public abstract DaoFund daoFund();
     public abstract DaoCategory daoCategory();
     public abstract DaoSource daoSource();
+    public abstract DaoSum daoSum();
 
     private static AppRoomDatabase INSTANCE;
 

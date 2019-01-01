@@ -43,6 +43,10 @@ import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveAllSourc
 import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveSource;
 import com.kapirawan.financial_tracker.roomdatabase.source.AsyncSourceMaxId;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
+import com.kapirawan.financial_tracker.roomdatabase.sum.AsyncSumAllBudgets;
+import com.kapirawan.financial_tracker.roomdatabase.sum.AsyncSumAllExpenses;
+import com.kapirawan.financial_tracker.roomdatabase.sum.AsyncSumAllFunds;
+import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncDeleteAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveUser;
@@ -445,5 +449,25 @@ public class LocalDatabase {
 
     public void deleteAllSources(Callback callback){
         new AsyncDeleteAllSources(db.daoSource(), callback::onTaskCompleted).execute();
+    }
+
+    /*** Interface to get Sum of Entities***/
+
+    public void getSumAllExpenses(long accountId, long accountDatasourceId,
+                                  CallbackReturnMultipleObjects<Sum> callback){
+        new AsyncSumAllExpenses(db.daoSum(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public void getSumAllBudgets(long accountId, long accountDatasourceId,
+                                 CallbackReturnMultipleObjects<Sum> callback){
+        new AsyncSumAllBudgets(db.daoSum(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public void getSumAllFunds(long accountId, long accountDatasourceId,
+                               CallbackReturnMultipleObjects<Sum> callback){
+        new AsyncSumAllFunds(db.daoSum(), callback::onTaskCompleted)
+                .execute(accountId, accountDatasourceId);
     }
 }

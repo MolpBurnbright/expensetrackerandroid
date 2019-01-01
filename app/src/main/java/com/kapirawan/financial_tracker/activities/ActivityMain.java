@@ -28,6 +28,7 @@ import com.kapirawan.financial_tracker.testing.DatasourceTesting;
 import com.kapirawan.financial_tracker.testing.DefaultDataTesting;
 import com.kapirawan.financial_tracker.testing.ExpenseTesting;
 import com.kapirawan.financial_tracker.testing.FundTesting;
+import com.kapirawan.financial_tracker.testing.SumTesting;
 import com.kapirawan.financial_tracker.testing.UserTesting;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelAccount;
 
@@ -62,21 +63,7 @@ public class ActivityMain extends AppCompatActivity{
         //Setup the refresher
         refresher = new Refresher(this.getApplication());
         appRepository = AppRepository.getInstance(this.getApplication());
-
-        //TESTING
-        /*
-        new UserTesting(appRepository).test(() -> {
-            new AccountTesting(appRepository).test(() ->
-                    new ExpenseTesting(appRepository).test(() -> {})
-            );
-        });
-        */
-        //new DatasourceTesting(appRepository).test(() -> {});
-        //new BudgetTesting(appRepository).test(() -> {});
-        //new FundTesting(appRepository).test(() -> {});
-        //new CategoryTesting(appRepository).test(() ->
-        //        new DatasourceTesting(appRepository).test(() -> {}));
-        new DefaultDataTesting(appRepository).test(() -> {});
+        testing();
     }
 
     private void onCreateSetupAccountRecyclerView(){
@@ -122,5 +109,20 @@ public class ActivityMain extends AppCompatActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void testing() {
+        //new UserTesting(appRepository).test(() -> {
+        //    new AccountTesting(appRepository).test(() ->
+        //            new ExpenseTesting(appRepository).test(() -> {})
+        //    );
+        //});
+        //new DatasourceTesting(appRepository).test(() -> {});
+        //new BudgetTesting(appRepository).test(() -> {});
+        //new FundTesting(appRepository).test(() -> {});
+        //new CategoryTesting(appRepository).test(() ->
+        //        new DatasourceTesting(appRepository).test(() -> {}));
+        //new DefaultDataTesting(appRepository).test(() -> {});
+        new SumTesting(appRepository).test(() ->{});
     }
 }

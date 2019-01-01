@@ -9,6 +9,7 @@ import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
+import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
@@ -324,5 +325,22 @@ public class AppRepository {
 
     public void deleteAllSources(Callback callback){
         localDb.deleteAllSources(callback::onTaskCompleted);
+    }
+
+    /*** Interfaces to get sum of Entities ***/
+
+    public void getSumAllExpenses(long accountId, long accountDatasourceId,
+                                  CallbackReturnMultipleObjects<Sum> callback) {
+        localDb.getSumAllExpenses(accountId, accountDatasourceId, callback::onTaskCompleted);
+    }
+
+    public void getSumAllBudgets(long accountId, long accountDatasourceId,
+                                 CallbackReturnMultipleObjects<Sum> callback) {
+        localDb.getSumAllBudgets(accountId, accountDatasourceId, callback::onTaskCompleted);
+    }
+
+    public void getSumAllFunds(long accountId, long accountDatasourceId,
+                               CallbackReturnMultipleObjects<Sum> callback) {
+        localDb.getSumAllFunds(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 }
