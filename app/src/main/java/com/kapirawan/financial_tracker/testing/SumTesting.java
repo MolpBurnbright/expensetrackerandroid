@@ -2,6 +2,7 @@ package com.kapirawan.financial_tracker.testing;
 
 import android.util.Log;
 
+import com.kapirawan.financial_tracker.model.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
@@ -11,6 +12,7 @@ import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class SumTesting {
 
@@ -61,7 +63,10 @@ public class SumTesting {
                 new Expense(9, 0, 1, 0, new Date(),
                         654, "Utilities", "Electric bill", new Date()),
                 new Expense(10, 0, 1, 0, new Date(),
-                        435, "Utilities", "Water bill", new Date())
+                        435, "Utilities", "Water bill", new Date()),
+                new Expense(11, 0, 1, 0, new Date(),
+                        6000, "Education", "Tuition Fee", new Date())
+
         };
         repo.createMultipleExpenses(new ArrayList<> (Arrays.asList(expenses)), () -> {
             Log.i(label, "Expenses inserted successfully");
@@ -87,7 +92,10 @@ public class SumTesting {
                 new Budget(7, 0, 1, 0, new Date(),
                         5000, "Allowance", "Another Allowance Budget", new Date()),
                 new Budget(8, 0, 1, 0, new Date(),
-                        4000, "Utilities", "Utilities Budget", new Date())
+                        4000, "Utilities", "Utilities Budget", new Date()),
+                new Budget(9, 0, 1, 0, new Date(),
+                        3000, "Wellness", "Wellness", new Date())
+
         };
         repo.createMultipleBudgets(new ArrayList<> (Arrays.asList(budgets)), () -> {
             Log.i(label, "Budgets inserted successfully");
@@ -115,9 +123,12 @@ public class SumTesting {
         });
     }
 
+    private List<Sum> sumExpenses;
+
     private void retrieveSumExpenses(){
         Log.i(label, "Retrieving sum of expenses with accountId 01 and accountDatasource 00..");
         repo.getSumAllExpenses(01, 00, sums -> {
+            this.sumExpenses = sums;
             Log.i(label, "Sum of Expenses retrieved successfully..");
             Log.i(label, "Number of sum: " + sums.size());
             for (int i=0; i < sums.size(); i++){
@@ -128,9 +139,12 @@ public class SumTesting {
         });
     }
 
+    private List<Sum> sumBudgets;
+
     private void retrieveSumBudgets(){
         Log.i(label, "Retrieving sum of Budgets with accountId 01 and accountDatasource 00..");
         repo.getSumAllBudgets(01, 00, sums -> {
+            this.sumBudgets = sums;
             Log.i(label, "Sum of Budgets retrieved successfully..");
             Log.i(label, "Number of sum: " + sums.size());
             for (int i=0; i < sums.size(); i++){
@@ -150,6 +164,7 @@ public class SumTesting {
                 Log.i(label, "Element " + i);
                 printSum(sums.get(i));
             }
+            getSummary();
             deleteAllData(() -> testCompleted());
         });
     }
@@ -157,6 +172,18 @@ public class SumTesting {
     private void printSum(Sum sum){
         Log.i(label, "name: " + sum.name);
         Log.i(label, "amount: " + sum.amount);
+    }
+
+    private void getSummary(){
+        Log.i(label, "Getting summary for Expense and Budget");
+        List<Summary> summaries = Summary.getSummaries(sumExpenses, sumBudgets);
+        Log.i(label, "Printing summary for Expense and Budget");
+        for(Summary summary : summaries){
+            Log.i(label, "name: " + summary.name);
+            Log.i(label, "total expense: " + summary.totalExpense);
+            Log.i(label, "total budget: " + summary.totalBudget);
+            Log.i(label, "remaining budget: " + (summary.totalBudget - summary.totalExpense));
+        }
     }
 
     private void deleteAllData(Callback callback){

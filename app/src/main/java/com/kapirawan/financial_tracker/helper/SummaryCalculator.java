@@ -3,7 +3,7 @@ package com.kapirawan.financial_tracker.helper;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.model.ExpenseBudgetSummary;
+import com.kapirawan.financial_tracker.model.Summary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,13 @@ public class SummaryCalculator {
     private List<Expense> expensesData = null;
     private List<Fund> fundsData = null;
     private List<Budget> budgetData = null;
-    private List<ExpenseBudgetSummary> summary = null;
+    private List<Summary> summary = null;
 
     public SummaryCalculator(){
 
     }
 
-    public List<ExpenseBudgetSummary> updateExpense(List<Expense> expenses){
+    public List<Summary> updateExpense(List<Expense> expenses){
         summary = new ArrayList<>();
         expensesData = expenses;
         sortExpenses();
@@ -49,29 +49,29 @@ public class SummaryCalculator {
 
     private void sumUpExpenses(){
         if(expensesData.size() > 0){
-            ExpenseBudgetSummary summaryItem;
+            Summary summaryItem;
             String category = expensesData.get(0).type;
             float totalExpense = 0;
             for(Expense exp: expensesData){
                 if(category == exp.type){
                     totalExpense += exp.amount;
                 }else{
-                    summaryItem = new ExpenseBudgetSummary(category, totalExpense,
-                            0, 0);
-                    summary.add(summaryItem);
+//                    summaryItem = new Summary(category, totalExpense,
+//                            0, 0);
+//                    summary.add(summaryItem);
                     category = exp.type;
                     totalExpense = 0;
                 }
             }
-            summaryItem = new ExpenseBudgetSummary(category, totalExpense,
-                    0, 0);
-            summary.add(summaryItem);
+//            summaryItem = new Summary(category, totalExpense,
+//                    0, 0);
+//            summary.add(summaryItem);
         }
     }
 
     private void sumUpBudgets(){
         if(budgetData.size() > 0){
-            ExpenseBudgetSummary summaryItem;
+            Summary summaryItem;
             String category = budgetData.get(0).type;
             float totalBudget = 0;
 
@@ -81,16 +81,16 @@ public class SummaryCalculator {
                     totalBudget += budgetData.get(index).amount;
                 }
                 boolean categoryFound = false;
-                for(ExpenseBudgetSummary summary: summary) {
-                    if (category == summary.type) {
-                        summary.totalBudget = totalBudget;
-                        categoryFound = true;
-                    }
+                for(Summary summary: summary) {
+//                    if (category == summary.type) {
+//                        summary.totalBudget = totalBudget;
+//                        categoryFound = true;
+//                    }
                 }
                 if (!categoryFound){
-                    summaryItem = new ExpenseBudgetSummary(category, 0, totalBudget,
-                            0);
-                    summary.add(summaryItem);
+//                    summaryItem = new Summary(category, 0, totalBudget,
+//                            0);
+//                    summary.add(summaryItem);
                 }
                 category = budgetData.get(index).type;
             }

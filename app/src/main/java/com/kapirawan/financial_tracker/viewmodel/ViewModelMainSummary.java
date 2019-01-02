@@ -9,7 +9,7 @@ import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.model.ExpenseBudgetSummary;
+import com.kapirawan.financial_tracker.model.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ViewModelMainSummary extends AndroidViewModel{
     AppRepository repository;
     LiveData<List<Account>> accounts;
-    LiveData<List<ExpenseBudgetSummary>> summary;
+    LiveData<List<Summary>> summary;
     LiveData<List<Expense>> expenses;
     LiveData<List<Budget>> budgets;
     LiveData<List<Fund>> funds;
@@ -28,7 +28,7 @@ public class ViewModelMainSummary extends AndroidViewModel{
 //        accounts = repository.getAccounts();
     }
 
-    public LiveData<List<ExpenseBudgetSummary>> getAccountSummary(long acountID){
+    public LiveData<List<Summary>> getAccountSummary(long acountID){
         return summary;
     }
 
@@ -37,7 +37,7 @@ public class ViewModelMainSummary extends AndroidViewModel{
 //        budgets = repository.getBudgets(accountID);
 //        funds = repository.getFunds(accountID);
 
-        final MediatorLiveData dataMerger = new MediatorLiveData<List<ExpenseBudgetSummary>>();
+        final MediatorLiveData dataMerger = new MediatorLiveData<List<Summary>>();
 
         dataMerger.addSource(expenses, expenseList -> {
 
