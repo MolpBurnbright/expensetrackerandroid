@@ -30,6 +30,7 @@ import com.kapirawan.financial_tracker.testing.ExpenseTesting;
 import com.kapirawan.financial_tracker.testing.FundTesting;
 import com.kapirawan.financial_tracker.testing.SumTesting;
 import com.kapirawan.financial_tracker.testing.UserTesting;
+import com.kapirawan.financial_tracker.testing.ViewModelSummaryTesting;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelAccount;
 
 import java.util.List;
@@ -123,6 +124,7 @@ public class ActivityMain extends AppCompatActivity{
         //new CategoryTesting(appRepository).test(() ->
         //        new DatasourceTesting(appRepository).test(() -> {}));
         //new DefaultDataTesting(appRepository).test(() -> {});
-        new SumTesting(appRepository).test(() ->{});
+        //new SumTesting(appRepository).test(() ->{});
+        new ViewModelSummaryTesting(this).test(() -> {});
     }
 }
