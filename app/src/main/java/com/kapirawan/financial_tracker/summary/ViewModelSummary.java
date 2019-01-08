@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.Summary;
+package com.kapirawan.financial_tracker.summary;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -6,7 +6,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
-import com.kapirawan.financial_tracker.model.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
 import java.util.List;

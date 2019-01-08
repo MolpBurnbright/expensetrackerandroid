@@ -4,12 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.util.Log;
 
-import com.kapirawan.financial_tracker.Summary.ViewModelSummary;
-import com.kapirawan.financial_tracker.model.Summary;
+import com.kapirawan.financial_tracker.summary.ViewModelSummary;
+import com.kapirawan.financial_tracker.summary.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
-import com.kapirawan.financial_tracker.viewmodel.ViewModelExpense;
 
 import java.util.ArrayList;
 import java.util.Arrays;

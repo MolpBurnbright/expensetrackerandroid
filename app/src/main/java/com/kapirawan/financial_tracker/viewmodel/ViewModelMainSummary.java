@@ -9,7 +9,7 @@ import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.model.Summary;
+import com.kapirawan.financial_tracker.summary.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
 import java.util.List;

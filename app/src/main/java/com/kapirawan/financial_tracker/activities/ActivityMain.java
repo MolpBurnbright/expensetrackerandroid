@@ -21,6 +21,7 @@ import com.kapirawan.financial_tracker.adapter.AccountAdapter;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
+import com.kapirawan.financial_tracker.summary.FragmentSummary;
 import com.kapirawan.financial_tracker.testing.AccountTesting;
 import com.kapirawan.financial_tracker.testing.BudgetTesting;
 import com.kapirawan.financial_tracker.testing.CategoryTesting;
@@ -64,7 +65,17 @@ public class ActivityMain extends AppCompatActivity{
         //Setup the refresher
         refresher = new Refresher(this.getApplication());
         appRepository = AppRepository.getInstance(this.getApplication());
-        testing();
+        //Testing - including setting up the test data
+//        testing();
+
+        //Setup the fragment
+        if (findViewById(R.id.framelayout_container) != null){
+            if(savedInstanceState != null)
+                return;
+            FragmentSummary fragment = new FragmentSummary();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.framelayout_container, fragment).commit();
+        }
     }
 
     private void onCreateSetupAccountRecyclerView(){

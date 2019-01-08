@@ -2,7 +2,7 @@ package com.kapirawan.financial_tracker.testing;
 
 import android.util.Log;
 
-import com.kapirawan.financial_tracker.model.Summary;
+import com.kapirawan.financial_tracker.summary.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
@@ -165,7 +165,8 @@ public class SumTesting {
                 printSum(sums.get(i));
             }
             getSummary();
-            deleteAllData(() -> testCompleted());
+//            deleteAllData(() -> testCompleted());
+            testCompleted();
         });
     }
 
@@ -182,7 +183,7 @@ public class SumTesting {
             Log.i(label, "name: " + summary.name);
             Log.i(label, "total expense: " + summary.totalExpense);
             Log.i(label, "total budget: " + summary.totalBudget);
-            Log.i(label, "remaining budget: " + (summary.totalBudget - summary.totalExpense));
+            Log.i(label, "remaining budget: " + (summary.totalRemaining));
         }
     }
 

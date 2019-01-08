@@ -3,7 +3,7 @@ package com.kapirawan.financial_tracker.helper;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
-import com.kapirawan.financial_tracker.model.Summary;
+import com.kapirawan.financial_tracker.summary.Summary;
 
 import java.util.ArrayList;
 import java.util.List;
