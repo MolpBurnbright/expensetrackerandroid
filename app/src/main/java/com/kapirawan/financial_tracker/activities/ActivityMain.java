@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.adapter.AccountAdapter;
+import com.kapirawan.financial_tracker.expense.AddExpenseDialog;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
@@ -118,6 +120,9 @@ public class ActivityMain extends AppCompatActivity{
             case R.id.action_settings:
                 Intent intent = new Intent(this, ActivitySettings.class);
                 startActivity(intent);
+                break;
+            case R.id.action_add_expense:
+                new AddExpenseDialog().show(getSupportFragmentManager(), "Add Expense Dialog");
                 break;
         }
         return super.onOptionsItemSelected(item);
