@@ -5,12 +5,15 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,11 +36,13 @@ public class AddExpenseDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_add_expense, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
+        onCreateViewInitAutocomplete(view);
+        onCreateViewInitAddButton(view);
+        view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         return view;
     }
 
     private void onCreateViewInitDate(View view){
-        view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         view.findViewById(R.id.button_datepicker).setOnClickListener(v -> {
             final Calendar cal = Calendar.getInstance();
             cal.setTime(this.viewModel.getSelectedDate());
@@ -88,6 +93,31 @@ public class AddExpenseDialog extends DialogFragment {
         });
     }
 
+    private void onCreateViewInitAutocomplete(View view){
+        this.viewModel.getDetails().observe(this, details -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
+                    android.R.layout.simple_dropdown_item_1line, details);
+            ((AutoCompleteTextView) view.findViewById(R.id.autocomplete_description))
+                    .setAdapter(adapter);
+        });
+    }
+
+    private void onCreateViewInitAddButton(View view){
+        view.findViewById(R.id.button_add).setOnClickListener(v -> {
+            try {
+                double amount = Double.parseDouble(
+                        ((EditText) view.findViewById(R.id.edittext_amount)).getText().toString());
+                String description = ((AutoCompleteTextView)
+                        view.findViewById(R.id.autocomplete_description)).getText().toString();
+                viewModel.setAmount(amount);
+                viewModel.setDescription(description);
+                getDialog().dismiss();
+            } catch (NumberFormatException e) {
+                showError("Amount is invalid, kindly check.");
+            }
+        });
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -95,4 +125,13 @@ public class AddExpenseDialog extends DialogFragment {
         return dialog;
     }
 
+    private void showError(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this.getActivity()).create();
+        alertDialog.setTitle("Error");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                (dialog, which) -> dialog.dismiss()
+        );
+        alertDialog.show();
+    }
 }

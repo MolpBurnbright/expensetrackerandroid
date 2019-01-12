@@ -1,6 +1,7 @@
 package com.kapirawan.financial_tracker.repository;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
 
 import com.kapirawan.financial_tracker.roomdatabase.LocalDatabase;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
@@ -155,6 +156,10 @@ public class AppRepository {
 
     public void createMultipleExpenses (List<Expense> expenses, Callback callback){
         localDb.createMultipleExpenses(expenses, callback::onTaskCompleted);
+    }
+
+    public LiveData<List<String>> getDetails(long accountId, long accountDatasourceId){
+        return localDb.getDetails(accountId, accountDatasourceId);
     }
 
     public void readExpense (long expenseId, long datasourceId, 

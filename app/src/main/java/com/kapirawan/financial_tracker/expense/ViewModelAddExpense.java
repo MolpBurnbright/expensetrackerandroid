@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
-import com.kapirawan.financial_tracker.summary.Summary;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,9 +17,11 @@ public class ViewModelAddExpense extends AndroidViewModel {
     private AppRepository repo;
     private long accountId, accountDatasourceId;
     private LiveData<List<Category>> categories;
+    private LiveData<List<String>> details;
     private Date selectedDate;
-    private String selectedCategory;
     private int selectedCategoryPosition;
+    private double amount;
+    private String description;
 
     public ViewModelAddExpense(@NonNull Application app) {
         super(app);
@@ -34,9 +35,12 @@ public class ViewModelAddExpense extends AndroidViewModel {
         this.categories = new MutableLiveData<>();
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
-        setAccount(accountId, accountDatasourceId);
         this.selectedCategoryPosition = 0;
         this.selectedDate = Calendar.getInstance().getTime();
+        this.amount = 0;
+        this.description = "";
+        setAccount(accountId, accountDatasourceId);
+
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -57,15 +61,39 @@ public class ViewModelAddExpense extends AndroidViewModel {
         repo.readAccountCategory(accountId, accountDatasourceId, categs -> {
             ((MutableLiveData<List<Category>>)this.categories).setValue(categs);
         });
+        this.details = repo.getDetails(accountId, accountDatasourceId);
+    }
+
+    public double getAmount(){
+        return this.amount;
+    }
+
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+
+    public LiveData<List<String>> getDetails(){
+        return this.details;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 
     public Date getSelectedDate(){
         return this.selectedDate;
     }
 
-
     public void setSelectedDate(Date date){
         this.selectedDate = date;
+    }
+
+    public String getSelectedCategory(){
+        return this.categories.getValue().get(this.selectedCategoryPosition).name;
     }
 
     public int getSelectedCategoryPosition(){

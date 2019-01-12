@@ -1,5 +1,6 @@
 package com.kapirawan.financial_tracker.roomdatabase.expense;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -16,6 +17,10 @@ public interface DaoExpense extends DaoBase<Expense> {
     @Query("select * from expense where accountId = :accountId " +
             "and accountDatasourceId = :accountDatasourceId")
     List<Expense> getAccountExpenses(long accountId, long accountDatasourceId);
+
+    @Query("select distinct(details) from expense where accountId = :accountId " +
+            "and accountDatasourceId = :accountDatasourceId")
+    LiveData<List<String>> getDetails(long accountId, long accountDatasourceId);
 
     @Query("select MAX(_id) from expense where datasourceId = :datasourceId")
     long getMaxId  (long datasourceId);

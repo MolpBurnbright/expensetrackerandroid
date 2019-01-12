@@ -71,7 +71,7 @@
         android:text="Description : "
         android:textAlignment="gravity"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/edittext_description"
+        app:layout_constraintEnd_toStartOf="@+id/autocomplete_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -79,7 +79,6 @@
         android:id="@+id/edittext_date"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
         android:ems="10"
         android:gravity="center_vertical"
         android:textAlignment="gravity"
@@ -94,7 +93,6 @@
         android:layout_width="50dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text=">>"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edittext_date"
@@ -104,8 +102,6 @@
         android:id="@+id/spinner_type"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -114,20 +110,17 @@
         android:id="@+id/edittext_amount"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
-    <EditText
-        android:id="@+id/edittext_description"
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_description"
         android:layout_width="0dp"
         android:layout_height="63dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
@@ -154,6 +147,6 @@
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_description"
+        app:layout_constraintTop_toBottomOf="@+id/autocomplete_description"
         app:layout_constraintVertical_bias="0.06999999" />
 </android.support.constraint.ConstraintLayout>

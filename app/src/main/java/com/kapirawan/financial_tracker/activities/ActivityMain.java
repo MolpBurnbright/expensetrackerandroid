@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,16 +23,6 @@ import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.summary.FragmentSummary;
-import com.kapirawan.financial_tracker.testing.AccountTesting;
-import com.kapirawan.financial_tracker.testing.BudgetTesting;
-import com.kapirawan.financial_tracker.testing.CategoryTesting;
-import com.kapirawan.financial_tracker.testing.DatasourceTesting;
-import com.kapirawan.financial_tracker.testing.DefaultDataTesting;
-import com.kapirawan.financial_tracker.testing.ExpenseTesting;
-import com.kapirawan.financial_tracker.testing.FundTesting;
-import com.kapirawan.financial_tracker.testing.SumTesting;
-import com.kapirawan.financial_tracker.testing.UserTesting;
-import com.kapirawan.financial_tracker.testing.ViewModelSummaryTesting;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelAccount;
 
 import java.util.List;
@@ -68,7 +57,7 @@ public class ActivityMain extends AppCompatActivity{
         refresher = new Refresher(this.getApplication());
         appRepository = AppRepository.getInstance(this.getApplication());
         //Testing - including setting up the test data
-//        testing();
+        testing();
 
         //Setup the fragment
         if (findViewById(R.id.framelayout_container) != null){
@@ -141,6 +130,7 @@ public class ActivityMain extends AppCompatActivity{
         //        new DatasourceTesting(appRepository).test(() -> {}));
         //new DefaultDataTesting(appRepository).test(() -> {});
         //new SumTesting(appRepository).test(() ->{});
-        new ViewModelSummaryTesting(this).test(() -> {});
+        //new ViewModelSummaryTesting(this).test(() -> {});
+        //new DetailsTesting(appRepository, this).test(() -> {});
     }
 }
