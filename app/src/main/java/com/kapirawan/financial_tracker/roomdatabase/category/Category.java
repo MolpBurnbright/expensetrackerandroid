@@ -26,4 +26,9 @@ public class Category implements Serializable{
         this.name = name;
         this.updateTimestamp = updateTimestamp;
     }
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }

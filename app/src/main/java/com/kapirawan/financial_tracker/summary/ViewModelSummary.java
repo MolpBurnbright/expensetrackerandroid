@@ -11,8 +11,9 @@ import com.kapirawan.financial_tracker.repository.AppRepository;
 import java.util.List;
 
 public class ViewModelSummary extends AndroidViewModel {
-    AppRepository repo;
-    LiveData<List<Summary>> summary;
+    private AppRepository repo;
+    private LiveData<List<Summary>> summary;
+    private long accountId, accountDatasourceId;
 
     public ViewModelSummary(@NonNull Application app) {
         super(app);
@@ -24,6 +25,8 @@ public class ViewModelSummary extends AndroidViewModel {
             return;
         }
         this.summary = new MutableLiveData<>();
+        this.accountId = accountId;
+        this.accountDatasourceId = this.accountDatasourceId;
         setAccountSummary(accountId, accountDatasourceId);
     }
 
