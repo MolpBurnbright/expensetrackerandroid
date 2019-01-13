@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
+import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,18 +30,22 @@ public class ViewModelAddExpense extends AndroidViewModel {
     }
 
     public void init(long accountId, long accountDatasourceId){
-        if(this.categories != null){
-            return;
-        }
-        this.categories = new MutableLiveData<>();
-        this.accountId = accountId;
-        this.accountDatasourceId = accountDatasourceId;
-        this.selectedCategoryPosition = 0;
-        this.selectedDate = Calendar.getInstance().getTime();
         this.amount = 0;
         this.description = "";
-        setAccount(accountId, accountDatasourceId);
+        if(this.categories == null){
+            this.categories = new MutableLiveData<>();
+            this.accountId = accountId;
+            this.accountDatasourceId = accountDatasourceId;
+            this.selectedCategoryPosition = 0;
+            this.selectedDate = Calendar.getInstance().getTime();
+            setAccount(accountId, accountDatasourceId);
+        }
+    }
 
+    public void addExpense(){
+        Expense expense = new Expense(0, 0, accountId, accountDatasourceId,
+                selectedDate, amount, getSelectedCategory(), description, new Date());
+        repo.createExpense(expense, () -> {});
     }
 
     public LiveData<List<Category>> getCategories() {

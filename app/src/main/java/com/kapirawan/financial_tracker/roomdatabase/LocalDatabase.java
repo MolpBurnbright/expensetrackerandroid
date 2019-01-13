@@ -248,6 +248,15 @@ public class LocalDatabase {
                 .execute(accountId, accountDatasourceId);
     }
 
+    public LiveData<List<Expense>> readAccountExpensesLD (long accountId, long accountDatasourceId){
+        return db.daoExpense().getAccountExpensesLD(accountId, accountDatasourceId);
+    }
+
+    public LiveData<List<Sum>> readAccountSumExpenses(long accountId, long accountDatasourceId){
+        return db.daoExpense().getAccountSumExpenses(accountId, accountDatasourceId);
+    }
+
+
     public void readAllExpenses(CallbackReturnMultipleObjects<Expense> callback){
         new AsyncRetrieveAllExpenses(db.daoExpense(), callback::onTaskCompleted).execute();
     }

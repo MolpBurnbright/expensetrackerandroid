@@ -26,7 +26,7 @@ public class ViewModelSummary extends AndroidViewModel {
         }
         this.summary = new MutableLiveData<>();
         this.accountId = accountId;
-        this.accountDatasourceId = this.accountDatasourceId;
+        this.accountDatasourceId = accountDatasourceId;
         setAccountSummary(accountId, accountDatasourceId);
     }
 

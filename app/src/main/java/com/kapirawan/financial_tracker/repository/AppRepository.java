@@ -172,6 +172,14 @@ public class AppRepository {
         localDb.readAccountExpenses(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 
+    public LiveData<List<Expense>> readAccountExpenseLD(long accountId, long accountDatasourceId){
+        return localDb.readAccountExpensesLD(accountId, accountDatasourceId);
+    }
+
+    public LiveData<List<Sum>> readAccountSumExpenses(long accountId, long accountDatasourceId){
+        return localDb.readAccountSumExpenses(accountId, accountDatasourceId);
+    }
+
     public void readAllExpenses(CallbackReturnMultipleObjects<Expense> callback){
         localDb.readAllExpenses(callback::onTaskCompleted);
     }

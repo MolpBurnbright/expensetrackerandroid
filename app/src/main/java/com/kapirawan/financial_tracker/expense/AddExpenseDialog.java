@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ public class AddExpenseDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_add_expense, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
+        onCreateViewInitAmount(view);
         onCreateViewInitAutocomplete(view);
         onCreateViewInitAddButton(view);
         view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
@@ -93,29 +97,56 @@ public class AddExpenseDialog extends DialogFragment {
         });
     }
 
+    private void onCreateViewInitAmount(View view){
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0){
+                    view.findViewById(R.id.button_add).setEnabled(true);
+                }else
+                    view.findViewById(R.id.button_add).setEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+        ((EditText)view.findViewById(R.id.edittext_amount))
+                .addTextChangedListener(textWatcher);
+    }
+
     private void onCreateViewInitAutocomplete(View view){
         this.viewModel.getDetails().observe(this, details -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
                     android.R.layout.simple_dropdown_item_1line, details);
-            ((AutoCompleteTextView) view.findViewById(R.id.autocomplete_description))
+            ((AutoCompleteTextView) view.findViewById(R.id.autocomplete_details))
                     .setAdapter(adapter);
         });
     }
 
     private void onCreateViewInitAddButton(View view){
-        view.findViewById(R.id.button_add).setOnClickListener(v -> {
+        Button button = view.findViewById(R.id.button_add);
+        button.setOnClickListener(v -> {
             try {
                 double amount = Double.parseDouble(
                         ((EditText) view.findViewById(R.id.edittext_amount)).getText().toString());
                 String description = ((AutoCompleteTextView)
-                        view.findViewById(R.id.autocomplete_description)).getText().toString();
+                        view.findViewById(R.id.autocomplete_details)).getText().toString();
                 viewModel.setAmount(amount);
                 viewModel.setDescription(description);
+                viewModel.addExpense();
                 getDialog().dismiss();
             } catch (NumberFormatException e) {
                 showError("Amount is invalid, kindly check.");
             }
         });
+        button.setEnabled(false);
     }
 
     @Override

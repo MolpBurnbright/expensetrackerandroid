@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.adapter.AccountAdapter;
 import com.kapirawan.financial_tracker.expense.AddExpenseDialog;
+import com.kapirawan.financial_tracker.expense.ExpenseListFragment;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.helper.Refresher;
 import com.kapirawan.financial_tracker.repository.AppRepository;
@@ -63,7 +64,8 @@ public class ActivityMain extends AppCompatActivity{
         if (findViewById(R.id.framelayout_container) != null){
             if(savedInstanceState != null)
                 return;
-            FragmentSummary fragment = new FragmentSummary();
+//            FragmentSummary fragment = new FragmentSummary();
+            ExpenseListFragment fragment = new ExpenseListFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.framelayout_container, fragment).commit();
         }
