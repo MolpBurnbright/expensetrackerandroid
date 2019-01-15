@@ -83,7 +83,7 @@
         android:gravity="center_vertical"
         android:textAlignment="gravity"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textStyle="normal|bold"
+        android:textStyle="normal"
         app:layout_constraintEnd_toStartOf="@+id/button_datepicker"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4" />

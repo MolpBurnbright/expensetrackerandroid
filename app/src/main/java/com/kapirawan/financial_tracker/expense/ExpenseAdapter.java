@@ -27,6 +27,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             textViewDetails = itemView.findViewById(R.id.textView_details);
             textViewDate = itemView.findViewById(R.id.textView_date);
             textViewAmount = itemView.findViewById(R.id.textView_amount);
+            itemView.setOnLongClickListener(view -> itemView.showContextMenu());
         }
     }
 
