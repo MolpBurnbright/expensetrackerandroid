@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +25,20 @@ import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class AddExpenseDialog extends DialogFragment {
+public class EditExpenseDialog extends DialogFragment {
 
-    AddExpenseDialogViewModel viewModel;
+    EditExpenseDialogViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddExpenseDialogViewModel.class);
-        this.viewModel.init(1, 0);
-        View view = inflater.inflate(R.layout.dialog_add_expense, container, false);
+        this.viewModel = ViewModelProviders.of(this.getActivity()).get(EditExpenseDialogViewModel.class);
+        View view = inflater.inflate(R.layout.dialog_edit_expense, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);
@@ -79,21 +81,37 @@ public class AddExpenseDialog extends DialogFragment {
     private void onCreateViewInitType(View view){
         //Initialize the Type spinner
         this.viewModel.getCategories().observe(this, categories -> {
-            ArrayAdapter<Category> adapter = new ArrayAdapter<>(this.getActivity(),
-                    android.R.layout.simple_spinner_item, categories);
+            List<String> selectionList = new ArrayList<>();
+            for(Category cat: categories){
+                selectionList.add(cat.name);
+            }
+            int categoryPostion = -1;
+            String expenseCategory = this.viewModel.getCategory();
+            for(int i=0; i < selectionList.size(); i++){
+                if(expenseCategory.equals(selectionList.get(i))){
+                    categoryPostion = i;
+                    break;
+                }
+            }
+            //If expense category does not exist in the current categories, then add it in the
+            //selection list.
+            if(categoryPostion == -1)
+                selectionList.add(expenseCategory);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
+                    android.R.layout.simple_spinner_item, selectionList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             Spinner spinner = view.findViewById(R.id.spinner_type);
             spinner.setAdapter(adapter);
+            spinner.setSelection(categoryPostion);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    viewModel.setSelectedCategoryPosition(i);
+                    viewModel.setCategory(adapterView.getSelectedItem().toString());
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) { }
             });
-            spinner.setSelection(viewModel.getSelectedCategoryPosition());
         });
     }
 
@@ -117,16 +135,18 @@ public class AddExpenseDialog extends DialogFragment {
 
             }
         };
-        ((EditText)view.findViewById(R.id.edittext_amount))
-                .addTextChangedListener(textWatcher);
+        EditText editText = view.findViewById(R.id.edittext_amount);
+        editText.setText(String.valueOf(viewModel.getAmount()));
+        editText.addTextChangedListener(textWatcher);
     }
 
     private void onCreateViewInitAutocomplete(View view){
         this.viewModel.getDetails().observe(this, details -> {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
                     android.R.layout.simple_dropdown_item_1line, details);
-            ((AutoCompleteTextView) view.findViewById(R.id.autocomplete_details))
-                    .setAdapter(adapter);
+            AutoCompleteTextView textView = view.findViewById(R.id.autocomplete_details);
+            textView.setAdapter(adapter);
+            textView.setText(viewModel.getDescription());
         });
     }
 
@@ -140,13 +160,12 @@ public class AddExpenseDialog extends DialogFragment {
                         view.findViewById(R.id.autocomplete_details)).getText().toString();
                 viewModel.setAmount(amount);
                 viewModel.setDescription(description);
-                viewModel.addExpense();
+                viewModel.updateExpense();
                 getDialog().dismiss();
             } catch (NumberFormatException e) {
                 showError("Amount is invalid, kindly check.");
             }
         });
-        button.setEnabled(false);
     }
 
     @Override

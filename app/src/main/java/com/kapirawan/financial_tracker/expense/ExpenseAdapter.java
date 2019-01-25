@@ -21,13 +21,13 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         private final TextView textViewDate;
         private final TextView textViewAmount;
 
-        private ExpenseViewHolder(View itemView){
-            super(itemView);
+        private ExpenseViewHolder(View v){
+            super(v);
             textViewCategory = itemView.findViewById(R.id.textView_category);
             textViewDetails = itemView.findViewById(R.id.textView_details);
             textViewDate = itemView.findViewById(R.id.textView_date);
             textViewAmount = itemView.findViewById(R.id.textView_amount);
-            itemView.setOnLongClickListener(view -> itemView.showContextMenu());
+            itemView.setOnClickListener(view -> view.showContextMenu());
         }
     }
 

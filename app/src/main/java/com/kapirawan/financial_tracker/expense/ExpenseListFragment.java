@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.common.ContextMenuRecyclerView;
+import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
 public class ExpenseListFragment extends Fragment {
     ExpenseListViewModel viewModel;
@@ -49,6 +51,16 @@ public class ExpenseListFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item){
         ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                 (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
+        Expense expense = viewModel.getExpenses().getValue().get(info.position);
+        switch(item.getItemId()){
+            case R.id.edit:
+                ViewModelProviders.of(this.getActivity())
+                        .get(EditExpenseDialogViewModel.class).init(expense);
+                new EditExpenseDialog().show(this.getFragmentManager(), "Update Expense Dialog");
+            case R.id.remove:
+                Log.i("Debug", "Remove item selected");
+
+        }
         return super.onContextItemSelected(item);
     }
 }

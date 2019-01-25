@@ -14,38 +14,39 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ViewModelAddExpense extends AndroidViewModel {
+public class EditExpenseDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private long _id, datasourceId;
     private long accountId, accountDatasourceId;
-    private LiveData<List<Category>> categories;
-    private LiveData<List<String>> details;
     private Date selectedDate;
-    private int selectedCategoryPosition;
+    private String category;
     private double amount;
     private String description;
+    private LiveData<List<Category>> categories;
+    private LiveData<List<String>> details;
+    private int selectedCategoryPosition;
 
-    public ViewModelAddExpense(@NonNull Application app) {
+    public EditExpenseDialogViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(long accountId, long accountDatasourceId){
-        this.amount = 0;
-        this.description = "";
-        if(this.categories == null){
-            this.categories = new MutableLiveData<>();
-            this.accountId = accountId;
-            this.accountDatasourceId = accountDatasourceId;
-            this.selectedCategoryPosition = 0;
-            this.selectedDate = Calendar.getInstance().getTime();
-            setAccount(accountId, accountDatasourceId);
-        }
+    public void init(Expense expense){
+        this._id = expense._id;
+        this.datasourceId = expense.datasourceId;
+        this.accountId = expense.accountId;
+        this.accountDatasourceId = expense.accountDatasourceId;
+        this.selectedDate = expense.date;
+        this.amount = expense.amount;
+        this.category = expense.type;
+        this.description = expense.details;
+        setAccount(accountId, accountDatasourceId);
     }
 
-    public void addExpense(){
-        Expense expense = new Expense(0, 0, accountId, accountDatasourceId,
-                selectedDate, amount, getSelectedCategory(), description, new Date());
-        repo.createExpense(expense, () -> {});
+    public void updateExpense(){
+        Expense expense = new Expense(_id, datasourceId, accountId, accountDatasourceId,
+                selectedDate, amount, category, description, new Date());
+        repo.updateExpense(expense, () -> {});
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -61,6 +62,8 @@ public class ViewModelAddExpense extends AndroidViewModel {
     }
 
     public void setAccount(long accountId, long accountDatasourceId){
+        if(this.categories == null)
+            this.categories = new MutableLiveData<>();
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
         repo.readAccountCategory(accountId, accountDatasourceId, categs -> {
@@ -79,6 +82,14 @@ public class ViewModelAddExpense extends AndroidViewModel {
 
     public LiveData<List<String>> getDetails(){
         return this.details;
+    }
+
+    public String getCategory(){
+        return this.category;
+    }
+
+    public void setCategory(String category){
+        this.category = category;
     }
 
     public String getDescription(){
