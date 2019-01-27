@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class EditExpenseDialog extends DialogFragment {
     private void onCreateViewInitDate(View view){
         view.findViewById(R.id.button_datepicker).setOnClickListener(v -> {
             final Calendar cal = Calendar.getInstance();
-            cal.setTime(this.viewModel.getSelectedDate());
+            cal.setTime(this.viewModel.getDate());
             int year = cal.get(Calendar.YEAR);
             int month = cal.get(Calendar.MONTH);
             int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -58,44 +57,43 @@ public class EditExpenseDialog extends DialogFragment {
             DatePickerDialog.OnDateSetListener listener = (picker, pYear, pMonth, pDay) -> {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
                 try {
-                    viewModel.setSelectedDate(dateFormat.parse(String.valueOf(pYear)
+                    viewModel.setDate(dateFormat.parse(String.valueOf(pYear)
                             + String.format("%02d", pMonth + 1) + String.format("%02d", pDay)));
                 }catch (Exception e){
                     //if there is an exception in formatting the date, then
                     // set the selected date to the current date
-                    viewModel.setSelectedDate(Calendar.getInstance().getTime());
+                    viewModel.setDate(Calendar.getInstance().getTime());
                 }
-                ((TextView) getDialog().findViewById(R.id.edittext_date))
+                ((TextView) getDialog().findViewById(R.id.textview_date))
                         .setText(new SimpleDateFormat("dd-MMM-yy")
-                                .format(viewModel.getSelectedDate()));
+                                .format(viewModel.getDate()));
             };
             //show the Date Picker
             new DatePickerDialog(this.getActivity(), listener, year, month, day).show();
         });
-        ((TextView) view.findViewById(R.id.edittext_date))
+        ((TextView) view.findViewById(R.id.textview_date))
                 .setText(new SimpleDateFormat("dd-MMM-yyyy")
-                        .format(this.viewModel.getSelectedDate()));
+                        .format(this.viewModel.getDate()));
     }
 
     private void onCreateViewInitType(View view){
         //Initialize the Type spinner
         this.viewModel.getCategories().observe(this, categories -> {
             List<String> selectionList = new ArrayList<>();
-            for(Category cat: categories){
-                selectionList.add(cat.name);
-            }
-            int categoryPostion = -1;
             String expenseCategory = this.viewModel.getCategory();
-            for(int i=0; i < selectionList.size(); i++){
-                if(expenseCategory.equals(selectionList.get(i))){
+            int categoryPostion = -1;
+            for(int i=0; i < categories.size(); i++){
+                selectionList.add(categories.get(i).name);
+                if(expenseCategory.equals(categories.get(i).name)){
                     categoryPostion = i;
-                    break;
                 }
             }
             //If expense category does not exist in the current categories, then add it in the
             //selection list.
-            if(categoryPostion == -1)
+            if(categoryPostion == -1){
+                categoryPostion = selectionList.size();
                 selectionList.add(expenseCategory);
+            }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
                     android.R.layout.simple_spinner_item, selectionList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -160,6 +158,7 @@ public class EditExpenseDialog extends DialogFragment {
                 viewModel.setAmount(amount);
                 viewModel.setDescription(description);
                 viewModel.updateExpense();
+                getDialog().dismiss();
             } catch (NumberFormatException e) {
                 showError("Amount is invalid, kindly check.");
             }

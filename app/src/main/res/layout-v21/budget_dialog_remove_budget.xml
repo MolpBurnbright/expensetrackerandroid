@@ -14,7 +14,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Update Expense"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Are you sure you want to remove this budget?"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +87,7 @@
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textStyle="normal"
         app:layout_constraintEnd_toStartOf="@+id/button_datepicker"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -93,36 +96,42 @@
         android:layout_width="50dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
+        android:enabled="false"
         android:text=">>"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textview_date"
+        app:layout_constraintStart_toEndOf="@+id/edittext_date"
         app:layout_constraintTop_toTopOf="@+id/textview_date" />
 
-    <Spinner
-        android:id="@+id/spinner_type"
+    <TextView
+        android:id="@+id/textview_type"
         android:layout_width="0dp"
         android:layout_height="42dp"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
-    <EditText
-        android:id="@+id/edittext_amount"
+    <TextView
+        android:id="@+id/textview_amount"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:gravity="center_vertical"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
-    <AutoCompleteTextView
-        android:id="@+id/autocomplete_details"
+    <TextView
+        android:id="@+id/textview_details"
         android:layout_width="0dp"
         android:layout_height="63dp"
         android:ems="10"
-        android:inputType="textMultiLine"
+        android:gravity="top|center_vertical"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView7"
@@ -145,9 +154,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="13dp"
         android:clickable="true"
-        android:text="Update"
+        android:text="Remove"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autocomplete_details"
+        app:layout_constraintTop_toBottomOf="@+id/textview_details"
         app:layout_constraintVertical_bias="0.06999999" />
 </android.support.constraint.ConstraintLayout>

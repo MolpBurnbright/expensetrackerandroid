@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.expense;
+package com.kapirawan.financial_tracker.budget;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -8,34 +8,34 @@ import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
-import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 
 import java.util.Date;
 import java.util.List;
 
-public class EditExpenseDialogViewModel extends AndroidViewModel {
+public class EditBudgetDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
-    private Expense expense;
+    private Budget budget;
     private LiveData<List<Category>> categories;
     private LiveData<List<String>> details;
 
-    public EditExpenseDialogViewModel(@NonNull Application app) {
+    public EditBudgetDialogViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(Expense expense){
-        this.expense = expense;
+    public void init(Budget budget){
+        this.budget = budget;
         if(this.categories == null)
             this.categories = new MutableLiveData<>();
-        repo.readAccountCategory(expense.accountId, expense.accountDatasourceId, categs -> {
+        repo.readAccountCategory(budget.accountId, budget.accountDatasourceId, categs -> {
             ((MutableLiveData<List<Category>>)this.categories).setValue(categs);
         });
-        this.details = repo.getDetails(expense.accountId, expense.accountDatasourceId);
+        this.details = repo.getDetails(budget.accountId, budget.accountDatasourceId);
     }
 
-    public void updateExpense(){
-        repo.updateExpense(this.expense, () -> {});
+    public void updateBudget(){
+        repo.updateBudget(this.budget, () -> {});
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -43,11 +43,11 @@ public class EditExpenseDialogViewModel extends AndroidViewModel {
     }
 
     public double getAmount(){
-        return this.expense.amount;
+        return this.budget.amount;
     }
 
     public void setAmount(double amount){
-        this.expense.amount = amount;
+        this.budget.amount = amount;
     }
 
     public LiveData<List<String>> getDetails(){
@@ -55,26 +55,26 @@ public class EditExpenseDialogViewModel extends AndroidViewModel {
     }
 
     public String getCategory(){
-        return this.expense.type;
+        return this.budget.type;
     }
 
     public void setCategory(String category){
-        this.expense.type = category;
+        this.budget.type = category;
     }
 
     public String getDescription(){
-        return this.expense.details;
+        return this.budget.details;
     }
 
     public void setDescription(String description){
-        this.expense.details = description;
+        this.budget.details = description;
     }
 
     public Date getDate(){
-        return this.expense.date;
+        return this.budget.date;
     }
 
     public void setDate(Date date){
-        this.expense.date = date;
+        this.budget.date = date;
     }
 }

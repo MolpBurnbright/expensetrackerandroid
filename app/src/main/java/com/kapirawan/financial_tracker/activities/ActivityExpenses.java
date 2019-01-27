@@ -11,9 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.expense.ExpenseAdapter;
+import com.kapirawan.financial_tracker.expense.ExpenseListAdapter;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 import com.kapirawan.financial_tracker.viewmodel.ViewModelExpense;
 
 public class ActivityExpenses extends AppCompatActivity {
@@ -50,7 +49,7 @@ public class ActivityExpenses extends AppCompatActivity {
     private void onCreateSetupExpenseRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.recyclerview_expenses_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final ExpenseAdapter adapter = new ExpenseAdapter();
+        final ExpenseListAdapter adapter = new ExpenseListAdapter();
         recyclerView.setAdapter(adapter);
         //Setup the ViewModel for Expenses RecyclerView
         viewModelExpense = ViewModelProviders.of(this).get(ViewModelExpense.class);

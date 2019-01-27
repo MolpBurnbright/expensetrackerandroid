@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.expense;
+package com.kapirawan.financial_tracker.budget;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,16 +15,16 @@ import com.kapirawan.financial_tracker.R;
 
 import java.text.SimpleDateFormat;
 
-public class RemoveExpenseDialog extends DialogFragment {
+public class RemoveBudgetDialog extends DialogFragment {
 
-    RemoveExpenseDialogViewModel viewModel;
+    RemoveBudgetDialogViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        this.viewModel = ViewModelProviders.of(this.getActivity()).get(RemoveExpenseDialogViewModel.class);
-        View view = inflater.inflate(R.layout.dialog_remove_expense, container, false);
+        this.viewModel = ViewModelProviders.of(this.getActivity()).get(RemoveBudgetDialogViewModel.class);
+        View view = inflater.inflate(R.layout.budget_dialog_remove_budget, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);
@@ -57,7 +57,7 @@ public class RemoveExpenseDialog extends DialogFragment {
     private void onCreateViewInitRemoveButton(View view){
         Button button = view.findViewById(R.id.button_remove);
         button.setOnClickListener(v -> {
-            viewModel.removeExpense();
+            viewModel.removeBudget();
             getDialog().dismiss();
         });
     }

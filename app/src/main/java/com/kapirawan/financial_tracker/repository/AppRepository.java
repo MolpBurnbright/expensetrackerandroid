@@ -216,6 +216,10 @@ public class AppRepository {
         localDb.readAccountBudgets(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 
+    public LiveData<List<Budget>> readAccountBudgetsLD(long accountId, long accountDatasourceId){
+        return localDb.readAccountBudgetsLD(accountId, accountDatasourceId);
+    }
+
     public void readAllBudgets(CallbackReturnMultipleObjects<Budget> callback){
         localDb.readAllBudgets(callback::onTaskCompleted);
     }

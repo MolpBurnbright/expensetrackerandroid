@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.expense;
+package com.kapirawan.financial_tracker.budget;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -26,17 +26,17 @@ import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AddExpenseDialog extends DialogFragment {
+public class AddBudgetDialog extends DialogFragment {
 
-    AddExpenseDialogViewModel viewModel;
+    AddBudgetDialogViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddExpenseDialogViewModel.class);
+        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddBudgetDialogViewModel.class);
         this.viewModel.init(1, 0);
-        View view = inflater.inflate(R.layout.dialog_add_expense, container, false);
+        View view = inflater.inflate(R.layout.budget_dialog_add_budget, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);
@@ -140,7 +140,7 @@ public class AddExpenseDialog extends DialogFragment {
                         view.findViewById(R.id.autocomplete_details)).getText().toString();
                 viewModel.setAmount(amount);
                 viewModel.setDescription(description);
-                viewModel.addExpense();
+                viewModel.addBudget();
                 getDialog().dismiss();
             } catch (NumberFormatException e) {
                 showError("Amount is invalid, kindly check.");

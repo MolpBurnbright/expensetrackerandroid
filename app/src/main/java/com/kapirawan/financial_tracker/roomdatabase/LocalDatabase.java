@@ -305,6 +305,10 @@ public class LocalDatabase {
                 .execute(accountId, accountDatasourceId);
     }
 
+    public LiveData<List<Budget>> readAccountBudgetsLD (long accountId, long accountDatasourceId){
+        return db.daoBudget().getAccountBudgetsLD(accountId, accountDatasourceId);
+    }
+
     public void readAllBudgets(CallbackReturnMultipleObjects<Budget> callback){
         new AsyncRetrieveAllBudgets(db.daoBudget(), callback::onTaskCompleted).execute();
     }

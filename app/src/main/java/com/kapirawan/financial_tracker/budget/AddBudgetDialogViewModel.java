@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.expense;
+package com.kapirawan.financial_tracker.budget;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -8,13 +8,13 @@ import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
-import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AddExpenseDialogViewModel extends AndroidViewModel {
+public class AddBudgetDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
     private long accountId, accountDatasourceId;
     private Date selectedDate;
@@ -24,7 +24,7 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
     private LiveData<List<String>> details;
     private int selectedCategoryPosition;
 
-    public AddExpenseDialogViewModel(@NonNull Application app) {
+    public AddBudgetDialogViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
@@ -41,10 +41,10 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
         setAccount(accountId, accountDatasourceId);
     }
 
-    public void addExpense(){
-        Expense expense = new Expense(0, 0, accountId, accountDatasourceId,
+    public void addBudget(){
+        Budget budget = new Budget(0, 0, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedCategory(), description, new Date());
-        repo.createExpense(expense, () -> {});
+        repo.createBudget(budget, () -> {});
     }
 
     public LiveData<List<Category>> getCategories() {

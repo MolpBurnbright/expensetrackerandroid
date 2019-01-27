@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>{
+public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>{
 
     class ExpenseViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewCategory;
@@ -33,18 +33,18 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     private List<Expense> expenses;
 
-    public ExpenseAdapter() {
+    public ExpenseListAdapter() {
     }
 
     @Override
-    public ExpenseAdapter.ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ExpenseListAdapter.ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item_expense, parent, false);
         return new ExpenseViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ExpenseAdapter.ExpenseViewHolder holder, int position){
+    public void onBindViewHolder(ExpenseListAdapter.ExpenseViewHolder holder, int position){
         if(expenses != null){
             final Expense expense = expenses.get(position);
             holder.textViewCategory.setText(expense.type);
@@ -69,9 +69,5 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             return expenses.size();
         else
             return 0;
-    }
-
-    public interface OnItemClickListener{
-        void onItemClick(Expense expense);
     }
 }

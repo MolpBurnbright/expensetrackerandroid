@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.expense;
+package com.kapirawan.financial_tracker.budget;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -15,24 +15,24 @@ import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.common.ContextMenuRecyclerView;
-import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 
-public class ExpenseListFragment extends Fragment {
-    ExpenseListFragmentViewModel viewModel;
+public class BudgetListFragment extends Fragment {
+    BudgetListFragmentViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_expenselist,container, false);
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_expenses_list);
+        View rootView = inflater.inflate(R.layout.budget_fragment,container, false);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_budget_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
-        ExpenseListAdapter adapter = new ExpenseListAdapter();
+        BudgetListAdapter adapter = new BudgetListAdapter();
         recyclerView.setAdapter(adapter);
-        viewModel = ViewModelProviders.of(this).get(ExpenseListFragmentViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(BudgetListFragmentViewModel.class);
         viewModel.init(1, 0);
-        viewModel.getExpenses().observe(this, expenses  ->
-                adapter.setExpenses(expenses)
+        viewModel.getBudgets().observe(this, budgets  ->
+                adapter.setBudgets(budgets)
         );
         viewModel.getAccount().observe(this, account ->
                 ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
@@ -50,19 +50,19 @@ public class ExpenseListFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item){
         ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                 (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-        Expense expense = viewModel.getExpenses().getValue().get(info.position);
+        Budget budget = viewModel.getBudgets().getValue().get(info.position);
         switch(item.getItemId()){
             case R.id.edit:
                 ViewModelProviders.of(this.getActivity())
-                        .get(EditExpenseDialogViewModel.class).init(expense);
-                new EditExpenseDialog().show(this.getFragmentManager(),
-                        "Update Expense Dialog");
+                        .get(EditBudgetDialogViewModel.class).init(budget);
+                new EditBudgetDialog().show(this.getFragmentManager(),
+                        "Update Budget Dialog");
                 break;
             case R.id.remove:
                 ViewModelProviders.of(this.getActivity())
-                        .get(RemoveExpenseDialogViewModel.class).init(expense);
-                new RemoveExpenseDialog().show(this.getFragmentManager(),
-                        "Update Expense Dialog");
+                        .get(RemoveBudgetDialogViewModel.class).init(budget);
+                new RemoveBudgetDialog().show(this.getFragmentManager(),
+                        "Update Budget Dialog");
                 break;
         }
         return super.onContextItemSelected(item);
