@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,7 @@ public class EditExpenseDialog extends DialogFragment {
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);
         onCreateViewInitAutocomplete(view);
-        onCreateViewInitAddButton(view);
+        onCreateViewInitEditButton(view);
         view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         return view;
     }
@@ -125,9 +124,9 @@ public class EditExpenseDialog extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0){
-                    view.findViewById(R.id.button_update).setEnabled(true);
+                    view.findViewById(R.id.button_remove).setEnabled(true);
                 }else
-                    view.findViewById(R.id.button_update).setEnabled(false);
+                    view.findViewById(R.id.button_remove).setEnabled(false);
             }
 
             @Override
@@ -150,8 +149,8 @@ public class EditExpenseDialog extends DialogFragment {
         });
     }
 
-    private void onCreateViewInitAddButton(View view){
-        Button button = view.findViewById(R.id.button_update);
+    private void onCreateViewInitEditButton(View view){
+        Button button = view.findViewById(R.id.button_remove);
         button.setOnClickListener(v -> {
             try {
                 double amount = Double.parseDouble(
@@ -161,7 +160,6 @@ public class EditExpenseDialog extends DialogFragment {
                 viewModel.setAmount(amount);
                 viewModel.setDescription(description);
                 viewModel.updateExpense();
-                getDialog().dismiss();
             } catch (NumberFormatException e) {
                 showError("Amount is invalid, kindly check.");
             }

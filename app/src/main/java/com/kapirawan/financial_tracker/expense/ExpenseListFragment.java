@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -56,10 +55,15 @@ public class ExpenseListFragment extends Fragment {
             case R.id.edit:
                 ViewModelProviders.of(this.getActivity())
                         .get(EditExpenseDialogViewModel.class).init(expense);
-                new EditExpenseDialog().show(this.getFragmentManager(), "Update Expense Dialog");
+                new EditExpenseDialog().show(this.getFragmentManager(),
+                        "Update Expense Dialog");
+                break;
             case R.id.remove:
-                Log.i("Debug", "Remove item selected");
-
+                ViewModelProviders.of(this.getActivity())
+                        .get(RemoveExpenseDialogViewModel.class).init(expense);
+                new RemoveExpenseDialog().show(this.getFragmentManager(),
+                        "Update Expense Dialog");
+                break;
         }
         return super.onContextItemSelected(item);
     }
