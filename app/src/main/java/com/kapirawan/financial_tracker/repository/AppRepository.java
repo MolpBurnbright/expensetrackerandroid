@@ -256,6 +256,10 @@ public class AppRepository {
         localDb.readAccountFunds(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 
+    public LiveData<List<Fund>> readAccountFundsLD(long accountId, long accountDatasourceId){
+        return localDb.readAccountFundsLD(accountId, accountDatasourceId);
+    }
+
     public void readAllFunds(CallbackReturnMultipleObjects<Fund> callback){
         localDb.readAllFunds(callback::onTaskCompleted);
     }

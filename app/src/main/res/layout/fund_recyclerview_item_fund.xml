@@ -12,7 +12,7 @@
         android:id="@+id/textView_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fare"
+        android:text="Salary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Bus Fare"
+        android:text="Salary for January"
         app:layout_constraintEnd_toStartOf="@+id/textView_amount"
         app:layout_constraintStart_toStartOf="@+id/textView_source"
         app:layout_constraintTop_toBottomOf="@+id/textView_source" />

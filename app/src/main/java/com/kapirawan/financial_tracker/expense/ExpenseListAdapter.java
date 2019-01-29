@@ -23,7 +23,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
         private ExpenseViewHolder(View v){
             super(v);
-            textViewCategory = itemView.findViewById(R.id.textView_category);
+            textViewCategory = itemView.findViewById(R.id.textView_source);
             textViewDetails = itemView.findViewById(R.id.textView_details);
             textViewDate = itemView.findViewById(R.id.textView_date);
             textViewAmount = itemView.findViewById(R.id.textView_amount);

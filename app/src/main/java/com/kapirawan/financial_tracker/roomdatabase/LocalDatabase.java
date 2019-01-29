@@ -357,6 +357,10 @@ public class LocalDatabase {
                 .execute(accountId, accountDatasourceId);
     }
 
+    public LiveData<List<Fund>> readAccountFundsLD (long accountId, long accountDatasourceId){
+        return db.daoFund().getAccountFundsLD(accountId, accountDatasourceId);
+    }
+
     public void readAllFunds(CallbackReturnMultipleObjects<Fund> callback){
         new AsyncRetrieveAllFunds(db.daoFund(), callback::onTaskCompleted).execute();
     }

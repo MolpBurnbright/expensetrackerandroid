@@ -18,6 +18,8 @@ import android.view.MenuItem;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.adapter.AccountAdapter;
+import com.kapirawan.financial_tracker.budget.AddBudgetDialog;
+import com.kapirawan.financial_tracker.budget.BudgetListFragment;
 import com.kapirawan.financial_tracker.expense.AddExpenseDialog;
 import com.kapirawan.financial_tracker.expense.ExpenseListFragment;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
@@ -115,6 +117,15 @@ public class ActivityMain extends AppCompatActivity{
             case R.id.action_add_expense:
                 new AddExpenseDialog().show(getSupportFragmentManager(), "Add Expense Dialog");
                 break;
+            case R.id.action_show_budget_list:
+                BudgetListFragment fragment = new BudgetListFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.framelayout_container, fragment).commit();
+                break;
+            case R.id.action_add_budget:
+                new AddBudgetDialog().show(getSupportFragmentManager(), "Add Budget Dialog");
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }

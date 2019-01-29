@@ -1,5 +1,6 @@
 package com.kapirawan.financial_tracker.roomdatabase.fund;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -16,6 +17,11 @@ public interface DaoFund extends DaoBase<Fund> {
     @Query("select * from fund where accountId = :accountId " +
             "and accountDatasourceId = :accountDatasourceId")
     List<Fund> getAccountFunds(long accountId, long accountDatasourceId);
+
+    @Query("select * from fund where accountId = :accountId " +
+            "and accountDatasourceId = :accountDatasourceId " +
+            "order by date desc")
+    LiveData<List<Fund>> getAccountFundsLD (long accountId, long accountDatasourceId);
 
     @Query("select MAX(_id) from fund where datasourceId = :datasourceId")
     long getMaxId  (long datasourceId);
