@@ -2,7 +2,7 @@ package com.kapirawan.financial_tracker.testing;
 
 import android.util.Log;
 
-import com.kapirawan.financial_tracker.summary.Summary;
+import com.kapirawan.financial_tracker.ui.summary.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;

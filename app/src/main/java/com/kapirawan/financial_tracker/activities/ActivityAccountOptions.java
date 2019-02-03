@@ -22,7 +22,7 @@ public class ActivityAccountOptions extends AppCompatActivity {
 
     public void expenseOptionSelected(View v){
         Log.i("ActivityAccountOptions", "Expenses was selected");
-        Intent intent = new Intent(getApplicationContext(), ActivityExpenses.class);
+        Intent intent = new Intent(getApplicationContext(), ActivityAccountOptions.class);
         intent.putExtra("Account", account);
         startActivity(intent);
     }
