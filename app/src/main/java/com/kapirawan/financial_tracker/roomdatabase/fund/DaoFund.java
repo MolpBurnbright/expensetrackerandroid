@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
 import com.kapirawan.financial_tracker.roomdatabase.DaoBase;
+import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 
 import java.util.List;
 
@@ -22,6 +23,11 @@ public interface DaoFund extends DaoBase<Fund> {
             "and accountDatasourceId = :accountDatasourceId " +
             "order by date desc")
     LiveData<List<Fund>> getAccountFundsLD (long accountId, long accountDatasourceId);
+
+    @Query("select type as name, sum(amount) as amount from fund " +
+            "where accountId = :accountId and accountDatasourceId = :accountDatasourceId " +
+            "group by type")
+    LiveData<List<Sum>> getAccountSumFunds(long accountId, long accountDatasourceId);
 
     @Query("select MAX(_id) from fund where datasourceId = :datasourceId")
     long getMaxId  (long datasourceId);

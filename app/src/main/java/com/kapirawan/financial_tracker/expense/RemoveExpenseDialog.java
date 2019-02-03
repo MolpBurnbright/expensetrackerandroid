@@ -24,7 +24,7 @@ public class RemoveExpenseDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         this.viewModel = ViewModelProviders.of(this.getActivity()).get(RemoveExpenseDialogViewModel.class);
-        View view = inflater.inflate(R.layout.dialog_remove_expense, container, false);
+        View view = inflater.inflate(R.layout.expense_dialog_remove_expense, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);

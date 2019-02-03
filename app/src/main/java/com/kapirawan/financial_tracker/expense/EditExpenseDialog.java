@@ -36,7 +36,7 @@ public class EditExpenseDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         this.viewModel = ViewModelProviders.of(this.getActivity()).get(EditExpenseDialogViewModel.class);
-        View view = inflater.inflate(R.layout.dialog_edit_expense, container, false);
+        View view = inflater.inflate(R.layout.expense_dialog_edit_expense, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);

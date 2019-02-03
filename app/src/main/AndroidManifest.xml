@@ -26,10 +26,6 @@
             android:name=".activities.ActivitySettings"
             android:label="@string/title_activity_settings" />
         <activity android:name=".activities.ActivityAccountOptions" />
-        <activity
-            android:name=".activities.ActivityExpenses"
-            android:label="@string/title_activity_expenses"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

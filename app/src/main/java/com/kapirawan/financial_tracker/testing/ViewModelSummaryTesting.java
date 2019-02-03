@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.util.Log;
 
-import com.kapirawan.financial_tracker.summary.ViewModelSummary;
+import com.kapirawan.financial_tracker.summary.FragmentSummaryViewModel;
 import com.kapirawan.financial_tracker.summary.Summary;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
@@ -101,23 +101,6 @@ public class ViewModelSummaryTesting {
         };
         repo.createMultipleBudgets(new ArrayList<> (Arrays.asList(budgets)), () -> {
             Log.i(label, "Budgets inserted successfully");
-            getSummary();
-        });
-    }
-
-    private void getSummary(){
-        Log.i(label, "Getting summary for Expense and Budget from ViewModelSummary");
-        ViewModelSummary viewModelSummary =
-                ViewModelProviders.of(this.activity).get(ViewModelSummary.class);
-        viewModelSummary.init(1, 0);
-        viewModelSummary.getSummary().observe(this.activity, summaries -> {
-            Log.i(label, "Printing summary for Expense and Budget");
-            for(Summary summary : summaries){
-                Log.i(label, "name: " + summary.name);
-                Log.i(label, "total expense: " + summary.totalExpense);
-                Log.i(label, "total budget: " + summary.totalBudget);
-                Log.i(label, "remaining budget: " + (summary.totalBudget - summary.totalExpense));
-            }
             testCompleted();
         });
     }

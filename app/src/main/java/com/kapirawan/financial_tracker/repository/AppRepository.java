@@ -220,6 +220,10 @@ public class AppRepository {
         return localDb.readAccountBudgetsLD(accountId, accountDatasourceId);
     }
 
+    public LiveData<List<Sum>> readAccountSumBudgets(long accountId, long accountDatasourceId){
+        return localDb.readAccountSumBudgets(accountId, accountDatasourceId);
+    }
+
     public void readAllBudgets(CallbackReturnMultipleObjects<Budget> callback){
         localDb.readAllBudgets(callback::onTaskCompleted);
     }
@@ -258,6 +262,10 @@ public class AppRepository {
 
     public LiveData<List<Fund>> readAccountFundsLD(long accountId, long accountDatasourceId){
         return localDb.readAccountFundsLD(accountId, accountDatasourceId);
+    }
+
+    public LiveData<List<Sum>> readAccountSumFunds(long accountId, long accountDatasourceId){
+        return localDb.readAccountSumFunds(accountId, accountDatasourceId);
     }
 
     public void readAllFunds(CallbackReturnMultipleObjects<Fund> callback){

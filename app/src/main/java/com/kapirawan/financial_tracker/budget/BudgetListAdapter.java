@@ -23,7 +23,7 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
 
         private BudgetViewHolder(View v){
             super(v);
-            textViewCategory = itemView.findViewById(R.id.textView_source);
+            textViewCategory = itemView.findViewById(R.id.textView_type);
             textViewDetails = itemView.findViewById(R.id.textView_details);
             textViewDate = itemView.findViewById(R.id.textView_date);
             textViewAmount = itemView.findViewById(R.id.textView_amount);

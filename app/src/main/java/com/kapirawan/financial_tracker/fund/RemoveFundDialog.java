@@ -41,7 +41,7 @@ public class RemoveFundDialog extends DialogFragment {
     }
 
     private void onCreateViewInitType(View view){
-        ((TextView) view.findViewById(R.id.textview_type)).setText(viewModel.getSource());
+        ((TextView) view.findViewById(R.id.textview_source)).setText(viewModel.getSource());
     }
 
     private void onCreateViewInitAmount(View view){

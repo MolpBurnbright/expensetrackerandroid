@@ -23,7 +23,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
         private ExpenseViewHolder(View v){
             super(v);
-            textViewCategory = itemView.findViewById(R.id.textView_source);
+            textViewCategory = itemView.findViewById(R.id.textView_type);
             textViewDetails = itemView.findViewById(R.id.textView_details);
             textViewDate = itemView.findViewById(R.id.textView_date);
             textViewAmount = itemView.findViewById(R.id.textView_amount);
@@ -39,7 +39,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     @Override
     public ExpenseListAdapter.ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclerview_item_expense, parent, false);
+                .inflate(R.layout.expense_recyclerview_item_expense, parent, false);
         return new ExpenseViewHolder(v);
     }
 

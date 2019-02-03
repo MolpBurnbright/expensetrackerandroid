@@ -97,7 +97,7 @@ public class EditFundDialog extends DialogFragment {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
                     android.R.layout.simple_spinner_item, selectionList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            Spinner spinner = view.findViewById(R.id.spinner_type);
+            Spinner spinner = view.findViewById(R.id.spinner_source);
             spinner.setAdapter(adapter);
             spinner.setSelection(sourcePostion);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -36,7 +36,7 @@ public class AddExpenseDialog extends DialogFragment {
         //Create the ViewModel
         this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddExpenseDialogViewModel.class);
         this.viewModel.init(1, 0);
-        View view = inflater.inflate(R.layout.dialog_add_expense, container, false);
+        View view = inflater.inflate(R.layout.expense_dialog_add_expense, container, false);
         onCreateViewInitDate(view);
         onCreateViewInitType(view);
         onCreateViewInitAmount(view);

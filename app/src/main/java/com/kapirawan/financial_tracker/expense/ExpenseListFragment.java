@@ -23,7 +23,7 @@ public class ExpenseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_expenselist,container, false);
+        View rootView = inflater.inflate(R.layout.expense_fragment_expenselist,container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_expenses_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
