@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.common.ContextMenuRecyclerView;
+import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 
 public class BudgetListFragment extends Fragment {

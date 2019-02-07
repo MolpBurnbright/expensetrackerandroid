@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.common;
+package com.kapirawan.financial_tracker.ui._common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

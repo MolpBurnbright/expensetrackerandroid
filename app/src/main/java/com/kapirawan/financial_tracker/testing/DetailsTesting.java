@@ -2,7 +2,7 @@ package com.kapirawan.financial_tracker.testing;
 
 import android.util.Log;
 
-import com.kapirawan.financial_tracker.ui.ActivityMain;
+import com.kapirawan.financial_tracker.ui.main.ActivityMain;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 
 public class DetailsTesting {

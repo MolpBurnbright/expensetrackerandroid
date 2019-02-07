@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.ui.budget.AddBudgetDialog;
@@ -61,12 +62,19 @@ public class FragmentSummary extends Fragment {
         rootView.findViewById(R.id.fab_controller).setOnClickListener(view ->{
             if (fabExpense.getVisibility() == View.VISIBLE) {
                 fabExpense.hide();
+                rootView.findViewById(R.id.textview_expense).setVisibility(View.INVISIBLE);
                 fabBudget.hide();
+                rootView.findViewById(R.id.textview_budget).setVisibility(View.INVISIBLE);
                 fabFund.hide();
+                rootView.findViewById(R.id.textview_fund).setVisibility(View.INVISIBLE);
+
             } else {
                 fabExpense.show();
+                rootView.findViewById(R.id.textview_expense).setVisibility(View.VISIBLE);
                 fabBudget.show();
+                rootView.findViewById(R.id.textview_budget).setVisibility(View.VISIBLE);
                 fabFund.show();
+                rootView.findViewById(R.id.textview_fund).setVisibility(View.VISIBLE);
             }
         });
         fabExpense.setOnClickListener(view -> new AddExpenseDialog()

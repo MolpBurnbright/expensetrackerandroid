@@ -69,7 +69,7 @@ android:layout_height="match_parent">
         android:id="@+id/fab_expense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:clickable="true"
         android:visibility="invisible"
         app:backgroundTint="@android:color/holo_red_light"
@@ -81,7 +81,7 @@ android:layout_height="match_parent">
         android:id="@+id/fab_budget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:clickable="true"
         android:visibility="invisible"
         app:backgroundTint="@android:color/holo_blue_light"
@@ -89,5 +89,37 @@ android:layout_height="match_parent">
         app:layout_constraintTop_toTopOf="@+id/fab_fund"
         app:srcCompat="@android:drawable/ic_secure" />
 
+    <TextView
+        android:id="@+id/textview_fund"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Add Fund"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fab_fund"
+        app:layout_constraintEnd_toEndOf="@+id/fab_fund"
+        app:layout_constraintStart_toStartOf="@+id/fab_fund" />
+
+    <TextView
+        android:id="@+id/textview_budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Add Budget"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fab_budget"
+        app:layout_constraintEnd_toEndOf="@+id/fab_budget"
+        app:layout_constraintStart_toStartOf="@+id/fab_budget" />
+
+    <TextView
+        android:id="@+id/textview_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        android:text="Add Expense"
+        app:layout_constraintBottom_toTopOf="@+id/fab_expense"
+        app:layout_constraintEnd_toEndOf="@+id/fab_expense"
+        app:layout_constraintStart_toStartOf="@+id/fab_expense" />
 
 </android.support.constraint.ConstraintLayout>

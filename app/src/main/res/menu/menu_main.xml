@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.kapirawan.financial_tracker.ui.ActivityMain">
+    tools:context="com.kapirawan.financial_tracker.ui.main.ActivityMain">
     <item
         android:id="@+id/action_refresh"
         android:orderInCategory="100"
@@ -16,20 +16,5 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_show_expenses"
-        android:orderInCategory="100"
-        android:title="@string/action_show_expenses"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_show_budgets"
-        android:orderInCategory="100"
-        android:title="@string/action_show_budgets"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_show_funds"
-        android:orderInCategory="100"
-        android:title="@string/action_show_funds"
         app:showAsAction="never" />
 </menu>
