@@ -132,6 +132,10 @@ public class AppRepository {
         localDb.readUserAccounts(userId, callback::onTaskCompleted);
     }
 
+    public LiveData<List<Account>> readUserAccounts(long userId){
+        return localDb.readUserAccounts(userId);
+    }
+
     public void readAllAccounts(CallbackReturnMultipleObjects<Account> callback){
         localDb.readAllAccounts(callback::onTaskCompleted);
     }

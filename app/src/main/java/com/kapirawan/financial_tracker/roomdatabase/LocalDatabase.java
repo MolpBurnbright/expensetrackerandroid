@@ -196,6 +196,10 @@ public class LocalDatabase {
 
     }
 
+    public LiveData<List<Account>> readUserAccounts (long userId) {
+        return db.daoAccount().getUserAccountsLD(userId);
+    }
+
     public void readAllAccounts(CallbackReturnMultipleObjects<Account> callback){
         new AsyncRetrieveAllAccounts(db.daoAccount(), callback::onTaskCompleted).execute();
     }

@@ -1,5 +1,6 @@
 package com.kapirawan.financial_tracker.roomdatabase.account;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -15,6 +16,9 @@ public interface DaoAccount extends DaoBase<Account> {
 
     @Query("select * from account where userId = :userId ")
     List<Account> getUserAccounts(long userId);
+
+    @Query("select * from account where userId = :userId ")
+    LiveData<List<Account>> getUserAccountsLD(long userId);
 
     @Query("select * from account")
     List<Account> getAllAccounts();
