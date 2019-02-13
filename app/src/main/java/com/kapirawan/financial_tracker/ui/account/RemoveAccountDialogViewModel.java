@@ -2,13 +2,11 @@ package com.kapirawan.financial_tracker.ui.account;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 
-import java.util.List;
 
 public class RemoveAccountDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
@@ -23,11 +21,11 @@ public class RemoveAccountDialogViewModel extends AndroidViewModel {
         this.account = account;
     }
 
-    public String getAccountName(){
+    String getAccountName(){
         return account.name;
     }
 
-    public void removeAccount(){
+    void removeAccount(){
         repo.deleteAccount(account, () -> {});
     }
 }

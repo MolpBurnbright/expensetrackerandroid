@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.ui.account;
+package com.kapirawan.financial_tracker.ui.category;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,23 +16,27 @@ import android.widget.EditText;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
+import java.util.Date;
 import java.util.List;
 
-public class EditAccountDialog extends DialogFragment {
+public class AddCategoryDialog extends DialogFragment {
 
-    EditAccountDialogViewModel viewModel;
-    List<Account> accounts;
+    AddCategoryDialogViewModel viewModel;
+    List<Category> categories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        viewModel = ViewModelProviders.of(this.getActivity()).get(EditAccountDialogViewModel.class);
-        viewModel.getAccounts().observe(this, acc -> accounts = acc);
-        View view = inflater.inflate(R.layout.account_dialog_edit_account, container, false);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(AddCategoryDialogViewModel.class);
+        //TODO: Add appropriate account
+        viewModel.init(new Account(1, 0, 0, "My Account", new Date()));
+        viewModel.getCategories().observe(this, cats -> categories = cats);
+        View view = inflater.inflate(R.layout.category_dialog_add_category, container, false);
         onCreateViewInitName(view);
-        onCreateViewInitUpdateButton(view);
+        onCreateViewInitAddButton(view);
         view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         return view;
     }
@@ -57,28 +61,28 @@ public class EditAccountDialog extends DialogFragment {
 
             }
         };
-        EditText name = view.findViewById(R.id.edittext_categoryname);
-        name.addTextChangedListener(textWatcher);
-        name.setText(viewModel.getAccountName());
+        ((EditText)view.findViewById(R.id.edittext_categoryname))
+                .addTextChangedListener(textWatcher);
     }
 
-    private void onCreateViewInitUpdateButton(View view) {
+    private void onCreateViewInitAddButton(View view) {
         Button button = view.findViewById(R.id.button_update);
         button.setOnClickListener(v -> {
             String name = ((EditText)
                     view.findViewById(R.id.edittext_categoryname)).getText().toString().toUpperCase();
             boolean isNameInUse = false;
-            for(Account acc: accounts){
-                if (acc.name.toUpperCase().equals(name))
+            for(Category cats: categories){
+                if (cats.name.toUpperCase().equals(name))
                     isNameInUse = true;
             }
             if (isNameInUse)
-                showError("Account Name is already in use");
+                showError("Category Name is already in use");
             else{
-                viewModel.updateAccount(toTitleCase(name));
+                viewModel.addCategory(toTitleCase(name));
                 getDialog().dismiss();
             }
         });
+        button.setEnabled(false);
     }
 
     @Override

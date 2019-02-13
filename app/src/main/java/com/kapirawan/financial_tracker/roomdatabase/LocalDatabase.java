@@ -420,6 +420,11 @@ public class LocalDatabase {
                 .execute(accountId, accountDatasourceId);
     }
 
+    public LiveData<List<Category>> readAccountCategories(long accountId, long accountDatasourceId){
+        return db.daoCategory().getAccountCategoriesLD(accountId, accountDatasourceId);
+    }
+
+
     public void readAllCategories(CallbackReturnMultipleObjects<Category> callback){
         new AsyncRetrieveAllCategories(db.daoCategory(), callback::onTaskCompleted).execute();
     }

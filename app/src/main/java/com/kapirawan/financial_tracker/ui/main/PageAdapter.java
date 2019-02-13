@@ -5,13 +5,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.kapirawan.financial_tracker.ui.budget.BudgetListFragment;
+import com.kapirawan.financial_tracker.ui.category.CategoryFragment;
 import com.kapirawan.financial_tracker.ui.expense.ExpenseListFragment;
 import com.kapirawan.financial_tracker.ui.fund.FundListFragment;
 import com.kapirawan.financial_tracker.ui.summary.FragmentSummary;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private int NUM_ITEMS = 4;
+    private int NUM_ITEMS = 5;
 
     public PageAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
@@ -37,6 +38,9 @@ public class PageAdapter extends FragmentPagerAdapter {
                 break;
             case 3:
                 fragment = new FundListFragment();
+                break;
+            case 4:
+                fragment = new CategoryFragment();
                 break;
         }
         return fragment;

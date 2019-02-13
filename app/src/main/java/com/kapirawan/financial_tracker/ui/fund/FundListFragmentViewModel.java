@@ -17,6 +17,7 @@ public class FundListFragmentViewModel extends AndroidViewModel {
     private LiveData<List<Fund>> funds;
     private LiveData<Account> account;
     private long accountId, accountDatasourceId;
+    private boolean contextMenuEnabled = true;
 
     public FundListFragmentViewModel(@NonNull Application app) {
         super(app);
@@ -46,5 +47,13 @@ public class FundListFragmentViewModel extends AndroidViewModel {
         repo.readAccount(accountId, accountDatasourceId, account ->
                 ((MutableLiveData<Account>) this.account).setValue(account)
         );
+    }
+
+    public boolean getContextMenuEnabled(){
+        return contextMenuEnabled;
+    }
+
+    public void setContextMenuEnabled(boolean enabled){
+        contextMenuEnabled = enabled;
     }
 }

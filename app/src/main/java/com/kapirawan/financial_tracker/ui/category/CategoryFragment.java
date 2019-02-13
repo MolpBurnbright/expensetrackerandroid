@@ -1,4 +1,4 @@
-package com.kapirawan.financial_tracker.ui.account;
+package com.kapirawan.financial_tracker.ui.category;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -14,30 +14,31 @@ import android.view.ViewGroup;
 
 import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.roomdatabase.user.User;
+import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 
 import java.util.Date;
 
-public class AccountFragment extends Fragment {
-    AccountFragmentViewModel viewModel;
+public class CategoryFragment extends Fragment {
+    CategoryFragmentViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.account_fragment,container, false);
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_accountlist);
+        View rootView = inflater.inflate(R.layout.category_fragment,container, false);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_categorylist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
-        AccountListAdapter adapter = new AccountListAdapter();
+        CategoryListAdapter adapter = new CategoryListAdapter();
         recyclerView.setAdapter(adapter);
-        viewModel = ViewModelProviders.of(this).get(AccountFragmentViewModel.class);
-        viewModel.init(new User(0, "", new Date()));
-        viewModel.getAccounts().observe(this, accounts  ->
-                adapter.setAccounts(accounts)
+        viewModel = ViewModelProviders.of(this).get(CategoryFragmentViewModel.class);
+        //TODO: Supply correct Account
+        viewModel.init(new Account(1, 0, 0, "My Accoount", new Date()));
+        viewModel.getCategories().observe(this, categories  ->
+                adapter.setCategories(categories)
         );
-        rootView.findViewById(R.id.fab_addaccount).setOnClickListener(view -> new AddAccountDialog()
-                .show(this.getActivity().getSupportFragmentManager(), "Add Account Dialog"));
+        rootView.findViewById(R.id.fab_addcategory).setOnClickListener(view -> new AddCategoryDialog()
+                .show(this.getActivity().getSupportFragmentManager(), "Add Category Dialog"));
         return rootView;
     }
 
@@ -45,26 +46,27 @@ public class AccountFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.item_menu, menu);
+        inflater.inflate(R.menu.category_item_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
         ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                 (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-        Account account = viewModel.getAccounts().getValue().get(info.position);
+        Category category = viewModel.getCategories().getValue().get(info.position);
         switch(item.getItemId()){
-            case R.id.edit:
+            case R.id.edit_category:
                 ViewModelProviders.of(this.getActivity())
-                        .get(EditAccountDialogViewModel.class).init(account);
-                new EditAccountDialog().show(this.getFragmentManager(),
-                        "Update Account Dialog");
+                        .get(EditCategoryDialogViewModel.class)
+                        .init(category);
+                new EditCategoryDialog().show(this.getFragmentManager(),
+                        "Update Category Dialog");
                 break;
-            case R.id.remove:
+            case R.id.remove_category:
                 ViewModelProviders.of(this.getActivity())
-                        .get(RemoveAccountDialogViewModel.class).init(account);
-                new RemoveAccountDialog().show(this.getFragmentManager(),
-                        "Remove Account Dialog");
+                        .get(RemoveCategoryDialogViewModel.class).init(category);
+                new RemoveCategoryDialog().show(this.getFragmentManager(),
+                        "Remove Category Dialog");
                 break;
         }
         return super.onContextItemSelected(item);

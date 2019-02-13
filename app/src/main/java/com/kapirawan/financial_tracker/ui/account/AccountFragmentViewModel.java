@@ -15,7 +15,6 @@ public class AccountFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
     private User user;
     private LiveData<List<Account>> accounts;
-    private int selectedAccount;
 
     public AccountFragmentViewModel(@NonNull Application app) {
         super(app);

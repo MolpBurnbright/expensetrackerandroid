@@ -62,7 +62,7 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
     public void setAccount(long accountId, long accountDatasourceId){
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
-        repo.readAccountCategory(accountId, accountDatasourceId, categs -> {
+        repo.readAccountCategories(accountId, accountDatasourceId, categs -> {
             ((MutableLiveData<List<Category>>)this.categories).setValue(categs);
         });
         this.details = repo.getDetails(accountId, accountDatasourceId);

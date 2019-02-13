@@ -51,9 +51,9 @@ public class AddAccountDialog extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0){
-                    view.findViewById(R.id.button_add).setEnabled(true);
+                    view.findViewById(R.id.button_update).setEnabled(true);
                 }else
-                    view.findViewById(R.id.button_add).setEnabled(false);
+                    view.findViewById(R.id.button_update).setEnabled(false);
             }
 
             @Override
@@ -61,18 +61,18 @@ public class AddAccountDialog extends DialogFragment {
 
             }
         };
-        ((EditText)view.findViewById(R.id.editText_accountname))
+        ((EditText)view.findViewById(R.id.edittext_categoryname))
                 .addTextChangedListener(textWatcher);
     }
 
     private void onCreateViewInitAddButton(View view) {
-        Button button = view.findViewById(R.id.button_add);
+        Button button = view.findViewById(R.id.button_update);
         button.setOnClickListener(v -> {
             String name = ((EditText)
-                    view.findViewById(R.id.editText_accountname)).getText().toString().toUpperCase();
+                    view.findViewById(R.id.edittext_categoryname)).getText().toString().toUpperCase();
             boolean isNameInUse = false;
             for(Account acc: accounts){
-                if (acc.name.toUpperCase() == name)
+                if (acc.name.toUpperCase().equals(name))
                     isNameInUse = true;
             }
             if (isNameInUse)

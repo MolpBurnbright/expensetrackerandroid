@@ -107,9 +107,9 @@ public class AddFundDialog extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0){
-                    view.findViewById(R.id.button_add).setEnabled(true);
+                    view.findViewById(R.id.button_update).setEnabled(true);
                 }else
-                    view.findViewById(R.id.button_add).setEnabled(false);
+                    view.findViewById(R.id.button_update).setEnabled(false);
             }
 
             @Override
@@ -131,7 +131,7 @@ public class AddFundDialog extends DialogFragment {
     }
 
     private void onCreateViewInitAddButton(View view){
-        Button button = view.findViewById(R.id.button_add);
+        Button button = view.findViewById(R.id.button_update);
         button.setOnClickListener(v -> {
             try {
                 double amount = Double.parseDouble(

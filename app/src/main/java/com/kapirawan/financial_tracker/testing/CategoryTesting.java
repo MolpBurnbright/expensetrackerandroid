@@ -72,7 +72,7 @@ public class CategoryTesting {
 
     private void retrieveAccountCategories(){
         Log.i(label, "Retrieving categories for account 02 accountDatasourceId 01");
-        repository.readAccountCategory(02, 1, categories -> {
+        repository.readAccountCategories(02, 1, categories -> {
             Log.i(label, "Account Categories retrieve successful..");
             Log.i(label, "Number of categories retrieved: " + categories.size());
             for (int i=0; i < categories.size(); i++){

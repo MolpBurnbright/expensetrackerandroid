@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -39,6 +40,7 @@ public class FundListFragment extends Fragment {
         return rootView;
     }
 
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -48,22 +50,24 @@ public class FundListFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
-                (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-        Fund fund = viewModel.getFunds().getValue().get(info.position);
-        switch(item.getItemId()){
-            case R.id.edit:
-                ViewModelProviders.of(this.getActivity())
-                        .get(EditFundDialogViewModel.class).init(fund);
-                new EditFundDialog().show(this.getFragmentManager(),
-                        "Update Fund Dialog");
-                break;
-            case R.id.remove:
-                ViewModelProviders.of(this.getActivity())
-                        .get(RemoveFundDialogViewModel.class).init(fund);
-                new RemoveFundDialog().show(this.getFragmentManager(),
-                        "Update Fund Dialog");
-                break;
+        if(item.getGroupId() != R.id.category_menu) {
+            ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
+                    (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
+            Fund fund = viewModel.getFunds().getValue().get(info.position);
+            switch (item.getItemId()) {
+                case R.id.edit:
+                    ViewModelProviders.of(this.getActivity())
+                            .get(EditFundDialogViewModel.class).init(fund);
+                    new EditFundDialog().show(this.getFragmentManager(),
+                            "Update Fund Dialog");
+                    break;
+                case R.id.remove:
+                    ViewModelProviders.of(this.getActivity())
+                            .get(RemoveFundDialogViewModel.class).init(fund);
+                    new RemoveFundDialog().show(this.getFragmentManager(),
+                            "Update Fund Dialog");
+                    break;
+            }
         }
         return super.onContextItemSelected(item);
     }

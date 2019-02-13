@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/category_menu" >
+        <item
+            android:id="@+id/remove_category"
+            android:title="Remove" />
+        <item
+            android:id="@+id/edit_category"
+            android:title="Edit" />
+    </group>
+</menu>

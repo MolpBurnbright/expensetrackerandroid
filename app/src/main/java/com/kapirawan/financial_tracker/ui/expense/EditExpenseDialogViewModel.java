@@ -28,7 +28,7 @@ public class EditExpenseDialogViewModel extends AndroidViewModel {
         this.expense = expense;
         if(this.categories == null)
             this.categories = new MutableLiveData<>();
-        repo.readAccountCategory(expense.accountId, expense.accountDatasourceId, categs -> {
+        repo.readAccountCategories(expense.accountId, expense.accountDatasourceId, categs -> {
             ((MutableLiveData<List<Category>>)this.categories).setValue(categs);
         });
         this.details = repo.getDetails(expense.accountId, expense.accountDatasourceId);

@@ -303,9 +303,13 @@ public class AppRepository {
         localDb.readCategory(categoryId, datasourceId, callback::onTaskCompleted);
     }
 
-    public void readAccountCategory(long accountId, long accountDatasourceId,
+    public void readAccountCategories(long accountId, long accountDatasourceId,
                                 CallbackReturnMultipleObjects<Category> callback){
         localDb.readAccountCategories(accountId, accountDatasourceId, callback::onTaskCompleted);
+    }
+
+    public LiveData<List<Category>> readAccountCategories(long accountId, long accountDatasourceId){
+        return localDb.readAccountCategories(accountId, accountDatasourceId);
     }
 
     public void readAllCategories(CallbackReturnMultipleObjects<Category> callback){

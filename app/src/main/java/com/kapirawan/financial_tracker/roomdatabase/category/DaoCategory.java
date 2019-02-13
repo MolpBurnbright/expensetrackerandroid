@@ -1,5 +1,6 @@
 package com.kapirawan.financial_tracker.roomdatabase.category;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -16,6 +17,10 @@ public interface DaoCategory extends DaoBase<Category> {
     @Query("select * from category where accountId = :accountId " +
             "and accountDatasourceId = :accountDatasourceId")
     List<Category> getAccountCategories(long accountId, long accountDatasourceId);
+
+    @Query("select * from category where accountId = :accountId " +
+            "and accountDatasourceId = :accountDatasourceId")
+    LiveData<List<Category>> getAccountCategoriesLD(long accountId, long accountDatasourceId);
 
     @Query("select * from category")
     List<Category> getAllCategories();

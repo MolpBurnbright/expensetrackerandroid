@@ -47,6 +47,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         if(accounts != null){
             final Account account = accounts.get(position);
             holder.textViewName.setText(account.name);
+            //TODO: Populate expense, funds, and remaining budget with valid values.
             holder.textViewExpense.setText(new DecimalFormat("#,###,##0.00")
                     .format(0.00));
             holder.textViewFund.setText(new DecimalFormat("#,###,##0.00")

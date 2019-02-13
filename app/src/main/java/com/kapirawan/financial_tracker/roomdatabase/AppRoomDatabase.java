@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {User.class, Datasource.class, Account.class, Expense.class, Budget.class,
         Fund.class, Category.class, Source.class},
-        version = 1)
+        version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppRoomDatabase extends RoomDatabase {
     public abstract DaoUser daoUser();
