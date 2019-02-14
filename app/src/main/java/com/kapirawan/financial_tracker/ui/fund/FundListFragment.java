@@ -45,23 +45,23 @@ public class FundListFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.item_menu, menu);
+        inflater.inflate(R.menu.fund_item_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        if(item.getGroupId() != R.id.category_menu) {
+        if(item.getGroupId() == R.id.fund_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
             Fund fund = viewModel.getFunds().getValue().get(info.position);
             switch (item.getItemId()) {
-                case R.id.edit:
+                case R.id.edit_fund:
                     ViewModelProviders.of(this.getActivity())
                             .get(EditFundDialogViewModel.class).init(fund);
                     new EditFundDialog().show(this.getFragmentManager(),
                             "Update Fund Dialog");
                     break;
-                case R.id.remove:
+                case R.id.remove_fund:
                     ViewModelProviders.of(this.getActivity())
                             .get(RemoveFundDialogViewModel.class).init(fund);
                     new RemoveFundDialog().show(this.getFragmentManager(),

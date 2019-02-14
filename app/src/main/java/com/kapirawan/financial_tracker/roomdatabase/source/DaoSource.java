@@ -1,5 +1,6 @@
 package com.kapirawan.financial_tracker.roomdatabase.source;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -16,6 +17,10 @@ public interface DaoSource extends DaoBase<Source> {
     @Query("select * from source where accountId = :accountId " +
             "and accountDatasourceId = :accountDatasourceId")
     List<Source> getAccountSources(long accountId, long accountDatasourceId);
+
+    @Query("select * from source where accountId = :accountId " +
+            "and accountDatasourceId = :accountDatasourceId")
+    LiveData<List<Source>> getAccountSourcesLD(long accountId, long accountDatasourceId);
 
     @Query("select * from source")
     List<Source> getAllSources();

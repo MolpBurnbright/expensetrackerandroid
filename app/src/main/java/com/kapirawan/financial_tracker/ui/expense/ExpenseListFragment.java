@@ -43,27 +43,29 @@ public class ExpenseListFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.item_menu, menu);
+        inflater.inflate(R.menu.expense_item_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
-                (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-        Expense expense = viewModel.getExpenses().getValue().get(info.position);
-        switch(item.getItemId()){
-            case R.id.edit:
-                ViewModelProviders.of(this.getActivity())
-                        .get(EditExpenseDialogViewModel.class).init(expense);
-                new EditExpenseDialog().show(this.getFragmentManager(),
-                        "Update Expense Dialog");
-                break;
-            case R.id.remove:
-                ViewModelProviders.of(this.getActivity())
-                        .get(RemoveExpenseDialogViewModel.class).init(expense);
-                new RemoveExpenseDialog().show(this.getFragmentManager(),
-                        "Update Expense Dialog");
-                break;
+        if(item.getGroupId() == R.id.expense_menu) {
+            ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
+                    (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
+            Expense expense = viewModel.getExpenses().getValue().get(info.position);
+            switch (item.getItemId()) {
+                case R.id.edit_expense:
+                    ViewModelProviders.of(this.getActivity())
+                            .get(EditExpenseDialogViewModel.class).init(expense);
+                    new EditExpenseDialog().show(this.getFragmentManager(),
+                            "Update Expense Dialog");
+                    break;
+                case R.id.remove_expense:
+                    ViewModelProviders.of(this.getActivity())
+                            .get(RemoveExpenseDialogViewModel.class).init(expense);
+                    new RemoveExpenseDialog().show(this.getFragmentManager(),
+                            "Update Expense Dialog");
+                    break;
+            }
         }
         return super.onContextItemSelected(item);
     }

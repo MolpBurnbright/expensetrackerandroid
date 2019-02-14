@@ -2,12 +2,12 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/category_menu" >
+    <group android:id="@+id/budget_menu" >
         <item
-            android:id="@+id/edit_category"
+            android:id="@+id/edit_budget"
             android:title="Edit" />
         <item
-            android:id="@+id/remove_category"
+            android:id="@+id/remove_budget"
             android:title="Remove" />
     </group>
 </menu>

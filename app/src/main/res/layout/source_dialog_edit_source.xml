@@ -14,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Edit Account"
+        android:text="Update Source"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,14 +22,14 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="76dp"
+        android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="21dp"
         android:gravity="center_vertical"
-        android:text="Name : "
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:text="Source Name : "
         android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -52,17 +52,16 @@
         android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_categoryname"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_sourcename"
         app:layout_constraintVertical_bias="0.06999999" />
 
     <EditText
-        android:id="@+id/edittext_categoryname"
+        android:id="@+id/edittext_sourcename"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4" />

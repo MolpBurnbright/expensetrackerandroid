@@ -8,11 +8,12 @@ import com.kapirawan.financial_tracker.ui.budget.BudgetListFragment;
 import com.kapirawan.financial_tracker.ui.category.CategoryFragment;
 import com.kapirawan.financial_tracker.ui.expense.ExpenseListFragment;
 import com.kapirawan.financial_tracker.ui.fund.FundListFragment;
+import com.kapirawan.financial_tracker.ui.source.SourceFragment;
 import com.kapirawan.financial_tracker.ui.summary.FragmentSummary;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private int NUM_ITEMS = 5;
+    private int NUM_ITEMS = 6;
 
     public PageAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
@@ -42,6 +43,10 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 4:
                 fragment = new CategoryFragment();
                 break;
+            case 5:
+                fragment = new SourceFragment();
+                break;
+
         }
         return fragment;
     }

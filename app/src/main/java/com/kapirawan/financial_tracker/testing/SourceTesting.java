@@ -72,7 +72,7 @@ public class SourceTesting {
 
     private void retrieveAccountSource(){
         Log.i(label, "Retrieving sources for account 02 accountDatasourceId 01");
-        repository.readAccountSource(02, 1, sources -> {
+        repository.readAccountSources(02, 1, sources -> {
             Log.i(label, "Account Sources retrieve successful..");
             Log.i(label, "Number of sources retrieved: " + sources.size());
             for (int i=0; i < sources.size(); i++){

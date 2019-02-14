@@ -62,9 +62,7 @@ public class AddFundDialogViewModel extends AndroidViewModel {
     public void setAccount(long accountId, long accountDatasourceId){
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
-        repo.readAccountSource(accountId, accountDatasourceId, sources -> {
-            ((MutableLiveData<List<Source>>)this.sources).setValue(sources);
-        });
+        this.sources = repo.readAccountSources(accountId, accountDatasourceId);
         this.details = repo.getDetails(accountId, accountDatasourceId);
     }
 

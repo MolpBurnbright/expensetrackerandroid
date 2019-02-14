@@ -20,30 +20,6 @@ public class FragmentMain extends Fragment {
         ViewPager viewPager = rootView.findViewById(R.id.viewPager);
         PageAdapter adapter = new PageAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position){
-                Log.d("Debuging PagViewer", "page selection has change, position: " + position);
-                invalidateFragmentMenus(position);
-            }
-
-            private void invalidateFragmentMenus(int position){
-                for(int i = 0; i < adapter.getCount(); i++){
-                    adapter.getItem(i).setHasOptionsMenu(i == position);
-                }
-//                invalidateOptionsMenu(); //or respectively its support method.
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         return rootView;
     }
 }

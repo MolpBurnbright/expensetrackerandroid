@@ -110,7 +110,7 @@ public class DefaultDataTesting {
 
     private void retrieveDefaultSource(){
         Log.i(label, "Retrieving sources with accountId: 01 accountDatasourceId 0");
-        repository.readAccountSource(1, 0, sources -> {
+        repository.readAccountSources(1, 0, sources -> {
             Log.i(label, "Account Sources retrieve successful..");
             Log.i(label, "Number of sources retrieved: " + sources.size());
             for (int i=0; i < sources.size(); i++){

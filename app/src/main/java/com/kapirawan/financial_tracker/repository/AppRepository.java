@@ -343,9 +343,13 @@ public class AppRepository {
         localDb.readSource(sourceId, datasourceId, callback::onTaskCompleted);
     }
 
-    public void readAccountSource(long accountId, long accountDatasourceId,
+    public void readAccountSources(long accountId, long accountDatasourceId,
                                 CallbackReturnMultipleObjects<Source> callback){
         localDb.readAccountSources(accountId, accountDatasourceId, callback::onTaskCompleted);
+    }
+
+    public LiveData<List<Source>> readAccountSources(long accountId, long accountDatasourceId){
+        return localDb.readAccountSources(accountId, accountDatasourceId);
     }
 
     public void readAllSources(CallbackReturnMultipleObjects<Source> callback){

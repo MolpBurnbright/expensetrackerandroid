@@ -26,11 +26,7 @@ public class EditFundDialogViewModel extends AndroidViewModel {
 
     public void init(Fund fund){
         this.fund = fund;
-        if(this.sources == null)
-            this.sources = new MutableLiveData<>();
-        repo.readAccountSource(fund.accountId, fund.accountDatasourceId, sources -> {
-            ((MutableLiveData<List<Source>>)this.sources).setValue(sources);
-        });
+        this.sources = repo.readAccountSources(fund.accountId, fund.accountDatasourceId);
         this.details = repo.getDetails(fund.accountId, fund.accountDatasourceId);
     }
 

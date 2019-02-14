@@ -43,27 +43,29 @@ public class BudgetListFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.item_menu, menu);
+        inflater.inflate(R.menu.budget_item_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
-                (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-        Budget budget = viewModel.getBudgets().getValue().get(info.position);
-        switch(item.getItemId()){
-            case R.id.edit:
-                ViewModelProviders.of(this.getActivity())
-                        .get(EditBudgetDialogViewModel.class).init(budget);
-                new EditBudgetDialog().show(this.getFragmentManager(),
-                        "Update Budget Dialog");
-                break;
-            case R.id.remove:
-                ViewModelProviders.of(this.getActivity())
-                        .get(RemoveBudgetDialogViewModel.class).init(budget);
-                new RemoveBudgetDialog().show(this.getFragmentManager(),
-                        "Update Budget Dialog");
-                break;
+        if(item.getGroupId() == R.id.budget_menu) {
+            ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
+                    (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
+            Budget budget = viewModel.getBudgets().getValue().get(info.position);
+            switch (item.getItemId()) {
+                case R.id.edit_budget:
+                    ViewModelProviders.of(this.getActivity())
+                            .get(EditBudgetDialogViewModel.class).init(budget);
+                    new EditBudgetDialog().show(this.getFragmentManager(),
+                            "Update Budget Dialog");
+                    break;
+                case R.id.remove_budget:
+                    ViewModelProviders.of(this.getActivity())
+                            .get(RemoveBudgetDialogViewModel.class).init(budget);
+                    new RemoveBudgetDialog().show(this.getFragmentManager(),
+                            "Update Budget Dialog");
+                    break;
+            }
         }
         return super.onContextItemSelected(item);
     }

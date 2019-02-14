@@ -15,6 +15,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Update Budget"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +29,7 @@
         android:gravity="center_vertical"
         android:text="Date : "
         android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -40,6 +42,7 @@
         android:gravity="center_vertical"
         android:text="Type : "
         android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toStartOf="@+id/spinner_type"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -53,6 +56,7 @@
         android:gravity="center_vertical"
         android:text="Amount : "
         android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toStartOf="@+id/edittext_amount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -66,6 +70,7 @@
         android:gravity="center_vertical"
         android:text="Details : "
         android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toStartOf="@+id/autocomplete_details"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -77,6 +82,7 @@
         android:ems="10"
         android:gravity="center_vertical"
         android:textAlignment="gravity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textStyle="normal"
         app:layout_constraintEnd_toStartOf="@+id/button_datepicker"
         app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -106,6 +112,7 @@
         android:layout_height="42dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
@@ -116,6 +123,7 @@
         android:layout_height="63dp"
         android:ems="10"
         android:inputType="textMultiLine"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="@+id/textView7" />
