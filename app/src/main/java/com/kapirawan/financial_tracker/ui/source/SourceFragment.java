@@ -11,8 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
@@ -32,11 +34,17 @@ public class SourceFragment extends Fragment {
         SourceListAdapter adapter = new SourceListAdapter();
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(SourceFragmentViewModel.class);
-        //TODO: Supply correct Account
-        viewModel.init(new Account(1, 0, 0, "My Accoount", new Date()));
-        viewModel.getCategories().observe(this, sources  ->
-                adapter.setCategories(sources)
-        );
+
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getSources().observe(this, sources -> adapter.setCategories(sources));
+            viewModel.getAccount().observe(this, account ->
+                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        });
+
         rootView.findViewById(R.id.fab_addsource).setOnClickListener(view -> new AddSourceDialog()
                 .show(this.getActivity().getSupportFragmentManager(), "Add Source Dialog"));
         return rootView;
@@ -54,7 +62,7 @@ public class SourceFragment extends Fragment {
         if(item.getGroupId() == R.id.source_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-            Source source = viewModel.getCategories().getValue().get(info.position);
+            Source source = viewModel.getSources().getValue().get(info.position);
             switch (item.getItemId()) {
                 case R.id.edit_source:
                     ViewModelProviders.of(this.getActivity())

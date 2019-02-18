@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 
 import java.util.Date;
@@ -14,25 +15,30 @@ import java.util.List;
 
 public class AddSourceDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
-    private Account account;
     private LiveData<List<Source>> sources;
+    private long accountId, accountDatasourceId;
 
     public AddSourceDialogViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(Account account) {
-        this.account = account;
-        this.sources = repo.readAccountSources(account._id, account.datasourceId);
-    }
-
-    public LiveData<List<Source>> getCategories(){
-        return sources;
+    public void init(long accountId, long accountDatasourceId) {
+        this.accountId = accountId;
+        this.accountDatasourceId = accountDatasourceId;
+        this.sources = repo.readAccountSources(accountId, accountDatasourceId);
     }
 
     public void addSource(String name){
-        repo.createSource(new Source(0, 0, account._id, account.datasourceId,
+        repo.createSource(new Source(0, 0, accountId, accountDatasourceId,
                 name, new Date()), () ->{});
+    }
+
+    public LiveData<List<Source>> getSources(){
+        return sources;
+    }
+
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
     }
 }

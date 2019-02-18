@@ -1,5 +1,6 @@
 package com.kapirawan.financial_tracker.ui.account;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 
 import java.text.DecimalFormat;
@@ -31,6 +33,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     }
 
     private List<Account> accounts;
+    private long selectedAccountId, selectedAccountDatasourceId;
 
     public AccountListAdapter() {
     }
@@ -54,11 +57,22 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
                     .format(0.00));
             holder.textViewBalance.setText(new DecimalFormat("#,###,##0.00")
                     .format(0.00));
+            if(this.accounts.get(position)._id == selectedAccountId
+                    && this.accounts.get(position).datasourceId == selectedAccountDatasourceId)
+                holder.itemView.setBackgroundColor(Color.CYAN);
+            else
+                holder.itemView.setBackgroundColor(Color.LTGRAY);
         }
     }
 
     public void setAccounts(List<Account> accounts){
         this.accounts = accounts;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectedAccount(long accountId, long accountDatasourceId){
+        this.selectedAccountId = accountId;
+        this.selectedAccountDatasourceId = accountDatasourceId;
         notifyDataSetChanged();
     }
 

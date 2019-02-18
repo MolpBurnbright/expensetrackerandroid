@@ -14,6 +14,9 @@ public interface DaoAccount extends DaoBase<Account> {
     @Query("select * from account where _id = :accountId and datasourceId = :datasourceId")
     Account getAccount(long accountId, long datasourceId);
 
+    @Query("select * from account where _id = :accountId and datasourceId = :datasourceId")
+    LiveData<Account> getAccountLD(long accountId, long datasourceId);
+
     @Query("select * from account where userId = :userId ")
     List<Account> getUserAccounts(long userId);
 

@@ -30,13 +30,17 @@ public class AddSourceDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        viewModel = ViewModelProviders.of(this.getActivity()).get(AddSourceDialogViewModel.class);
-        //TODO: Add appropriate account
-        viewModel.init(new Account(1, 0, 0, "My Account", new Date()));
-        viewModel.getCategories().observe(this, srs -> sources = srs);
         View view = inflater.inflate(R.layout.source_dialog_add_source, container, false);
-        onCreateViewInitName(view);
-        onCreateViewInitAddButton(view);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(AddSourceDialogViewModel.class);
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getSources().observe(this, srs -> sources = srs);
+            onCreateViewInitName(view);
+            onCreateViewInitAddButton(view);
+        });
         view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         return view;
     }

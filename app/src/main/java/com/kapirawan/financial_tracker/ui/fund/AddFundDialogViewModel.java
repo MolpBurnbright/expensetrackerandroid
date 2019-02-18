@@ -7,6 +7,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
 
@@ -32,13 +33,12 @@ public class AddFundDialogViewModel extends AndroidViewModel {
     public void init(long accountId, long accountDatasourceId){
         this.amount = 0;
         this.description = "";
-        if(this.sources == null)
-            this.sources = new MutableLiveData<>();
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
         this.selectedSourcePosition = 0;
         this.selectedDate = Calendar.getInstance().getTime();
-        setAccount(accountId, accountDatasourceId);
+        this.details = repo.getDetails(accountId, accountDatasourceId);
+        this.sources = repo.readAccountSources(accountId, accountDatasourceId);
     }
 
     public void addFund(){
@@ -47,47 +47,20 @@ public class AddFundDialogViewModel extends AndroidViewModel {
         repo.createFund(fund, () -> {});
     }
 
-    public LiveData<List<Source>> getSources() {
-        return this.sources;
-    }
-
-    public long getAccountId() {
-        return this.accountId;
-    }
-
-    public long getAccountDatasourceId(){
-        return this.accountDatasourceId;
-    }
-
-    public void setAccount(long accountId, long accountDatasourceId){
-        this.accountId = accountId;
-        this.accountDatasourceId = accountDatasourceId;
-        this.sources = repo.readAccountSources(accountId, accountDatasourceId);
-        this.details = repo.getDetails(accountId, accountDatasourceId);
-    }
-
     public double getAmount(){
         return this.amount;
-    }
-
-    public void setAmount(double amount){
-        this.amount = amount;
-    }
-
-    public LiveData<List<String>> getDetails(){
-        return this.details;
-    }
-
-    public void setDescription(String description){
-        this.description = description;
     }
 
     public Date getSelectedDate(){
         return this.selectedDate;
     }
 
-    public void setSelectedDate(Date date){
-        this.selectedDate = date;
+    public LiveData<List<String>> getDetails(){
+        return this.details;
+    }
+
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
     }
 
     public String getSelectedSource(){
@@ -96,6 +69,22 @@ public class AddFundDialogViewModel extends AndroidViewModel {
 
     public int getSelectedSourcePosition(){
         return this.selectedSourcePosition;
+    }
+
+    public LiveData<List<Source>> getSources() {
+        return this.sources;
+    }
+
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public void setSelectedDate(Date date){
+        this.selectedDate = date;
     }
 
     public void setSelectedSourcePosition(int pos){

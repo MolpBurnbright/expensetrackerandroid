@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 
 import java.util.List;
 
@@ -16,7 +17,6 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
     private LiveData<List<Expense>> expenses;
     private LiveData<Account> account;
-    private long accountId, accountDatasourceId;
 
     public ExpenseListFragmentViewModel(@NonNull Application app) {
         super(app);
@@ -24,11 +24,8 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
     }
 
     public void init(long accountId, long accountDatasourceId) {
-        if (expenses != null) {
-            return;
-        }
-        this.account = new MutableLiveData<>();
-        setAccount(accountId, accountDatasourceId);
+        expenses = repo.readAccountExpenseLD(accountId, accountDatasourceId);
+        account = repo.readAccount(accountId, accountDatasourceId);
     }
 
     public LiveData<List<Expense>> getExpenses() {
@@ -39,12 +36,8 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
         return account;
     }
 
-    public void setAccount(long accountId, long accountDatasourceId) {
-        this.accountId = accountId;
-        this.accountDatasourceId = accountDatasourceId;
-        expenses = repo.readAccountExpenseLD(accountId, accountDatasourceId);
-        repo.readAccount(accountId, accountDatasourceId, account ->
-            ((MutableLiveData<Account>) this.account).setValue(account)
-        );
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
     }
+
 }

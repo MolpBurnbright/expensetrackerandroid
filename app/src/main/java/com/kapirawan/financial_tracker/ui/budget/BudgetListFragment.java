@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 
@@ -30,12 +31,15 @@ public class BudgetListFragment extends Fragment {
         BudgetListAdapter adapter = new BudgetListAdapter();
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(BudgetListFragmentViewModel.class);
-        viewModel.init(1, 0);
-        viewModel.getBudgets().observe(this, budgets  ->
-                adapter.setBudgets(budgets)
-        );
-        viewModel.getAccount().observe(this, account ->
-                ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getBudgets().observe(this, budgets  -> adapter.setBudgets(budgets));
+            viewModel.getAccount().observe(this, account ->
+                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        });
         return rootView;
     }
 

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,23 +33,18 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
     public void init(long accountId, long accountDatasourceId){
         this.amount = 0;
         this.description = "";
-        if(this.categories == null)
-            this.categories = new MutableLiveData<>();
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
         this.selectedCategoryPosition = 0;
         this.selectedDate = Calendar.getInstance().getTime();
-        setAccount(accountId, accountDatasourceId);
+        this.categories = repo.readAccountCategories(accountId, accountDatasourceId);
+        this.details = repo.getDetails(accountId, accountDatasourceId);
     }
 
     public void addExpense(){
         Expense expense = new Expense(0, 0, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedCategory(), description, new Date());
         repo.createExpense(expense, () -> {});
-    }
-
-    public LiveData<List<Category>> getCategories() {
-        return this.categories;
     }
 
     public long getAccountId() {
@@ -59,37 +55,24 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
         return this.accountDatasourceId;
     }
 
-    public void setAccount(long accountId, long accountDatasourceId){
-        this.accountId = accountId;
-        this.accountDatasourceId = accountDatasourceId;
-        repo.readAccountCategories(accountId, accountDatasourceId, categs -> {
-            ((MutableLiveData<List<Category>>)this.categories).setValue(categs);
-        });
-        this.details = repo.getDetails(accountId, accountDatasourceId);
-    }
-
     public double getAmount(){
         return this.amount;
     }
 
-    public void setAmount(double amount){
-        this.amount = amount;
+    public LiveData<List<Category>> getCategories() {
+        return this.categories;
     }
 
     public LiveData<List<String>> getDetails(){
         return this.details;
     }
 
-    public void setDescription(String description){
-        this.description = description;
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
     }
 
     public Date getSelectedDate(){
         return this.selectedDate;
-    }
-
-    public void setSelectedDate(Date date){
-        this.selectedDate = date;
     }
 
     public String getSelectedCategory(){
@@ -98,6 +81,18 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
 
     public int getSelectedCategoryPosition(){
         return this.selectedCategoryPosition;
+    }
+
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public void setSelectedDate(Date date){
+        this.selectedDate = date;
     }
 
     public void setSelectedCategoryPosition(int pos){

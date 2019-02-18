@@ -9,12 +9,15 @@ import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 public class AppRepository {
 
@@ -128,6 +131,10 @@ public class AppRepository {
         localDb.readAccount(accountId, datasourceId, callback::onTaskCompleted);
     }
 
+    public LiveData<Account> readAccount(long accountId, long accountDatasourceId){
+        return localDb.readAccount(accountId, accountDatasourceId);
+    }
+
     public void readUserAccounts (long userId, CallbackReturnObject<List<Account>> callback){
         localDb.readUserAccounts(userId, callback::onTaskCompleted);
     }
@@ -215,12 +222,12 @@ public class AppRepository {
         localDb.readBudget(budgetId, datasourceId, callback::onTaskCompleted);
     }
 
-    public void readAccountBudget(long accountId, long accountDatasourceId,
+    public void readAccountBudgets(long accountId, long accountDatasourceId,
                                    CallbackReturnMultipleObjects<Budget> callback){
         localDb.readAccountBudgets(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 
-    public LiveData<List<Budget>> readAccountBudgetsLD(long accountId, long accountDatasourceId){
+    public LiveData<List<Budget>> readAccountBudgets(long accountId, long accountDatasourceId){
         return localDb.readAccountBudgetsLD(accountId, accountDatasourceId);
     }
 
@@ -259,12 +266,12 @@ public class AppRepository {
         localDb.readFund(fundId, datasourceId, callback::onTaskCompleted);
     }
 
-    public void readAccountFund(long accountId, long accountDatasourceId,
+    public void readAccountFunds(long accountId, long accountDatasourceId,
                                   CallbackReturnMultipleObjects<Fund> callback){
         localDb.readAccountFunds(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
 
-    public LiveData<List<Fund>> readAccountFundsLD(long accountId, long accountDatasourceId){
+    public LiveData<List<Fund>> readAccountFunds(long accountId, long accountDatasourceId){
         return localDb.readAccountFundsLD(accountId, accountDatasourceId);
     }
 
@@ -384,4 +391,20 @@ public class AppRepository {
                                CallbackReturnMultipleObjects<Sum> callback) {
         localDb.getSumAllFunds(accountId, accountDatasourceId, callback::onTaskCompleted);
     }
+
+
+    /**** Interfaces to get Preferences**/
+
+    public LiveData<Preference> getSelectedAccount(){
+        return localDb.getSelectedAccount();
+    }
+
+    public LiveData<Preference> getSelectedUser(){
+        return localDb.getSelectedUser();
+    }
+
+    public void updatePreference(Preference pref, Callback callback){
+        localDb.updatePreference(pref, callback::onTaskCompleted);
+    }
+
 }

@@ -30,20 +30,16 @@ public class EditFundDialogViewModel extends AndroidViewModel {
         this.details = repo.getDetails(fund.accountId, fund.accountDatasourceId);
     }
 
-    public void updateFund(){
-        repo.updateFund(this.fund, () -> {});
-    }
-
-    public LiveData<List<Source>> getSources() {
-        return this.sources;
-    }
-
     public double getAmount(){
         return this.fund.amount;
     }
 
-    public void setAmount(double amount){
-        this.fund.amount = amount;
+    public Date getDate(){
+        return this.fund.date;
+    }
+
+    public String getDescription(){
+        return this.fund.details;
     }
 
     public LiveData<List<String>> getDetails(){
@@ -54,23 +50,28 @@ public class EditFundDialogViewModel extends AndroidViewModel {
         return this.fund.type;
     }
 
-    public void setSource(String source){
-        this.fund.type = source;
+    public LiveData<List<Source>> getSources() {
+        return this.sources;
     }
 
-    public String getDescription(){
-        return this.fund.details;
+    public void setAmount(double amount){
+        this.fund.amount = amount;
     }
 
     public void setDescription(String description){
         this.fund.details = description;
     }
 
-    public Date getDate(){
-        return this.fund.date;
-    }
-
     public void setDate(Date date){
         this.fund.date = date;
     }
+
+    public void setSource(String source){
+        this.fund.type = source;
+    }
+
+    public void updateFund(){
+        repo.updateFund(this.fund, () -> {});
+    }
+
 }

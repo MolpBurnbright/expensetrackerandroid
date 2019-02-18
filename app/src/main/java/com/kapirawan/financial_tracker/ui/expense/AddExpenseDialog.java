@@ -35,14 +35,19 @@ public class AddExpenseDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddExpenseDialogViewModel.class);
-        this.viewModel.init(1, 0);
         View view = inflater.inflate(R.layout.expense_dialog_add_expense, container, false);
-        onCreateViewInitDate(view);
-        onCreateViewInitType(view);
-        onCreateViewInitAmount(view);
-        onCreateViewInitAutocomplete(view);
-        onCreateViewInitAddButton(view);
-        view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            onCreateViewInitDate(view);
+            onCreateViewInitType(view);
+            onCreateViewInitAmount(view);
+            onCreateViewInitAutocomplete(view);
+            onCreateViewInitAddButton(view);
+            view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
+        });
         return view;
     }
 

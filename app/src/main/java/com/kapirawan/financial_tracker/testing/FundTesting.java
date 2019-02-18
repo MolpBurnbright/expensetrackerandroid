@@ -73,7 +73,7 @@ public class FundTesting {
 
     private void retrieveAccountFund(){
         Log.i(label, "Retrieving funds for account 02 accountDatasourceId 01");
-        repository.readAccountFund(02, 1, funds -> {
+        repository.readAccountFunds(02, 1, funds -> {
             Log.i(label, "Account Funds retrieve successful..");
             Log.i(label, "Number of funds retrieved: " + funds.size());
             for (int i=0; i < funds.size(); i++){

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -31,12 +30,15 @@ public class FundListFragment extends Fragment {
         FundListAdapter adapter = new FundListAdapter();
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(FundListFragmentViewModel.class);
-        viewModel.init(1, 0);
-        viewModel.getFunds().observe(this, funds  ->
-                adapter.setFunds(funds)
-        );
-        viewModel.getAccount().observe(this, account ->
-                ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getFunds().observe(this, funds -> adapter.setFunds(funds));
+            viewModel.getAccount().observe(this, account ->
+                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        });
         return rootView;
     }
 

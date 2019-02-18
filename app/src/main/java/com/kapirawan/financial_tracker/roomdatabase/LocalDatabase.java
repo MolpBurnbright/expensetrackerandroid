@@ -38,6 +38,7 @@ import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveAccountFun
 import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveAllFunds;
 import com.kapirawan.financial_tracker.roomdatabase.fund.AsyncRetrieveFund;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.source.AsyncDeleteAllSources;
 import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveAccountSources;
 import com.kapirawan.financial_tracker.roomdatabase.source.AsyncRetrieveAllSources;
@@ -54,6 +55,8 @@ import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveUser;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 /*
 * Author - Rodney Caneda
@@ -185,10 +188,14 @@ public class LocalDatabase {
                 callback::onTaskCompleted).execute(accountArray);
     }
 
-    public void readAccount (long accountId, long datasourceId,
+    public void readAccount (long accountId, long accountDatasourceId,
                              CallbackReturnObject<Account> callback){
         new AsyncRetrieveAccount(db.daoAccount(), callback::onTaskCompleted)
-                .execute(accountId, datasourceId);
+                .execute(accountId, accountDatasourceId);
+    }
+
+    public LiveData<Account> readAccount(long accountId, long accountDatasourceId){
+        return db.daoAccount().getAccountLD(accountId, accountDatasourceId);
     }
 
     public void readUserAccounts (long userId, CallbackReturnObject<List<Account>> callback){
@@ -512,4 +519,19 @@ public class LocalDatabase {
         new AsyncSumAllFunds(db.daoSum(), callback::onTaskCompleted)
                 .execute(accountId, accountDatasourceId);
     }
+
+    /*** Interface for Preferences***/
+
+    public LiveData<Preference> getSelectedAccount(){
+        return db.daoPreference().getSelectedAccount();
+    }
+
+    public LiveData<Preference> getSelectedUser(){
+        return db.daoPreference().getSelectedUser();
+    }
+
+    public void updatePreference(Preference preference, Callback callback){
+        new AsyncUpdate<Preference> (db.daoPreference(), callback::onTaskCompleted).execute(preference);
+    }
+
 }

@@ -7,26 +7,36 @@ import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 
 import java.util.List;
 
 public class SourceFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
-    private Account account;
     private LiveData<List<Source>> sources;
+    private LiveData<Account> account;
 
     public SourceFragmentViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(Account account) {
-        this.account = account;
-        sources = repo.readAccountSources(account._id, account.datasourceId);
+    public void init(long accountId, long accountDatasourceId) {
+        sources = repo.readAccountSources(accountId, accountDatasourceId);
+        account = repo.readAccount(accountId, accountDatasourceId);
     }
 
-    public LiveData<List<Source>> getCategories() {
+    public LiveData<Account> getAccount(){
+        return account;
+    }
+
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
+    }
+
+    public LiveData<List<Source>> getSources() {
         return sources;
     }
+
 }

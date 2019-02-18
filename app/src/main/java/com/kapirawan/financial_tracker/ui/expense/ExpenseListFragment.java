@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
@@ -23,19 +24,22 @@ public class ExpenseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.expense_fragment_expenselist,container, false);
+        View rootView = inflater.inflate(R.layout.expense_fragment,container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_expenses_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
         ExpenseListAdapter adapter = new ExpenseListAdapter();
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(ExpenseListFragmentViewModel.class);
-        viewModel.init(1, 0);
-        viewModel.getExpenses().observe(this, expenses  ->
-                adapter.setExpenses(expenses)
-        );
-        viewModel.getAccount().observe(this, account ->
-                ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getExpenses().observe(this, expenses  -> adapter.setExpenses(expenses));
+            viewModel.getAccount().observe(this, account ->
+                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        });
         return rootView;
     }
 

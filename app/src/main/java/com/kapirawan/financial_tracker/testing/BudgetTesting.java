@@ -81,7 +81,7 @@ public class BudgetTesting {
 
     private void retrieveAccountBudget(){
         Log.i(label, "Retrieving budgets for account 02 accountDatasourceId 01");
-        repository.readAccountBudget(02, 1, budgets -> {
+        repository.readAccountBudgets(02, 1, budgets -> {
             Log.i(label, "Account Budgets retrieve successful..");
             Log.i(label, "Number of budgets retrieved: " + budgets.size());
             for (int i=0; i < budgets.size(); i++){

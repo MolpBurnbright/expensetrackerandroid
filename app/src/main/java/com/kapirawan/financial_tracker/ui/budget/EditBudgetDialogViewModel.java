@@ -26,28 +26,13 @@ public class EditBudgetDialogViewModel extends AndroidViewModel {
 
     public void init(Budget budget){
         this.budget = budget;
-        if(this.categories == null)
-            this.categories = new MutableLiveData<>();
-        repo.readAccountCategories(budget.accountId, budget.accountDatasourceId, categs -> {
-            ((MutableLiveData<List<Category>>)this.categories).setValue(categs);
-        });
+        categories = repo.readAccountCategories(budget.accountId, budget.accountDatasourceId);
         this.details = repo.getDetails(budget.accountId, budget.accountDatasourceId);
     }
 
-    public void updateBudget(){
-        repo.updateBudget(this.budget, () -> {});
-    }
-
-    public LiveData<List<Category>> getCategories() {
-        return this.categories;
-    }
 
     public double getAmount(){
         return this.budget.amount;
-    }
-
-    public void setAmount(double amount){
-        this.budget.amount = amount;
     }
 
     public LiveData<List<String>> getDetails(){
@@ -58,23 +43,36 @@ public class EditBudgetDialogViewModel extends AndroidViewModel {
         return this.budget.type;
     }
 
-    public void setCategory(String category){
-        this.budget.type = category;
-    }
-
-    public String getDescription(){
-        return this.budget.details;
-    }
-
-    public void setDescription(String description){
-        this.budget.details = description;
+    public LiveData<List<Category>> getCategories() {
+        return this.categories;
     }
 
     public Date getDate(){
         return this.budget.date;
     }
 
+    public String getDescription(){
+        return this.budget.details;
+    }
+
+    public void setAmount(double amount){
+        this.budget.amount = amount;
+    }
+
+    public void setCategory(String category){
+        this.budget.type = category;
+    }
+
     public void setDate(Date date){
         this.budget.date = date;
     }
+
+    public void setDescription(String description){
+        this.budget.details = description;
+    }
+
+    public void updateBudget(){
+        repo.updateBudget(this.budget, () -> {});
+    }
+
 }

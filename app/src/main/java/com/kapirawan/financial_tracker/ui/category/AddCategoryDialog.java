@@ -30,13 +30,17 @@ public class AddCategoryDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        viewModel = ViewModelProviders.of(this.getActivity()).get(AddCategoryDialogViewModel.class);
-        //TODO: Add appropriate account
-        viewModel.init(new Account(1, 0, 0, "My Account", new Date()));
-        viewModel.getCategories().observe(this, cats -> categories = cats);
         View view = inflater.inflate(R.layout.category_dialog_add_category, container, false);
-        onCreateViewInitName(view);
-        onCreateViewInitAddButton(view);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(AddCategoryDialogViewModel.class);
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getCategories().observe(this, cats -> categories = cats);
+            onCreateViewInitName(view);
+            onCreateViewInitAddButton(view);
+        });
         view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         return view;
     }

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.fund.Fund;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 
 import java.util.List;
 
@@ -25,35 +26,20 @@ public class FundListFragmentViewModel extends AndroidViewModel {
     }
 
     public void init(long accountId, long accountDatasourceId) {
-        if (funds != null) {
-            return;
-        }
-        this.account = new MutableLiveData<>();
-        setAccount(accountId, accountDatasourceId);
-    }
-
-    public LiveData<List<Fund>> getFunds() {
-        return funds;
+        account = repo.readAccount(accountId, accountDatasourceId);
+        funds = repo.readAccountFunds(accountId, accountDatasourceId);
     }
 
     public LiveData<Account> getAccount(){
         return account;
     }
 
-    public void setAccount(long accountId, long accountDatasourceId) {
-        this.accountId = accountId;
-        this.accountDatasourceId = accountDatasourceId;
-        funds = repo.readAccountFundsLD(accountId, accountDatasourceId);
-        repo.readAccount(accountId, accountDatasourceId, account ->
-                ((MutableLiveData<Account>) this.account).setValue(account)
-        );
+    public LiveData<List<Fund>> getFunds() {
+        return funds;
     }
 
-    public boolean getContextMenuEnabled(){
-        return contextMenuEnabled;
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
     }
 
-    public void setContextMenuEnabled(boolean enabled){
-        contextMenuEnabled = enabled;
-    }
 }

@@ -3,12 +3,12 @@ package com.kapirawan.financial_tracker.ui.budget;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
+import com.kapirawan.financial_tracker.roomdatabase.preference.Preference;
 
 import java.util.List;
 
@@ -16,7 +16,6 @@ public class BudgetListFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
     private LiveData<List<Budget>> budgets;
     private LiveData<Account> account;
-    private long accountId, accountDatasourceId;
 
     public BudgetListFragmentViewModel(@NonNull Application app) {
         super(app);
@@ -24,27 +23,21 @@ public class BudgetListFragmentViewModel extends AndroidViewModel {
     }
 
     public void init(long accountId, long accountDatasourceId) {
-        if (budgets != null) {
-            return;
-        }
-        this.account = new MutableLiveData<>();
-        setAccount(accountId, accountDatasourceId);
-    }
-
-    public LiveData<List<Budget>> getBudgets() {
-        return budgets;
+        account = repo.readAccount(accountId, accountDatasourceId);
+        budgets = repo.readAccountBudgets(accountId, accountDatasourceId);
     }
 
     public LiveData<Account> getAccount(){
         return account;
     }
 
-    public void setAccount(long accountId, long accountDatasourceId) {
-        this.accountId = accountId;
-        this.accountDatasourceId = accountDatasourceId;
-        budgets = repo.readAccountBudgetsLD(accountId, accountDatasourceId);
-        repo.readAccount(accountId, accountDatasourceId, account ->
-                ((MutableLiveData<Account>) this.account).setValue(account)
-        );
+    public LiveData<List<Budget>> getBudgets() {
+        return budgets;
     }
+
+    public LiveData<Preference> getSelectedAccount(){
+        return repo.getSelectedAccount();
+    }
+
+
 }

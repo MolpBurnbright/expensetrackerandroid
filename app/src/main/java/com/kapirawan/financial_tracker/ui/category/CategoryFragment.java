@@ -11,8 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
@@ -32,11 +34,16 @@ public class CategoryFragment extends Fragment {
         CategoryListAdapter adapter = new CategoryListAdapter();
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(CategoryFragmentViewModel.class);
-        //TODO: Supply correct Account
-        viewModel.init(new Account(1, 0, 0, "My Accoount", new Date()));
-        viewModel.getCategories().observe(this, categories  ->
-                adapter.setCategories(categories)
-        );
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            viewModel.getCategories().observe(this, categories -> adapter.setCategories(categories));
+            viewModel.getAccount().observe(this, account ->
+                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+        });
+
         rootView.findViewById(R.id.fab_addcategory).setOnClickListener(view -> new AddCategoryDialog()
                 .show(this.getActivity().getSupportFragmentManager(), "Add Category Dialog"));
         return rootView;

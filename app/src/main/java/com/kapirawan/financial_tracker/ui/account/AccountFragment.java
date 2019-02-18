@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
@@ -21,6 +22,7 @@ import java.util.Date;
 
 public class AccountFragment extends Fragment {
     AccountFragmentViewModel viewModel;
+    AccountListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,13 +31,19 @@ public class AccountFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_accountlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
-        AccountListAdapter adapter = new AccountListAdapter();
+        adapter = new AccountListAdapter();
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(AccountFragmentViewModel.class);
-        viewModel.init(new User(0, "", new Date()));
-        viewModel.getAccounts().observe(this, accounts  ->
-                adapter.setAccounts(accounts)
-        );
+        viewModel.getSelectedUser().observe(this, selectedUser -> {
+            viewModel.init(Long.parseLong(selectedUser.value));
+            viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+                String[] parsedValues = selectedAccount.value.split(",");
+                adapter.setSelectedAccount(Long.parseLong(parsedValues[0]), Long.parseLong(parsedValues[1]));
+            });
+            viewModel.getAccounts().observe(this, accounts  ->
+                    adapter.setAccounts(accounts)
+            );
+        });
         rootView.findViewById(R.id.fab_addaccount).setOnClickListener(view -> new AddAccountDialog()
                 .show(this.getActivity().getSupportFragmentManager(), "Add Account Dialog"));
         return rootView;
@@ -45,7 +53,7 @@ public class AccountFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.item_menu, menu);
+        inflater.inflate(R.menu.account_menu, menu);
     }
 
     @Override
@@ -65,6 +73,9 @@ public class AccountFragment extends Fragment {
                         .get(RemoveAccountDialogViewModel.class).init(account);
                 new RemoveAccountDialog().show(this.getFragmentManager(),
                         "Remove Account Dialog");
+                break;
+            case R.id.select:
+                viewModel.setSelectedAccount(account);
                 break;
         }
         return super.onContextItemSelected(item);

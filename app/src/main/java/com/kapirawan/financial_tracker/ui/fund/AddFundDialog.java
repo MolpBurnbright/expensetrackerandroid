@@ -34,14 +34,19 @@ public class AddFundDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
-        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddFundDialogViewModel.class);
-        this.viewModel.init(1, 0);
         View view = inflater.inflate(R.layout.fund_dialog_add_fund, container, false);
-        onCreateViewInitDate(view);
-        onCreateViewInitType(view);
-        onCreateViewInitAmount(view);
-        onCreateViewInitAutocomplete(view);
-        onCreateViewInitAddButton(view);
+        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddFundDialogViewModel.class);
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            long accountID = Long.parseLong(parsedValues[0]);
+            long accounDatasourceId = Long.parseLong(parsedValues[1]);
+            viewModel.init(accountID, accounDatasourceId);
+            onCreateViewInitDate(view);
+            onCreateViewInitType(view);
+            onCreateViewInitAmount(view);
+            onCreateViewInitAutocomplete(view);
+            onCreateViewInitAddButton(view);
+        });
         view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         return view;
     }

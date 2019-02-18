@@ -7,7 +7,8 @@
     android:layout_marginTop="3dp"
     android:layout_marginRight="5dp"
     android:layout_marginBottom="3dp"
-    android:background="#e6e6e6">
+    android:background="#e6e6e6"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/textView9"
