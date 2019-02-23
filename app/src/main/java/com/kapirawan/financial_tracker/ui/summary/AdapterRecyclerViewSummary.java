@@ -1,88 +1,126 @@
 package com.kapirawan.financial_tracker.ui.summary;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterRecyclerViewSummary extends
-        RecyclerView.Adapter<AdapterRecyclerViewSummary.ViewHolder>{
+        RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static final int HEADER_VIEW = 0;
-    private static final int DETAIL_ViEW = 1;
-    private static final int FOOTER_VIEW = 2;
+    private static final int BUDGET_EXPENSE_VIEW = 1;
+    private static final int FUND_VIEW = 2;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewName;
-        public TextView textViewBudget;
-        public TextView textViewExpense;
-        public TextView textViewRemaining;
-
-        public ViewHolder (View v){
-            super(v);
-            this.textViewName = v.findViewById(R.id.recyclerview_item_summary_name);
-            this.textViewExpense = v.findViewById(R.id.recyclerview_item_summary_expense);
-            this.textViewBudget = v.findViewById(R.id.recyclerview_item_summary_budget);
-            this.textViewRemaining = v.findViewById(R.id.recyclerview_item_summary_remaining);
-        }
-    }
-
-    private List<Summary> summaries;
+    private List<Summary> budgetExpenseSummaries;
+    private List<Sum> fundsSummaries;
 
     public AdapterRecyclerViewSummary(){
     }
 
-    public void setSummaryDataset(List<Summary> summary){
-        this.summaries = summary;
+    public void setBudgetExpenseSummary(List<Summary> summary){
+        this.budgetExpenseSummaries = summary;
+        notifyDataSetChanged();
+    }
+
+    public void setFundsSummaries(List<Sum> summary){
+        fundsSummaries = summary;
         notifyDataSetChanged();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_recyclerview_item_summary, parent, false);
-        return new ViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        RecyclerView.ViewHolder holder;
+        if (viewType == BUDGET_EXPENSE_VIEW) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.summary_recyclerview_expensebudget_container, parent, false);
+            holder = new ViewHolderBudgetExpense(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.summary_recyclerview_fund_container, parent, false);
+            holder = new ViewHolderFund(v);
+        }
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int pos){
-        if (pos > 0){
-            int item = pos - 1;
-            Summary summary = this.summaries.get(item);
-            viewHolder.textViewName.setText(summary.name);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int pos){
+        int type = getItemViewType(pos);
+        if (type == BUDGET_EXPENSE_VIEW) {
+            LinearLayout container = ((ViewHolderBudgetExpense) viewHolder).linearLayoutItems;
+            container.removeAllViews();
             DecimalFormat formatter = new DecimalFormat("#,##0.00");
-            viewHolder.textViewBudget.setText(formatter.format(summary.totalBudget));
-            viewHolder.textViewExpense.setText(formatter.format(summary.totalExpense));
-            viewHolder.textViewRemaining.setText(formatter.format(summary.totalRemaining));
-        }else{
-            viewHolder.textViewName.setText("Item");
-            viewHolder.textViewBudget.setText("Budget");
-            viewHolder.textViewExpense.setText("Expense");
-            viewHolder.textViewRemaining.setText("Remaining");
+            for (Summary sum : budgetExpenseSummaries) {
+                View item = LayoutInflater.from(viewHolder.itemView.getContext())
+                        .inflate(R.layout.summary_recyclerview_expensebudget_item, null);
+                ((TextView) item.findViewById(R.id.textview_name)).setText(sum.name);
+                ((TextView) item.findViewById(R.id.textview_budget)).setText(formatter.format(sum.totalBudget));
+                ((TextView) item.findViewById(R.id.textview_expense)).setText(formatter.format(sum.totalExpense));
+                ((TextView) item.findViewById(R.id.textview_remaining)).setText(formatter.format(sum.totalRemaining));
+                container.addView(item);
+            }
+        }else if (type == FUND_VIEW){
+            LinearLayout container = ((ViewHolderFund) viewHolder).linearLayoutItems;
+            container.removeAllViews();
+            DecimalFormat formatter = new DecimalFormat("#,##0.00");
+            for (Sum sum : fundsSummaries) {
+                View item = LayoutInflater.from(viewHolder.itemView.getContext())
+                        .inflate(R.layout.summary_recyclerview_fund_item, null);
+                ((TextView) item.findViewById(R.id.textview_name)).setText(sum.name);
+                ((TextView) item.findViewById(R.id.textview_fund)).setText(formatter.format(sum.amount));
+                container.addView(item);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        if(this.summaries != null)
-            return summaries.size() + 1;
-        else
-            return 0;
+        int count = 0;
+
+        if (budgetExpenseSummaries != null)
+            count += 1;
+        if (fundsSummaries != null)
+            count += 1;
+        return count;
     }
 
     @Override
     public int getItemViewType(int pos){
-        if (pos == 0)
-            return HEADER_VIEW;
-        else if (pos == getItemCount())
-            return FOOTER_VIEW;
-        else
-            return DETAIL_ViEW;
+        ArrayList<Integer> types = new ArrayList();
+
+        if(budgetExpenseSummaries != null)
+            types.add(BUDGET_EXPENSE_VIEW);
+
+        if(fundsSummaries != null)
+            types.add(FUND_VIEW);
+
+        return types.get(pos).intValue();
+    }
+
+    public static class ViewHolderBudgetExpense extends RecyclerView.ViewHolder {
+        public LinearLayout linearLayoutItems;
+
+        public ViewHolderBudgetExpense (View v){
+            super(v);
+            this.linearLayoutItems = v.findViewById(R.id.linearlayout_items);
+        }
+    }
+
+    public static class ViewHolderFund extends RecyclerView.ViewHolder {
+        public LinearLayout linearLayoutItems;
+
+        public ViewHolderFund (View v){
+            super(v);
+            this.linearLayoutItems = v.findViewById(R.id.linearlayout_items);
+        }
     }
 }

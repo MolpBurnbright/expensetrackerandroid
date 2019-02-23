@@ -36,7 +36,7 @@ android:layout_height="match_parent">
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -95,7 +95,7 @@ android:layout_height="match_parent">
         app:srcCompat="@android:drawable/ic_secure" />
 
     <TextView
-        android:id="@+id/textview_fund"
+        android:id="@+id/textview_fundbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -106,7 +106,7 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="@+id/fab_fund" />
 
     <TextView
-        android:id="@+id/textview_budget"
+        android:id="@+id/textview_budgetbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -117,7 +117,7 @@ android:layout_height="match_parent">
         app:layout_constraintStart_toStartOf="@+id/fab_budget" />
 
     <TextView
-        android:id="@+id/textview_expense"
+        android:id="@+id/textview_expensebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

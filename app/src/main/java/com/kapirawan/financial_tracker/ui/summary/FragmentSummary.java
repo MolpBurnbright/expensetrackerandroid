@@ -40,27 +40,27 @@ public class FragmentSummary extends Fragment {
         FloatingActionButton fabBudget = rootView.findViewById(R.id.fab_budget);
         FloatingActionButton fabFund = rootView.findViewById(R.id.fab_fund);
         fabExpense.hide();
-        rootView.findViewById(R.id.textview_expense).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.textview_expensebutton).setVisibility(View.INVISIBLE);
         fabBudget.hide();
-        rootView.findViewById(R.id.textview_budget).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.textview_budgetbutton).setVisibility(View.INVISIBLE);
         fabFund.hide();
-        rootView.findViewById(R.id.textview_fund).setVisibility(View.INVISIBLE);
+        rootView.findViewById(R.id.textview_fundbutton).setVisibility(View.INVISIBLE);
         rootView.findViewById(R.id.fab_controller).setOnClickListener(view ->{
             if (fabExpense.getVisibility() == View.VISIBLE) {
                 fabExpense.hide();
-                rootView.findViewById(R.id.textview_expense).setVisibility(View.INVISIBLE);
+                rootView.findViewById(R.id.textview_expensebutton).setVisibility(View.INVISIBLE);
                 fabBudget.hide();
-                rootView.findViewById(R.id.textview_budget).setVisibility(View.INVISIBLE);
+                rootView.findViewById(R.id.textview_budgetbutton).setVisibility(View.INVISIBLE);
                 fabFund.hide();
-                rootView.findViewById(R.id.textview_fund).setVisibility(View.INVISIBLE);
+                rootView.findViewById(R.id.textview_fundbutton).setVisibility(View.INVISIBLE);
 
             } else {
                 fabExpense.show();
-                rootView.findViewById(R.id.textview_expense).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.textview_expensebutton).setVisibility(View.VISIBLE);
                 fabBudget.show();
-                rootView.findViewById(R.id.textview_budget).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.textview_budgetbutton).setVisibility(View.VISIBLE);
                 fabFund.show();
-                rootView.findViewById(R.id.textview_fund).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.textview_fundbutton).setVisibility(View.VISIBLE);
             }
         });
         fabExpense.setOnClickListener(view -> new AddExpenseDialog()
@@ -86,18 +86,18 @@ public class FragmentSummary extends Fragment {
                 expensesSum = sums;
                 if(expensesSum != null & budgetsSum != null){
                     List<Summary> summaries = Summary.getSummaries(expensesSum, budgetsSum);
-                    adapter.setSummaryDataset(summaries);
+                    adapter.setBudgetExpenseSummary(summaries);
                 }
             });
             viewModel.getBudgetsSummary().observe(this, sums -> {
                 budgetsSum = sums;
                 if(expensesSum != null & budgetsSum != null) {
                     List<Summary> summaries = Summary.getSummaries(expensesSum, budgetsSum);
-                    adapter.setSummaryDataset(summaries);
+                    adapter.setBudgetExpenseSummary(summaries);
                 }
             });
             viewModel.getFundsSummary().observe(this, sum -> {
-                fundsSum = sum;
+                adapter.setFundsSummaries(sum);
             });
             viewModel.getAccount().observe(this, account -> {
                 ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name);
