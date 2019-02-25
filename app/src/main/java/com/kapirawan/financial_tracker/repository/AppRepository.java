@@ -195,6 +195,10 @@ public class AppRepository {
         localDb.readAllExpenses(callback::onTaskCompleted);
     }
 
+    public LiveData<Double> readTotalExpense(long accountId, long accountDatasourceId){
+        return localDb.readTotalExpense(accountId, accountDatasourceId);
+    }
+
     public void updateExpense (Expense expense, Callback callback){
         localDb.updateExpense(expense, callback::onTaskCompleted);
     }
@@ -239,6 +243,10 @@ public class AppRepository {
         localDb.readAllBudgets(callback::onTaskCompleted);
     }
 
+    public LiveData<Double> readTotalBudget(long accountId, long accountDatasourceId){
+        return localDb.readTotalBudget(accountId, accountDatasourceId);
+    }
+
     public void updateBudget (Budget budget, Callback callback){
         localDb.updateBudget(budget, callback::onTaskCompleted);
     }
@@ -281,6 +289,10 @@ public class AppRepository {
 
     public void readAllFunds(CallbackReturnMultipleObjects<Fund> callback){
         localDb.readAllFunds(callback::onTaskCompleted);
+    }
+
+    public LiveData<Double> readTotalFund(long accountId, long accountDatasourceId){
+        return localDb.readTotalFund(accountId, accountDatasourceId);
     }
 
     public void updateFund (Fund fund, Callback callback){

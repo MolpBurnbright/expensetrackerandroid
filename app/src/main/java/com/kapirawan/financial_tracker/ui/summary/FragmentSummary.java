@@ -96,12 +96,12 @@ public class FragmentSummary extends Fragment {
                     adapter.setBudgetExpenseSummary(summaries);
                 }
             });
-            viewModel.getFundsSummary().observe(this, sum -> {
-                adapter.setFundsSummaries(sum);
-            });
-            viewModel.getAccount().observe(this, account -> {
-                ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name);
-            });
+            viewModel.getFundsSummary().observe(this, sum -> adapter.setFundsSummaries(sum));
+            viewModel.getAccount().observe(this, account ->
+                ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+            viewModel.getTotalBudget().observe(this, amount -> adapter.setTotalBudget(amount));
+            viewModel.getTotalExpense().observe(this, amount -> adapter.setTotalExpense(amount));
+            viewModel.getTotalFund().observe(this, amount -> adapter.setTotalFund(amount));
         });
     }
 }

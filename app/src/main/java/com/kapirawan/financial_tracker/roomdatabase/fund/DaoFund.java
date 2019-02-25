@@ -35,6 +35,10 @@ public interface DaoFund extends DaoBase<Fund> {
     @Query("select * from fund")
     List<Fund> getAllFunds();
 
+    @Query("select sum(amount) from fund " +
+            "where accountId = :accountId and accountDatasourceId = :accountDatasourceId")
+    LiveData<Double> getTotalFund(long accountId, long accountDatasourceId);
+
     @Query("delete from fund")
     void deleteAllFunds();
 }

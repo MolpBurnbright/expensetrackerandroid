@@ -36,6 +36,10 @@ public interface DaoBudget extends DaoBase<Budget> {
     @Query("select * from budget")
     List<Budget> getAllBudgets();
 
+    @Query("select sum(amount) from budget " +
+            "where accountId = :accountId and accountDatasourceId = :accountDatasourceId")
+    LiveData<Double> getTotalBudget(long accountId, long accountDatasourceId);
+
     @Query("delete from budget")
     void deleteAllBudgets();
 }

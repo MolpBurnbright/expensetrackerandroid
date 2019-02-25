@@ -271,6 +271,10 @@ public class LocalDatabase {
         new AsyncRetrieveAllExpenses(db.daoExpense(), callback::onTaskCompleted).execute();
     }
 
+    public LiveData<Double> readTotalExpense(long accountId, long accountDatasourceId){
+        return db.daoExpense().getTotalExpense(accountId, accountDatasourceId);
+    }
+
     public void updateExpense(Expense expense, Callback callback){
         new AsyncUpdate<Expense> (db.daoExpense(), callback::onTaskCompleted).execute(expense);
     }
@@ -327,6 +331,10 @@ public class LocalDatabase {
         new AsyncRetrieveAllBudgets(db.daoBudget(), callback::onTaskCompleted).execute();
     }
 
+    public LiveData<Double> readTotalBudget(long accountId, long accountDatasourceId){
+        return db.daoBudget().getTotalBudget(accountId, accountDatasourceId);
+    }
+
     public void updateBudget(Budget budget, Callback callback){
         new AsyncUpdate<Budget> (db.daoBudget(), callback::onTaskCompleted).execute(budget);
     }
@@ -381,6 +389,10 @@ public class LocalDatabase {
 
     public void readAllFunds(CallbackReturnMultipleObjects<Fund> callback){
         new AsyncRetrieveAllFunds(db.daoFund(), callback::onTaskCompleted).execute();
+    }
+
+    public LiveData<Double> readTotalFund(long accountId, long accountDatasourceId){
+        return db.daoFund().getTotalFund(accountId, accountDatasourceId);
     }
 
     public void updateFund(Fund fund, Callback callback){

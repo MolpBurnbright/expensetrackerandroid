@@ -39,6 +39,10 @@ public interface DaoExpense extends DaoBase<Expense> {
     @Query("select * from expense")
     List<Expense> getAllExpenses();
 
+    @Query("select sum(amount) from expense " +
+            "where accountId = :accountId and accountDatasourceId = :accountDatasourceId")
+    LiveData<Double> getTotalExpense(long accountId, long accountDatasourceId);
+
     @Query("delete from expense")
     void deleteAllExpenses();
 }
