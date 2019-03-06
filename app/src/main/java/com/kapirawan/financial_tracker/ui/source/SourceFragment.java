@@ -14,12 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.preference.Preference;
-import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
-
-import java.util.Date;
 
 public class SourceFragment extends Fragment {
     SourceFragmentViewModel viewModel;
@@ -36,13 +32,15 @@ public class SourceFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(SourceFragmentViewModel.class);
 
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
-            String[] parsedValues = selectedAccount.value.split(",");
-            long accountID = Long.parseLong(parsedValues[0]);
-            long accounDatasourceId = Long.parseLong(parsedValues[1]);
-            viewModel.init(accountID, accounDatasourceId);
-            viewModel.getSources().observe(this, sources -> adapter.setCategories(sources));
-            viewModel.getAccount().observe(this, account ->
-                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+            if(selectedAccount != null) {
+                String[] parsedValues = selectedAccount.value.split(",");
+                long accountID = Long.parseLong(parsedValues[0]);
+                long accounDatasourceId = Long.parseLong(parsedValues[1]);
+                viewModel.init(accountID, accounDatasourceId);
+                viewModel.getSources().observe(this, sources -> adapter.setCategories(sources));
+                viewModel.getAccount().observe(this, account ->
+                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+            }
         });
 
         rootView.findViewById(R.id.fab_addsource).setOnClickListener(view -> new AddSourceDialog()

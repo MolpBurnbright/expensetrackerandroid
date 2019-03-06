@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 
 import java.text.DecimalFormat;

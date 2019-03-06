@@ -1,19 +1,15 @@
 package com.kapirawan.financial_tracker.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.activities.ActivitySettings;
 import com.kapirawan.financial_tracker.helper.Refresher;
-import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.ui.account.AccountFragment;
 import com.kapirawan.financial_tracker.ui.main.FragmentMain;
 
@@ -24,8 +20,6 @@ public class ActivityMain extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Initialize Preference
-        Preference.init(getPreferences(Context.MODE_PRIVATE));
         //Setup the content layout
         setContentView(R.layout.activity_main);
         //Setup the Toolbar

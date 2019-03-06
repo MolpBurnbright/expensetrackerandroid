@@ -13,12 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
-import com.kapirawan.financial_tracker.roomdatabase.user.User;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 
-import java.util.Date;
 
 public class AccountFragment extends Fragment {
     AccountFragmentViewModel viewModel;

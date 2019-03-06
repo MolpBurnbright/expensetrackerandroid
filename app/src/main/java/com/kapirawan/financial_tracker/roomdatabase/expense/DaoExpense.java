@@ -12,37 +12,48 @@ import java.util.List;
 @Dao
 public interface DaoExpense extends DaoBase<Expense> {
 
-    @Query("select * from expense where _id = :expenseId and datasourceId = :datasourceId")
-    Expense getExpense(long expenseId, long datasourceId);
+    @Query("delete from expense")
+    void deleteAllExpenses();
 
     @Query("select * from expense where accountId = :accountId " +
             "and accountDatasourceId = :accountDatasourceId")
     List<Expense> getAccountExpenses(long accountId, long accountDatasourceId);
+
+
+    @Query("select * from expense where accountId = :accountId " +
+            "and accountDatasourceId = :accountDatasourceId " +
+            "and type = :type " +
+            "order by date desc")
+    LiveData<List<Expense>> getAccountExpenses(long accountId, long accountDatasourceId, String type);
 
     @Query("select * from expense where accountId = :accountId " +
             "and accountDatasourceId = :accountDatasourceId " +
             "order by date desc")
     LiveData<List<Expense>> getAccountExpensesLD (long accountId, long accountDatasourceId);
 
-    @Query("select distinct(details) from expense where accountId = :accountId " +
-            "and accountDatasourceId = :accountDatasourceId")
-    LiveData<List<String>> getDetails(long accountId, long accountDatasourceId);
-
     @Query("select type as name, sum(amount) as amount from expense " +
             "where accountId = :accountId and accountDatasourceId = :accountDatasourceId " +
             "group by type")
     LiveData<List<Sum>> getAccountSumExpenses(long accountId, long accountDatasourceId);
 
-    @Query("select MAX(_id) from expense where datasourceId = :datasourceId")
-    long getMaxId  (long datasourceId);
-
     @Query("select * from expense")
     List<Expense> getAllExpenses();
+
+    @Query("select distinct(details) from expense where accountId = :accountId " +
+            "and accountDatasourceId = :accountDatasourceId")
+    LiveData<List<String>> getDetails(long accountId, long accountDatasourceId);
+
+    @Query("select * from expense where _id = :expenseId and datasourceId = :datasourceId")
+    Expense getExpense(long expenseId, long datasourceId);
+
+    @Query("select distinct(type) from expense where accountId = :accountId and " +
+            "accountDatasourceId = :accountDatasourceId")
+    LiveData<List<String>> getExpenseCategories(long accountId, long accountDatasourceId);
+
+    @Query("select MAX(_id) from expense where datasourceId = :datasourceId")
+    long getMaxId  (long datasourceId);
 
     @Query("select sum(amount) from expense " +
             "where accountId = :accountId and accountDatasourceId = :accountDatasourceId")
     LiveData<Double> getTotalExpense(long accountId, long accountDatasourceId);
-
-    @Query("delete from expense")
-    void deleteAllExpenses();
 }

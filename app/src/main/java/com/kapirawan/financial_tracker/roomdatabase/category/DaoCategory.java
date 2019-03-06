@@ -19,7 +19,8 @@ public interface DaoCategory extends DaoBase<Category> {
     List<Category> getAccountCategories(long accountId, long accountDatasourceId);
 
     @Query("select * from category where accountId = :accountId " +
-            "and accountDatasourceId = :accountDatasourceId")
+            "and accountDatasourceId = :accountDatasourceId " +
+            "order by name")
     LiveData<List<Category>> getAccountCategoriesLD(long accountId, long accountDatasourceId);
 
     @Query("select * from category")

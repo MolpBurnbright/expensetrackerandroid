@@ -47,34 +47,23 @@ android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_controller"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_blue_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_info_black_24dp" />
-
-    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_fund"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:visibility="visible"
         app:backgroundTint="@android:color/holo_green_dark"
-        app:layout_constraintEnd_toStartOf="@+id/fab_controller"
-        app:layout_constraintTop_toTopOf="@+id/fab_controller"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_expense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         android:clickable="true"
         android:visibility="visible"
         app:backgroundTint="@android:color/holo_red_light"
@@ -86,45 +75,12 @@ android:layout_height="match_parent">
         android:id="@+id/fab_budget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         android:clickable="true"
         android:visibility="visible"
         app:backgroundTint="@android:color/holo_blue_light"
         app:layout_constraintEnd_toStartOf="@+id/fab_fund"
         app:layout_constraintTop_toTopOf="@+id/fab_fund"
         app:srcCompat="@android:drawable/ic_secure" />
-
-    <TextView
-        android:id="@+id/textview_fundbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Add Fund"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/fab_fund"
-        app:layout_constraintEnd_toEndOf="@+id/fab_fund"
-        app:layout_constraintStart_toStartOf="@+id/fab_fund" />
-
-    <TextView
-        android:id="@+id/textview_budgetbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Add Budget"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/fab_budget"
-        app:layout_constraintEnd_toEndOf="@+id/fab_budget"
-        app:layout_constraintStart_toStartOf="@+id/fab_budget" />
-
-    <TextView
-        android:id="@+id/textview_expensebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Add Expense"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/fab_expense"
-        app:layout_constraintEnd_toEndOf="@+id/fab_expense"
-        app:layout_constraintStart_toStartOf="@+id/fab_expense" />
 
 </android.support.constraint.ConstraintLayout>

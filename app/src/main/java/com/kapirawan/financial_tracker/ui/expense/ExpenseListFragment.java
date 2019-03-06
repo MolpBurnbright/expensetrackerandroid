@@ -11,15 +11,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
-import com.kapirawan.financial_tracker.preference.Preference;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
 public class ExpenseListFragment extends Fragment {
     ExpenseListFragmentViewModel viewModel;
+    ExpenseListAdapter expenseListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,20 +31,61 @@ public class ExpenseListFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_expenses_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
-        ExpenseListAdapter adapter = new ExpenseListAdapter();
-        recyclerView.setAdapter(adapter);
+        expenseListAdapter = new ExpenseListAdapter();
+        recyclerView.setAdapter(expenseListAdapter);
         viewModel = ViewModelProviders.of(this).get(ExpenseListFragmentViewModel.class);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
-            String[] parsedValues = selectedAccount.value.split(",");
-            long accountID = Long.parseLong(parsedValues[0]);
-            long accounDatasourceId = Long.parseLong(parsedValues[1]);
-            viewModel.init(accountID, accounDatasourceId);
-            viewModel.getExpenses().observe(this, expenses  -> adapter.setExpenses(expenses));
-            viewModel.getAccount().observe(this, account ->
-                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+            if(selectedAccount != null) {
+                String[] parsedValues = selectedAccount.value.split(",");
+                long accountID = Long.parseLong(parsedValues[0]);
+                long accounDatasourceId = Long.parseLong(parsedValues[1]);
+                viewModel.init(accountID, accounDatasourceId);
+                viewModel.getExpenses().observe(this, expenses -> expenseListAdapter.setExpenses(expenses));
+                viewModel.getAccount().observe(this, account ->
+                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+                initCategoriesSpinner(rootView);
+
+            }
         });
+        rootView.findViewById(R.id.fab_addexpense).setOnClickListener(view -> new AddExpenseDialog()
+                .show(this.getActivity().getSupportFragmentManager(), "Add Expense Dialog"));
         return rootView;
     }
+
+    private void initCategoriesSpinner(View rootView){
+        //Initialize the Type spinner
+        ExpenseListFragment parentFragment = this;
+        this.viewModel.getExpenseCategories().observe(this, categories -> {
+            categories.add(0, "(All)");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
+                    android.R.layout.simple_spinner_item, categories);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            Spinner spinner = rootView.findViewById(R.id.spinner_categories);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if(adapter.getItem(i).equals("(All)")){
+                        viewModel.getExpenses().removeObservers(parentFragment);
+                        viewModel.setExpenseList();
+                        viewModel.getExpenses().observe(parentFragment,
+                                expenses -> expenseListAdapter.setExpenses(expenses));
+                    }else{
+                        viewModel.getExpenses().removeObservers(parentFragment);
+                        viewModel.setExpenseList(adapter.getItem(i));
+                        viewModel.getExpenses().observe(parentFragment,
+                                expenses -> expenseListAdapter.setExpenses(expenses));
+                    }
+                    //TODO: filter expenses based on selected categories.
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) { }
+            });
+            spinner.setSelection(0);
+        });
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){

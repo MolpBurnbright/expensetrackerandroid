@@ -31,14 +31,19 @@ public class FundListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         viewModel = ViewModelProviders.of(this).get(FundListFragmentViewModel.class);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
-            String[] parsedValues = selectedAccount.value.split(",");
-            long accountID = Long.parseLong(parsedValues[0]);
-            long accounDatasourceId = Long.parseLong(parsedValues[1]);
-            viewModel.init(accountID, accounDatasourceId);
-            viewModel.getFunds().observe(this, funds -> adapter.setFunds(funds));
-            viewModel.getAccount().observe(this, account ->
-                    ((TextView)rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+            if(selectedAccount != null) {
+                String[] parsedValues = selectedAccount.value.split(",");
+                long accountID = Long.parseLong(parsedValues[0]);
+                long accounDatasourceId = Long.parseLong(parsedValues[1]);
+                viewModel.init(accountID, accounDatasourceId);
+                viewModel.getFunds().observe(this, funds -> adapter.setFunds(funds));
+                viewModel.getAccount().observe(this, account ->
+                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+            }
         });
+        rootView.findViewById(R.id.fab_addfund).setOnClickListener(view -> new AddFundDialog()
+                .show(this.getActivity().getSupportFragmentManager(), "Add Fund Dialog"));
+
         return rootView;
     }
 

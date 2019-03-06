@@ -46,4 +46,16 @@
 
     </com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_addfund"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 </android.support.constraint.ConstraintLayout>

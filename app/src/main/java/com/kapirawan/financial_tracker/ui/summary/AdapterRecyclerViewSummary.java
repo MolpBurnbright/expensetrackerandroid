@@ -21,6 +21,7 @@ public class AdapterRecyclerViewSummary extends
     private static final int BUDGET_EXPENSE_VIEW = 1;
     private static final int FUND_VIEW = 2;
     private static final int BALANCE_VIEW = 3;
+    private static final int BLANK_VIEW = 4;
 
     private List<Summary> budgetExpenseSummaries;
     private List<Sum> fundsSummaries;
@@ -71,10 +72,14 @@ public class AdapterRecyclerViewSummary extends
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.summary_recyclerview_fund_container, parent, false);
             holder = new ViewHolderFund(v);
-        }else {
+        }else if (viewType == BALANCE_VIEW){
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.summary_recyclerview_balance_container, parent, false);
             holder = new ViewHolderBalance(v);
+        }else{
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.summary_recyclerview_blank_container, parent, false);
+            holder = new ViewHolderBlank(v);
         }
 
         return holder;
@@ -126,7 +131,7 @@ public class AdapterRecyclerViewSummary extends
 
     @Override
     public int getItemCount() {
-        int count = 1;
+        int count = 2;
 
         if (budgetExpenseSummaries != null)
             count += 1;
@@ -146,6 +151,7 @@ public class AdapterRecyclerViewSummary extends
             types.add(FUND_VIEW);
 
         types.add(BALANCE_VIEW);
+        types.add(BLANK_VIEW);
 
         return types.get(pos).intValue();
     }
@@ -176,6 +182,13 @@ public class AdapterRecyclerViewSummary extends
         public ViewHolderFund (View v){
             super(v);
             this.linearLayoutItems = v.findViewById(R.id.linearlayout_items);
+        }
+    }
+
+    public static class ViewHolderBlank extends RecyclerView.ViewHolder {
+
+        public ViewHolderBlank (View v){
+            super(v);
         }
     }
 
