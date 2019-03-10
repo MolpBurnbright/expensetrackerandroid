@@ -37,8 +37,11 @@ public class FundListFragment extends Fragment {
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getFunds().observe(this, funds -> adapter.setFunds(funds));
-                viewModel.getAccount().observe(this, account ->
-                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+                viewModel.getAccount().observe(this, account -> {
+                    TextView textView = rootView.findViewById(R.id.textview_accountname);
+                    if(textView != null)
+                        textView.setText(account.name);
+                });
             }
         });
         rootView.findViewById(R.id.fab_addfund).setOnClickListener(view -> new AddFundDialog()
@@ -60,7 +63,9 @@ public class FundListFragment extends Fragment {
         if(item.getGroupId() == R.id.fund_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-            Fund fund = viewModel.getFunds().getValue().get(info.position);
+            // One is subtracted from the position, since the first position is occupied by title
+            // view in RecyclerView
+            Fund fund = viewModel.getFunds().getValue().get(info.position - 1);
             switch (item.getItemId()) {
                 case R.id.edit_fund:
                     ViewModelProviders.of(this.getActivity())

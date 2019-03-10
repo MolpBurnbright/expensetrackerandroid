@@ -13,9 +13,88 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.BudgetViewHolder>{
+public class BudgetListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    class BudgetViewHolder extends RecyclerView.ViewHolder {
+    private static final int BUDGET_VIEW = 0;
+    private static final int TITLE_VIEW = 1;
+    private static final int BLANK_VIEW = 2;
+
+    private List<Budget> budgets;
+
+    public BudgetListAdapter() {
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder holder;
+        if(viewType == BUDGET_VIEW){
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.budget_recyclerview_item_budget, parent, false);
+            holder = new BudgetViewHolder(v);
+        }else if(viewType == TITLE_VIEW) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.budget_recyclerview_title, parent, false);
+            holder = new TitleViewHolder(v);
+        }else{
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.budget_recyclerview_blank, parent, false);
+            holder = new BlankViewHolder(v);
+        }
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
+        int viewType = getItemViewType(position);
+        if(viewType == BUDGET_VIEW) {
+            BudgetViewHolder budgetViewHolder = (BudgetViewHolder) holder;
+            if (budgets != null) {
+                //Subtract the position by 1 since the first position is occupied by the tile view.
+                //Data item begins at 2nd position.
+                final Budget budget = budgets.get(position - 1);
+                budgetViewHolder.textViewCategory.setText(budget.type);
+                budgetViewHolder.textViewDetails.setText(budget.details);
+                budgetViewHolder.textViewAmount.setText(
+                        (new DecimalFormat("#,###,##0.00")).format(budget.amount));
+                budgetViewHolder.textViewDate.setText(
+                        (new SimpleDateFormat("dd-MMM-yyyy")).format(budget.date));
+            } else {
+                budgetViewHolder.textViewDetails.setText("No accounts yet");
+            }
+        }
+    }
+
+    public void setBudgets(List<Budget> accounts){
+        this.budgets = accounts;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount(){
+        if(budgets != null)
+            return budgets.size() + 2;
+        else
+            return 2;
+    }
+
+    @Override
+    public int getItemViewType(int pos){
+        if(pos == 0)
+            return  TITLE_VIEW;
+        else if (budgets != null && pos <= budgets.size())
+            return BUDGET_VIEW;
+        else
+            return BLANK_VIEW;
+    }
+
+    public static class BlankViewHolder extends RecyclerView.ViewHolder {
+
+        private BlankViewHolder (View v){
+            super(v);
+        }
+    }
+
+    public static class BudgetViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewCategory;
         private final TextView textViewDetails;
         private final TextView textViewDate;
@@ -31,43 +110,9 @@ public class BudgetListAdapter extends RecyclerView.Adapter<BudgetListAdapter.Bu
         }
     }
 
-    private List<Budget> budgets;
-
-    public BudgetListAdapter() {
-    }
-
-    @Override
-    public BudgetListAdapter.BudgetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.budget_recyclerview_item_budget, parent, false);
-        return new BudgetViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(BudgetListAdapter.BudgetViewHolder holder, int position){
-        if(budgets != null){
-            final Budget budget = budgets.get(position);
-            holder.textViewCategory.setText(budget.type);
-            holder.textViewDetails.setText(budget.details);
-            holder.textViewAmount.setText(
-                    (new DecimalFormat("#,###,##0.00")).format(budget.amount));
-            holder.textViewDate.setText(
-                    (new SimpleDateFormat("dd-MMM-yyyy")).format(budget.date));
-        }else {
-            holder.textViewDetails.setText("No accounts yet");
+    public static class TitleViewHolder extends RecyclerView.ViewHolder {
+        private TitleViewHolder(View v){
+            super(v);
         }
-    }
-
-    public void setBudgets(List<Budget> accounts){
-        this.budgets = accounts;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount(){
-        if(budgets != null)
-            return budgets.size();
-        else
-            return 0;
     }
 }

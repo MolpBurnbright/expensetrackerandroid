@@ -11,17 +11,11 @@ import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 
 import java.util.List;
 
-public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.SourceViewHolder>{
+public class SourceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    class SourceViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewName;
-
-        private SourceViewHolder(View v){
-            super(v);
-            textViewName = itemView.findViewById(R.id.textView_sourcename);
-            itemView.setOnClickListener(view -> view.showContextMenu());
-        }
-    }
+    private static final int SOURCE_VIEW = 0;
+    private static final int TITLE_VIEW = 1;
+    private static final int BLANK_VIEW = 2;
 
     private List<Source> sources;
 
@@ -29,17 +23,36 @@ public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.So
     }
 
     @Override
-    public SourceListAdapter.SourceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.source_recyclerview_item_source, parent, false);
-        return new SourceListAdapter.SourceViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder holder;
+        if(viewType == SOURCE_VIEW) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.source_recyclerview_item_source, parent, false);
+            holder = new SourceListAdapter.SourceViewHolder(v);
+        }else if(viewType == TITLE_VIEW){
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.source_recyclerview_title, parent, false);
+            holder = new SourceListAdapter.SourceViewHolder(v);
+        }else{
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.source_recyclerview_blank, parent, false);
+            holder = new SourceListAdapter.SourceViewHolder(v);
+        }
+
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(SourceListAdapter.SourceViewHolder holder, int position){
-        if(sources != null){
-            final Source source = sources.get(position);
-            holder.textViewName.setText(source.name);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
+        int viewType = getItemViewType(position);
+        if(viewType == SOURCE_VIEW) {
+            if (sources != null) {
+                SourceViewHolder sourceViewHolder = (SourceViewHolder) holder;
+                //Subtract the position by 1 since the first position is occupied by the tile view.
+                //Data item begins at 2nd position.
+                final Source source = sources.get(position - 1);
+                sourceViewHolder.textViewName.setText(source.name);
+            }
         }
     }
 
@@ -51,8 +64,40 @@ public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.So
     @Override
     public int getItemCount(){
         if(sources != null)
-            return sources.size();
+            return sources.size() + 2;
         else
-            return 0;
+            return 2;
+    }
+
+    @Override
+    public int getItemViewType(int pos){
+        if(pos == 0)
+            return  TITLE_VIEW;
+        else if (sources != null && pos <= sources.size())
+            return SOURCE_VIEW;
+        else
+            return BLANK_VIEW;
+    }
+
+    public static class BlankViewHolder extends RecyclerView.ViewHolder {
+        private BlankViewHolder (View v){
+            super(v);
+        }
+    }
+
+    class SourceViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewName;
+
+        private SourceViewHolder(View v){
+            super(v);
+            textViewName = itemView.findViewById(R.id.textView_sourcename);
+            itemView.setOnClickListener(view -> view.showContextMenu());
+        }
+    }
+
+    public static class TitleViewHolder extends RecyclerView.ViewHolder {
+        private TitleViewHolder(View v){
+            super(v);
+        }
     }
 }

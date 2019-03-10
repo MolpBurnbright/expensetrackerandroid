@@ -20,9 +20,10 @@ import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
-public class ExpenseListFragment extends Fragment {
+public class ExpenseListFragment extends Fragment implements ExpenseListAdapter.OnBindSpinnerListener {
     ExpenseListFragmentViewModel viewModel;
     ExpenseListAdapter expenseListAdapter;
+    Spinner spinnerCategories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,7 +32,7 @@ public class ExpenseListFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_expenses_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         registerForContextMenu(recyclerView);
-        expenseListAdapter = new ExpenseListAdapter();
+        expenseListAdapter = new ExpenseListAdapter(this);
         recyclerView.setAdapter(expenseListAdapter);
         viewModel = ViewModelProviders.of(this).get(ExpenseListFragmentViewModel.class);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
@@ -41,10 +42,12 @@ public class ExpenseListFragment extends Fragment {
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getExpenses().observe(this, expenses -> expenseListAdapter.setExpenses(expenses));
-                viewModel.getAccount().observe(this, account ->
-                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
-                initCategoriesSpinner(rootView);
-
+                viewModel.getAccount().observe(this, account -> {
+                    TextView textView = rootView.findViewById(R.id.textview_accountname);
+                    if(textView != null)
+                        textView.setText(account.name);
+                });
+                initSpinnerCategories();
             }
         });
         rootView.findViewById(R.id.fab_addexpense).setOnClickListener(view -> new AddExpenseDialog()
@@ -52,25 +55,23 @@ public class ExpenseListFragment extends Fragment {
         return rootView;
     }
 
-    private void initCategoriesSpinner(View rootView){
-        //Initialize the Type spinner
+    private void initSpinnerCategories(){
         ExpenseListFragment parentFragment = this;
         this.viewModel.getExpenseCategories().observe(this, categories -> {
             categories.add(0, "(All)");
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
                     android.R.layout.simple_spinner_item, categories);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            Spinner spinner = rootView.findViewById(R.id.spinner_categories);
-            spinner.setAdapter(adapter);
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinnerCategories.setAdapter(adapter);
+            spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if(adapter.getItem(i).equals("(All)")){
+                    if (adapter.getItem(i).equals("(All)")) {
                         viewModel.getExpenses().removeObservers(parentFragment);
                         viewModel.setExpenseList();
                         viewModel.getExpenses().observe(parentFragment,
                                 expenses -> expenseListAdapter.setExpenses(expenses));
-                    }else{
+                    } else {
                         viewModel.getExpenses().removeObservers(parentFragment);
                         viewModel.setExpenseList(adapter.getItem(i));
                         viewModel.getExpenses().observe(parentFragment,
@@ -80,12 +81,17 @@ public class ExpenseListFragment extends Fragment {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> adapterView) { }
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
             });
-            spinner.setSelection(0);
+            spinnerCategories.setSelection(0);
         });
     }
 
+    @Override
+    public void onBindSpinner(Spinner spinner){
+        spinnerCategories = spinner;
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
@@ -99,7 +105,9 @@ public class ExpenseListFragment extends Fragment {
         if(item.getGroupId() == R.id.expense_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-            Expense expense = viewModel.getExpenses().getValue().get(info.position);
+            // One is subtracted from the position, since the first position is occupied by title
+            // view in RecyclerView
+            Expense expense = viewModel.getExpenses().getValue().get(info.position - 1);
             switch (item.getItemId()) {
                 case R.id.edit_expense:
                     ViewModelProviders.of(this.getActivity())

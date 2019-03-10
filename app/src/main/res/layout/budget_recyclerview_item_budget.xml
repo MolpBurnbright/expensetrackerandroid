@@ -6,7 +6,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:background="#e6e6e6"
-    android:padding="3dp">
+    android:padding="8dp"
+    android:paddingLeft="8dp"
+    android:paddingTop="3dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="3dp">
 
     <TextView
         android:id="@+id/textView_type"

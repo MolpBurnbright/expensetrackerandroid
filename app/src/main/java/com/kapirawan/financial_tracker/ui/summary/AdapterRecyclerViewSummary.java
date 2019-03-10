@@ -22,6 +22,7 @@ public class AdapterRecyclerViewSummary extends
     private static final int FUND_VIEW = 2;
     private static final int BALANCE_VIEW = 3;
     private static final int BLANK_VIEW = 4;
+    private static final int TITLE_VIEW = 5;
 
     private List<Summary> budgetExpenseSummaries;
     private List<Sum> fundsSummaries;
@@ -76,10 +77,14 @@ public class AdapterRecyclerViewSummary extends
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.summary_recyclerview_balance_container, parent, false);
             holder = new ViewHolderBalance(v);
-        }else{
+        }else if (viewType == BLANK_VIEW){
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.summary_recyclerview_blank_container, parent, false);
             holder = new ViewHolderBlank(v);
+        }else{
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.summary_recyclerview_title_container, parent, false);
+            holder = new ViewHolderTitle(v);
         }
 
         return holder;
@@ -131,7 +136,7 @@ public class AdapterRecyclerViewSummary extends
 
     @Override
     public int getItemCount() {
-        int count = 2;
+        int count = 3;
 
         if (budgetExpenseSummaries != null)
             count += 1;
@@ -143,6 +148,8 @@ public class AdapterRecyclerViewSummary extends
     @Override
     public int getItemViewType(int pos){
         ArrayList<Integer> types = new ArrayList();
+
+        types.add(TITLE_VIEW);
 
         if(budgetExpenseSummaries != null)
             types.add(BUDGET_EXPENSE_VIEW);
@@ -188,6 +195,13 @@ public class AdapterRecyclerViewSummary extends
     public static class ViewHolderBlank extends RecyclerView.ViewHolder {
 
         public ViewHolderBlank (View v){
+            super(v);
+        }
+    }
+
+    public static class ViewHolderTitle extends RecyclerView.ViewHolder {
+
+        public ViewHolderTitle (View v){
             super(v);
         }
     }

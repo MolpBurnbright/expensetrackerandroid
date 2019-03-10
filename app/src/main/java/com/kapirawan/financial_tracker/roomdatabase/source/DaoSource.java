@@ -19,7 +19,8 @@ public interface DaoSource extends DaoBase<Source> {
     List<Source> getAccountSources(long accountId, long accountDatasourceId);
 
     @Query("select * from source where accountId = :accountId " +
-            "and accountDatasourceId = :accountDatasourceId")
+            "and accountDatasourceId = :accountDatasourceId " +
+            "order by name")
     LiveData<List<Source>> getAccountSourcesLD(long accountId, long accountDatasourceId);
 
     @Query("select * from source")

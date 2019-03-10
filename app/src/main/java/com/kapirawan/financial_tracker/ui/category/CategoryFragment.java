@@ -38,8 +38,11 @@ public class CategoryFragment extends Fragment {
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getCategories().observe(this, categories -> adapter.setCategories(categories));
-                viewModel.getAccount().observe(this, account ->
-                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+                viewModel.getAccount().observe(this, account -> {
+                    TextView textView = rootView.findViewById(R.id.textview_accountname);
+                    if(textView != null)
+                        textView.setText(account.name);
+                });
             }
         });
 
@@ -60,7 +63,9 @@ public class CategoryFragment extends Fragment {
         if(item.getGroupId() == R.id.category_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-            Category category = viewModel.getCategories().getValue().get(info.position);
+            // One is subtracted from the position, since the first position is occupied by title
+            // view in RecyclerView
+            Category category = viewModel.getCategories().getValue().get(info.position - 1);
             switch (item.getItemId()) {
                 case R.id.edit_category:
                     ViewModelProviders.of(this.getActivity())

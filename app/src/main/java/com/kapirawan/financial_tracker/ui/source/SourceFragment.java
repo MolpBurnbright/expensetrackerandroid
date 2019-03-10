@@ -38,8 +38,11 @@ public class SourceFragment extends Fragment {
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getSources().observe(this, sources -> adapter.setCategories(sources));
-                viewModel.getAccount().observe(this, account ->
-                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+                viewModel.getAccount().observe(this, account -> {
+                    TextView textView = rootView.findViewById(R.id.textview_accountname);
+                    if(textView != null)
+                        textView.setText(account.name);
+                });
             }
         });
 
@@ -60,7 +63,9 @@ public class SourceFragment extends Fragment {
         if(item.getGroupId() == R.id.source_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-            Source source = viewModel.getSources().getValue().get(info.position);
+            // One is subtracted from the position, since the first position is occupied by title
+            // view in RecyclerView
+            Source source = viewModel.getSources().getValue().get(info.position - 1);
             switch (item.getItemId()) {
                 case R.id.edit_source:
                     ViewModelProviders.of(this.getActivity())

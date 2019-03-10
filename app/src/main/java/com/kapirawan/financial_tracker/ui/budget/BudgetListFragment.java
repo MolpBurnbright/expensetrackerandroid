@@ -37,8 +37,11 @@ public class BudgetListFragment extends Fragment {
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getBudgets().observe(this, budgets -> adapter.setBudgets(budgets));
-                viewModel.getAccount().observe(this, account ->
-                        ((TextView) rootView.findViewById(R.id.textview_accountname)).setText(account.name));
+                viewModel.getAccount().observe(this, account ->{
+                    TextView textView = rootView.findViewById(R.id.textview_accountname);
+                    if (textView != null)
+                        textView.setText(account.name);
+                });
             }
         });
         rootView.findViewById(R.id.fab_addbudget).setOnClickListener(view -> new AddBudgetDialog()
@@ -59,7 +62,9 @@ public class BudgetListFragment extends Fragment {
         if(item.getGroupId() == R.id.budget_menu) {
             ContextMenuRecyclerView.RecyclerViewContextMenuInfo info =
                     (ContextMenuRecyclerView.RecyclerViewContextMenuInfo) item.getMenuInfo();
-            Budget budget = viewModel.getBudgets().getValue().get(info.position);
+            // One is subtracted from the position, since the first position is occupied by title
+            // view in RecyclerView
+            Budget budget = viewModel.getBudgets().getValue().get(info.position - 1);
             switch (item.getItemId()) {
                 case R.id.edit_budget:
                     ViewModelProviders.of(this.getActivity())
