@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -124,5 +125,16 @@ public class ExpenseListFragment extends Fragment implements ExpenseListAdapter.
             }
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        //Remove observer for this fragment so that no duplicate observers will be created
+        //when onCreateView is invoked again
+        viewModel.getSelectedAccount().removeObservers(this);
+        viewModel.getAccount().removeObservers(this);
+        viewModel.getExpenses().removeObservers(this);
+        viewModel.getExpenseCategories().removeObservers(this);
     }
 }

@@ -19,6 +19,7 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
     private LiveData<List<Expense>> expenses;
     private LiveData<Account> account;
     private LiveData<List<String>> categories;
+    private LiveData<Preference> selectedAccount;
     private long accountId, accountDatasourceId;
     private Date startDate, endDate;
 
@@ -55,7 +56,9 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount();
+        return selectedAccount;
     }
 
     public Date getStartDate(){

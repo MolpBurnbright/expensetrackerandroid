@@ -84,4 +84,14 @@ public class SourceFragment extends Fragment {
         }
         return super.onContextItemSelected(item);
     }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        //Remove observer for this fragment so that no duplicate observers will be created
+        //when onCreateView is invoked again
+        viewModel.getSelectedAccount().removeObservers(this);
+        viewModel.getAccount().removeObservers(this);
+        viewModel.getSources().removeObservers(this);
+    }
 }

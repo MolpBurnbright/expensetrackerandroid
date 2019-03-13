@@ -15,10 +15,9 @@ import java.util.List;
 
 public class FundListFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private LiveData<Preference> selectedAccount;
     private LiveData<List<Fund>> funds;
     private LiveData<Account> account;
-    private long accountId, accountDatasourceId;
-    private boolean contextMenuEnabled = true;
 
     public FundListFragmentViewModel(@NonNull Application app) {
         super(app);
@@ -39,7 +38,8 @@ public class FundListFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount();
+        return selectedAccount;
     }
-
 }

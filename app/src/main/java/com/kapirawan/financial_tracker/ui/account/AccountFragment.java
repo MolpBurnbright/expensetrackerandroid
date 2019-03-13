@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -22,8 +23,15 @@ public class AccountFragment extends Fragment {
     AccountListAdapter adapter;
 
     @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        Log.d("ViewModel Debug", "AccountFragment onCreate() is called");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
+        Log.d("ViewModel Debug", "AccountFragment onCreateView() is called");
         View rootView = inflater.inflate(R.layout.account_fragment,container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_accountlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
@@ -76,5 +84,18 @@ public class AccountFragment extends Fragment {
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        viewModel.getSelectedAccount().removeObservers(this);
+        Log.d("ViewModel debug", "AccountFragment onDestroyView() is called" );
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("ViewModel debug", "AccountFragment onDestroy() is called" );
     }
 }

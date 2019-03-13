@@ -14,6 +14,7 @@ import java.util.List;
 
 public class BudgetListFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private LiveData<Preference> selectedAccount;
     private LiveData<List<Budget>> budgets;
     private LiveData<Account> account;
 
@@ -36,8 +37,9 @@ public class BudgetListFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount();
+        return selectedAccount;
     }
-
 
 }

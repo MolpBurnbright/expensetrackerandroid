@@ -14,6 +14,7 @@ import java.util.List;
 
 public class SourceFragmentViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private LiveData<Preference> selectedAccount;
     private LiveData<List<Source>> sources;
     private LiveData<Account> account;
 
@@ -32,7 +33,9 @@ public class SourceFragmentViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount();
+        return selectedAccount;
     }
 
     public LiveData<List<Source>> getSources() {

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
@@ -19,6 +20,7 @@ public class FragmentSummaryViewModel extends AndroidViewModel {
     private LiveData<List<Sum>> fundsSum;
     private LiveData<Account> account;
     private LiveData<Double> totalExpense, totalBudget, totalFund;
+    private LiveData<Preference> selectedAccount;
 
     public FragmentSummaryViewModel(@NonNull Application app) {
         super(app);
@@ -52,7 +54,9 @@ public class FragmentSummaryViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount();
+        return selectedAccount;
     }
 
     public LiveData<Double> getTotalBudget(){
