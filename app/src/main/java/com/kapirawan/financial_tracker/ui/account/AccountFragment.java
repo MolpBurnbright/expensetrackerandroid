@@ -89,13 +89,15 @@ public class AccountFragment extends Fragment {
     @Override
     public void onDestroyView(){
         super.onDestroyView();
+        //Remove observer for this fragment so that no duplicate observers will be created
+        //when onCreateView is invoked again
+        viewModel.getSelectedUser().removeObservers(this);
         viewModel.getSelectedAccount().removeObservers(this);
-        Log.d("ViewModel debug", "AccountFragment onDestroyView() is called" );
+        viewModel.getAccounts().removeObservers(this);
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        Log.d("ViewModel debug", "AccountFragment onDestroy() is called" );
     }
 }

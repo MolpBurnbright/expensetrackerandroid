@@ -2,9 +2,10 @@
     <string name="app_name">Expense Tracker</string>
 
     <!-- Strings for Action Bar Menu-->
-    <string name="action_refresh">Refresh</string>
     <string name="action_accounts">Accounts</string>
+    <string name="action_home">Home</string>
     <string name="action_settings">Settings</string>
+    <string name="action_signin">Sign In</string>
     <string name="action_show_expenses">Show Expenses</string>
     <string name="action_show_budgets">Show Budgets</string>
     <string name="action_show_funds">Show Funds</string>
@@ -28,7 +29,8 @@
 
     <!-- constants names-->
     <string name="PREF_USER">PREF_USER</string>
-    <string name="refresh">Refresh</string>
+    <string name="signin">Sign In</string>
     <string name="title_activity_expenses">ActivityExpenses</string>
+    <string name="title_activity_signin">Sign In</string>
 
 </resources>
