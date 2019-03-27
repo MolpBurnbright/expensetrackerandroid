@@ -1,35 +1,35 @@
 {
   "project_info": {
     "project_number": "3151981458",
-    "firebase_url": "https://expense-tracker-4c47e.firebaseio.com",
-    "project_id": "expense-tracker-4c47e",
-    "storage_bucket": "expense-tracker-4c47e.appspot.com"
+    "firebase_url": "https://expense-tracker-4cwwe.firebaseio.com",
+    "project_id": "expense-tracker-4cwwe",
+    "storage_bucket": "expense-tracker-4cwwe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:3151981458:android:c579c7f69830c56e",
+        "mobilesdk_app_id": "1:3151981458:android:c579c7f69830d34f",
         "android_client_info": {
           "package_name": "com.kapirawan.financial_tracker"
         }
       },
       "oauth_client": [
         {
-          "client_id": "3151981458-mh5jve3btm8geh3b9260vld3bmojjcl6.apps.googleusercontent.com",
+          "client_id": "3151981458-mh5jve3btm8geh3b9260vld3bmosdfr6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kapirawan.financial_tracker",
-            "certificate_hash": "a8d82831ab37f4d325c333c24d2d0e296b2a52fb"
+            "certificate_hash": "a8d82831ab37f4d325c333c24d2d0e296b2asder"
           }
         },
         {
-          "client_id": "3151981458-7168rhj8rmiq1263ertpnk8dl72q6ddr.apps.googleusercontent.com",
+          "client_id": "3151981458-7168rhj8rmiq1263ertpnk8dl72qsedf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuU3Sj-01kOEN5CuQzGNozTdZXpLKCSIo"
+          "current_key": "AIzaSyDuU3Sj-01kOEN5CuQzGNozTdZXpLKssde"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "3151981458-7168rhj8rmiq1263ertpnk8dl72q6ddr.apps.googleusercontent.com",
+              "client_id": "3151981458-7168rhj8rmiq1263ertpnk8dl72sded.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
