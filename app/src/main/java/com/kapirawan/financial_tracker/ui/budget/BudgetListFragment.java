@@ -89,7 +89,5 @@ public class BudgetListFragment extends Fragment {
         //Remove observer for this fragment so that no duplicate observers will be created
         //when onCreateView is invoked again
         viewModel.getSelectedAccount().removeObservers(this);
-        viewModel.getAccount().removeObservers(this);
-        viewModel.getBudgets().removeObservers(this);
     }
 }

@@ -56,7 +56,6 @@ public abstract class AppRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppRoomDatabase.class,"app_database")
-                            .addCallback(getCallback(context))
                             .addMigrations(new Migration_1_2())
                             .build();
                 }

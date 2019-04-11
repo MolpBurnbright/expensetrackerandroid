@@ -25,6 +25,8 @@ public class AsyncInsertMultiple <T> extends AsyncTask<T[], Void, Void> {
     protected void onPostExecute(Void result){
         if (listener != null)
             this.listener.onTaskCompleted();
+        asyncTaskDao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

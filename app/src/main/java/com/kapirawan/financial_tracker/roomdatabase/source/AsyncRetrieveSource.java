@@ -20,6 +20,8 @@ public class AsyncRetrieveSource extends AsyncTask<Long, Void, Source> {
     protected void onPostExecute(Source source){
         if(listener != null)
             listener.onTaskCompleted(source);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

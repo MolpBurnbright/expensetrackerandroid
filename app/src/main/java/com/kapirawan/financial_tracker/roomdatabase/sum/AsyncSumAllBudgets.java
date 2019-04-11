@@ -22,6 +22,8 @@ public class AsyncSumAllBudgets extends AsyncTask<Long, Void, List<Sum>> {
     protected void onPostExecute(List<Sum> sums){
         if(listener != null)
             listener.onTaskCompleted(sums);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

@@ -22,6 +22,8 @@ public class AsyncRetrieveAccountExpenses extends AsyncTask<Long, Void, List<Exp
     protected void onPostExecute(List<Expense> expenses){
         if(listener != null)
             listener.onTaskCompleted(expenses);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

@@ -21,6 +21,8 @@ public class AsyncRetrieveAccountCategories extends AsyncTask<Long, Void, List<C
     protected void onPostExecute(List<Category> categories){
         if(listener != null)
             listener.onTaskCompleted(categories);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

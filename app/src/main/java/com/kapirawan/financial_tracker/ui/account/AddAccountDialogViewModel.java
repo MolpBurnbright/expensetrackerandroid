@@ -32,6 +32,6 @@ public class AddAccountDialogViewModel extends AndroidViewModel {
     }
 
     public void addAccount(String name){
-        repo.createAccount(new Account(0, 0, user._id, name, new Date()), () ->{});
+        repo.createAccount(new Account(0, 0, user._id, name, new Date()), (id) ->{});
     }
 }

@@ -20,6 +20,8 @@ public class AsyncRetrieveFund extends AsyncTask<Long, Void, Fund> {
     protected void onPostExecute(Fund fund){
         if(listener != null)
             listener.onTaskCompleted(fund);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

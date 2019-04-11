@@ -44,7 +44,7 @@ public class AddBudgetDialogViewModel extends AndroidViewModel {
     public void addBudget(){
         Budget budget = new Budget(0, 0, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedCategory(), description, new Date());
-        repo.createBudget(budget, () -> {});
+        repo.createBudget(budget, (id) -> {});
     }
 
     public double getAmount(){

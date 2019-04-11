@@ -34,12 +34,12 @@ public class SourceTesting {
         Log.i(label, "Inserting single source..");
         Source source = new Source(0, 0, 1, 0, "Salary",
                 new Date());
-        repository.createSource(source,() -> {
+        repository.createSource(source, id -> {
             Log.i(label, "One Record Insert Successful..");
             repository.createSource(
                     new Source(0, 0, 1, 0, "Loan",
                             new Date())
-                    , () -> {
+                    , id2 -> {
                         Log.i(label, "Another Record Insert Successful..");
                         insertMultipleSources();
                     }

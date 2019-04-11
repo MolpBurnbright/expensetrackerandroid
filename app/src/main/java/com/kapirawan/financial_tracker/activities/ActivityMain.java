@@ -9,30 +9,57 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.repository.AppRepository;
 import com.kapirawan.financial_tracker.ui.account.AccountFragment;
 import com.kapirawan.financial_tracker.ui.main.FragmentMain;
+import com.kapirawan.financial_tracker.ui.settings.SettingsFragment;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ActivityMain extends AppCompatActivity{
-
+    String TAG = "ActivityMain";
     FragmentMain mFragmentMain;
     AccountFragment mAccountFragment;
+    SettingsFragment mSettingsFragment;
+    GoogleApiClient googleApiClient;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
+    private AppRepository appRepository;
+    private ActivityMainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
         String userName = "";
-        if(firebaseUser != null)
-            userName = firebaseUser.getDisplayName();
-        ViewModelProviders.of(this).get(ActivityMainViewModel.class).setUserName(userName);
+        viewModel = ViewModelProviders.of(this).get(ActivityMainViewModel.class);
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        appRepository = AppRepository.getInstance(this.getApplication());
+        if(firebaseUser == null) {
+            openSignInActivity();
+            return;
+        }
+        userName = firebaseUser.getDisplayName();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, connectionResult -> {
+                    Log.d(TAG, "onConnectionFailed:" + connectionResult);
+                    Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
+        viewModel.setGoogleApiClient(googleApiClient);
+        viewModel.setUserName(userName);
+        viewModel.setFirebaseAuth(firebaseAuth);
+        viewModel.setFirebaseUser(firebaseUser);
+        onCreateGetUserData(firebaseUser.getEmail());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         if(userName != "")
@@ -47,6 +74,24 @@ public class ActivityMain extends AppCompatActivity{
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
                     mFragmentMain).commit();
         }
+    }
+
+    private void onCreateGetUserData(String userId){
+        //Retrieve the user data from local database. If it is the first time that the user have logged in.
+        appRepository.readUser(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user -> {
+                        viewModel.setUser(user);
+                        appRepository.readUserFirstDatasource(user._id, datasource -> {
+                            viewModel.setDatasource(datasource);
+                        });
+                    },
+                    error -> {
+                        Log.d(TAG, "error in getting user: " + error.getMessage());
+                        openSignInActivity();
+                    }
+                );
     }
 
     @Override
@@ -75,13 +120,27 @@ public class ActivityMain extends AppCompatActivity{
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.action_signin:
-                startActivity(new Intent(this, ActivitySignIn.class));
-                break;
             case R.id.action_settings:
-                startActivity(new Intent(this, ActivitySettings.class));
+                if(mSettingsFragment == null)
+                    mSettingsFragment = new SettingsFragment();
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, mSettingsFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case R.id.action_signout:
+                firebaseAuth.signOut();
+                Auth.GoogleSignInApi.signOut(googleApiClient);
+                startActivity(new Intent(this, ActivitySignIn.class));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Open the Sign In Activity to ask used to login
+    private void openSignInActivity(){
+        startActivity(new Intent(this, ActivitySignIn.class));
+        finish();
     }
 }

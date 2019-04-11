@@ -22,6 +22,8 @@ public class AsyncRetrieveAllSources extends AsyncTask<Void, Void, List<Source>>
     protected void onPostExecute(List<Source> sources){
         if(listener != null)
             listener.onTaskCompleted(sources);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

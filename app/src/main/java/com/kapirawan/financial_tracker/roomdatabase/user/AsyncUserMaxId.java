@@ -1,19 +1,19 @@
-package com.kapirawan.financial_tracker.roomdatabase.source;
+package com.kapirawan.financial_tracker.roomdatabase.user;
 
 import android.os.AsyncTask;
 
-public class AsyncSourceMaxId extends AsyncTask<Long, Void, Long> {
-    private DaoSource dao;
+public class AsyncUserMaxId extends AsyncTask<Void, Void, Long> {
+    private DaoUser dao;
     private OnTaskCompleted listener;
 
-    public AsyncSourceMaxId(DaoSource dao, OnTaskCompleted listener) {
+    public AsyncUserMaxId (DaoUser dao, OnTaskCompleted listener) {
         this.dao = dao;
         this.listener = listener;
     }
 
     @Override
-    protected Long doInBackground(final Long... params) {
-        return this.dao.getMaxId(params[0]);
+    protected Long doInBackground(final Void... params) {
+        return this.dao.getMaxId();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class AddSourceDialogViewModel extends AndroidViewModel {
 
     public void addSource(String name){
         repo.createSource(new Source(0, 0, accountId, accountDatasourceId,
-                name, new Date()), () ->{});
+                name, new Date()), (id) ->{});
     }
 
     public LiveData<List<Source>> getSources(){

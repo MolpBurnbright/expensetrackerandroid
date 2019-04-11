@@ -22,6 +22,8 @@ public class AsyncRetrieveFirstUser extends AsyncTask<Void, Void, User> {
     protected void onPostExecute(User user){
         if(listener != null)
             listener.onTaskCompleted(user);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

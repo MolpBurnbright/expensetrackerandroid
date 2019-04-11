@@ -22,6 +22,8 @@ public class AsyncRetrieveAccountSources extends AsyncTask<Long, Void, List<Sour
     protected void onPostExecute(List<Source> sources){
         if(listener != null)
             listener.onTaskCompleted(sources);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

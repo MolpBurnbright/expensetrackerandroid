@@ -44,7 +44,7 @@ public class AddFundDialogViewModel extends AndroidViewModel {
     public void addFund(){
         Fund fund = new Fund(0, 0, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedSource(), description, new Date());
-        repo.createFund(fund, () -> {});
+        repo.createFund(fund, (id) -> {});
     }
 
     public double getAmount(){

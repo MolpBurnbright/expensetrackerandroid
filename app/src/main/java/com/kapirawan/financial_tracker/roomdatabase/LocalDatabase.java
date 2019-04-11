@@ -52,11 +52,13 @@ import com.kapirawan.financial_tracker.roomdatabase.sum.Sum;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncDeleteAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveAllUsers;
 import com.kapirawan.financial_tracker.roomdatabase.user.AsyncRetrieveUser;
+import com.kapirawan.financial_tracker.roomdatabase.user.AsyncUserMaxId;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /*
 * Author - Rodney Caneda
@@ -67,6 +69,10 @@ public class LocalDatabase {
 
     public interface Callback{
         void onTaskCompleted();
+    }
+
+    public interface CallbackReturnId{
+        void onTaskCompleted(long id);
     }
 
     public interface CallbackReturnObject <T>{
@@ -98,8 +104,15 @@ public class LocalDatabase {
 
     /*** CRUD for User Entity ***/
 
-    public void createUser (User user, Callback callback){
-        new AsyncInsert<User> (db.daoUser(), callback::onTaskCompleted).execute(user);
+    public void createUser (User user, CallbackReturnId callback){
+        if (user._id == 0) {
+            new AsyncUserMaxId(db.daoUser(), maxId -> {
+                user._id = maxId + 1;
+                new AsyncInsert<User>(db.daoUser(), callback::onTaskCompleted)
+                        .execute(user);
+            }).execute();
+        } else
+            new AsyncInsert<User> (db.daoUser(), callback::onTaskCompleted).execute(user);
     }
 
     public void createMultipleUsers (List<User> users, Callback callback){
@@ -109,6 +122,10 @@ public class LocalDatabase {
     }
     public void readUser (long userId, CallbackReturnObject<User> callback){
         new AsyncRetrieveUser(db.daoUser(), callback::onTaskCompleted).execute(userId);
+    }
+
+    public Single<User> readUser(String name){
+        return db.daoUser().getUser(name);
     }
 
     public void readAllUsers(CallbackReturnMultipleObjects<User> callback){
@@ -129,7 +146,7 @@ public class LocalDatabase {
 
     /*** CRUD for Datasource Entity ***/
 
-    public void createDatasource (Datasource datasource, Callback callback){
+    public void createDatasource (Datasource datasource, CallbackReturnId callback){
         new AsyncInsert<Datasource> (db.daoDatasource(),
                 callback::onTaskCompleted).execute(datasource);
     }
@@ -170,7 +187,7 @@ public class LocalDatabase {
     
     /*** CRUD for Account Entity ***/
 
-    public void createAccount (Account account, Callback callback) {
+    public void createAccount (Account account, CallbackReturnId callback) {
         if (account._id == 0) {
             new AsyncAccountMaxId(db.daoAccount(), maxId -> {
                 account._id = maxId + 1;
@@ -225,7 +242,7 @@ public class LocalDatabase {
 
     /*** CRUD for Expenses Entity ***/
 
-    public void createExpense (Expense expense, Callback callback) {
+    public void createExpense (Expense expense, CallbackReturnId callback) {
         if (expense._id == 0) {
             new AsyncExpenseMaxId(db.daoExpense(), maxId -> {
                 expense._id = maxId + 1;
@@ -297,7 +314,7 @@ public class LocalDatabase {
 
     /*** CRUD for Budgets Entity ***/
 
-    public void createBudget (Budget budget, Callback callback) {
+    public void createBudget (Budget budget, CallbackReturnId callback) {
         if (budget._id == 0) {
             new AsyncBudgetMaxId(db.daoBudget(), maxId -> {
                 budget._id = maxId + 1;
@@ -357,7 +374,7 @@ public class LocalDatabase {
     
     /*** CRUD for Funds Entity ***/
 
-    public void createFund (Fund fund, Callback callback) {
+    public void createFund (Fund fund, CallbackReturnId callback) {
         if (fund._id == 0) {
             new AsyncFundMaxId(db.daoFund(), maxId -> {
                 fund._id = maxId + 1;
@@ -417,7 +434,7 @@ public class LocalDatabase {
 
     /*** CRUD for Categories Entity ***/
 
-    public void createCategory (Category category, Callback callback) {
+    public void createCategory (Category category, CallbackReturnId callback) {
         if (category._id == 0) {
             new AsyncCategoryMaxId(db.daoCategory(), maxId -> {
                 category._id = maxId + 1;
@@ -470,7 +487,7 @@ public class LocalDatabase {
 
     /*** CRUD for Sources Entity ***/
 
-    public void createSource (Source source, Callback callback) {
+    public void createSource (Source source, CallbackReturnId callback) {
         if (source._id == 0) {
             new AsyncSourceMaxId(db.daoSource(), maxId -> {
                 source._id = maxId + 1;
@@ -552,6 +569,13 @@ public class LocalDatabase {
 
     public void updatePreference(Preference preference, Callback callback){
         new AsyncUpdate<Preference> (db.daoPreference(), callback::onTaskCompleted).execute(preference);
+    }
+
+    //
+    // Create the defaulf account for a user
+    //
+    public void createDefaultAccount(long userId, long datasourceId, CallbackReturnObject<Account> callback){
+        new AsyncCreateDefaultAccount(userId, datasourceId, db, callback::onTaskCompleted).execute();
     }
 
 }

@@ -20,6 +20,8 @@ public class AsyncRetrieveUserFirstDatasource extends AsyncTask<Long, Void, Data
     protected void onPostExecute(Datasource datasource){
         if(listener != null)
             listener.onTaskCompleted(datasource);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

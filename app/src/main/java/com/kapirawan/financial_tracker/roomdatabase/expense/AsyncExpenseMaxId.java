@@ -20,6 +20,8 @@ public class AsyncExpenseMaxId extends AsyncTask<Long, Void, Long> {
     protected void onPostExecute(Long maxId){
         if(listener != null)
             listener.onTaskCompleted(maxId);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

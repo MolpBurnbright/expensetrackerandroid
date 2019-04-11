@@ -34,7 +34,7 @@ public class UserTesting {
     private void insertUsers() {
         Log.i(label, "Inserting single user..");
         User user = new User(0, "Default User", new Date());
-        repository.createUser(user,() -> {
+        repository.createUser(user,(id) -> {
             Log.i(label, "One Record Insert Successful..");
             insertMultipleUsers();
         });

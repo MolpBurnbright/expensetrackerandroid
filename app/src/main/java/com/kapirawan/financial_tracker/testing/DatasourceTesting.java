@@ -34,7 +34,7 @@ public class DatasourceTesting {
         Log.i(label, "Inserting single datasource..");
         Datasource datasource = new Datasource(0, 0, "Default Datasource",
                 new Date());
-        repository.createDatasource(datasource,() -> {
+        repository.createDatasource(datasource,(id) -> {
             Log.i(label, "One Record Insert Successful..");
             insertMultipleDatasources();
         });

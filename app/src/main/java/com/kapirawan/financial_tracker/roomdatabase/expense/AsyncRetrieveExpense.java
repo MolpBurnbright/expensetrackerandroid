@@ -20,6 +20,8 @@ public class AsyncRetrieveExpense extends AsyncTask<Long, Void, Expense> {
     protected void onPostExecute(Expense expense){
         if(listener != null)
             listener.onTaskCompleted(expense);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

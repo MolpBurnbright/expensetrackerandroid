@@ -3,6 +3,7 @@ package com.kapirawan.financial_tracker.repository;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 
+import com.kapirawan.financial_tracker.firestore.FirestoreApi;
 import com.kapirawan.financial_tracker.roomdatabase.LocalDatabase;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.budget.Budget;
@@ -17,12 +18,16 @@ import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public class AppRepository {
 
     public interface Callback {
         void onTaskCompleted();
+    }
+
+    public interface CallbackReturnId {
+        void onTaskCompleted(long id);
     }
 
     public interface CallbackReturnObject <T>{
@@ -34,6 +39,7 @@ public class AppRepository {
     }
 
     private LocalDatabase localDb;
+    private FirestoreApi firestoreApi;
 
     private static AppRepository INSTANCE;
 
@@ -50,11 +56,12 @@ public class AppRepository {
 
     private AppRepository(Application app) {
         localDb = LocalDatabase.getInstance(app);
+        firestoreApi = FirestoreApi.getInstance();
     }
 
     /*** CRUD for User ***/
     
-    public void createUser (User user, Callback callback){
+    public void createUser (User user, LocalDatabase.CallbackReturnId callback){
         localDb.createUser(user, callback::onTaskCompleted);
     }
 
@@ -64,6 +71,10 @@ public class AppRepository {
 
     public void readUser (long userId, CallbackReturnObject<User> callback){
         localDb.readUser(userId, callback::onTaskCompleted);
+    }
+
+    public Single<User> readUser(String name){
+        return localDb.readUser(name);
     }
 
     public void readAllUsers(CallbackReturnMultipleObjects<User> callback){
@@ -84,7 +95,7 @@ public class AppRepository {
     
     /*** CRUD for Datasource ***/
 
-    public void createDatasource (Datasource datasource, Callback callback){
+    public void createDatasource (Datasource datasource, CallbackReturnId callback){
         localDb.createDatasource(datasource, callback::onTaskCompleted);
     }
 
@@ -118,7 +129,7 @@ public class AppRepository {
     
     /*** CRUD for Account ***/
 
-    public void createAccount (Account account, Callback callback){
+    public void createAccount (Account account, CallbackReturnId callback){
         localDb.createAccount(account, callback::onTaskCompleted);
     }
 
@@ -161,7 +172,7 @@ public class AppRepository {
 
     /*** CRUD for Expense ***/
 
-    public void createExpense (Expense expense, Callback callback){
+    public void createExpense (Expense expense, CallbackReturnId callback){
         localDb.createExpense(expense, callback::onTaskCompleted);
     }
 
@@ -221,7 +232,7 @@ public class AppRepository {
 
     /*** CRUD for Budget ***/
 
-    public void createBudget (Budget budget, Callback callback){
+    public void createBudget (Budget budget, CallbackReturnId callback){
         localDb.createBudget(budget, callback::onTaskCompleted);
     }
 
@@ -269,7 +280,7 @@ public class AppRepository {
     
     /*** CRUD for Fund ***/
 
-    public void createFund (Fund fund, Callback callback){
+    public void createFund (Fund fund, CallbackReturnId callback){
         localDb.createFund(fund, callback::onTaskCompleted);
     }
 
@@ -317,7 +328,7 @@ public class AppRepository {
 
     /*** CRUD for Category ***/
 
-    public void createCategory (Category category, Callback callback){
+    public void createCategory (Category category, CallbackReturnId callback){
         localDb.createCategory(category, callback::onTaskCompleted);
     }
 
@@ -357,7 +368,7 @@ public class AppRepository {
     
     /*** CRUD for Source ***/
 
-    public void createSource (Source source, Callback callback){
+    public void createSource (Source source, CallbackReturnId callback){
         localDb.createSource(source, callback::onTaskCompleted);
     }
 
@@ -425,6 +436,13 @@ public class AppRepository {
 
     public void updatePreference(Preference pref, Callback callback){
         localDb.updatePreference(pref, callback::onTaskCompleted);
+    }
+
+    //
+    //Create the default account for the user
+    //
+    public void createDefaultAccount(long userId, long datasourceId, CallbackReturnObject<Account> callback){
+        localDb.createDefaultAccount(userId, datasourceId, callback::onTaskCompleted);
     }
 
 }

@@ -44,7 +44,7 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
     public void addExpense(){
         Expense expense = new Expense(0, 0, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedCategory(), description, new Date());
-        repo.createExpense(expense, () -> {});
+        repo.createExpense(expense, (id) -> {});
     }
 
     public long getAccountId() {

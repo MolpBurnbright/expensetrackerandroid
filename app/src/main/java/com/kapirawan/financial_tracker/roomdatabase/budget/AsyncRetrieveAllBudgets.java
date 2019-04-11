@@ -22,6 +22,8 @@ public class AsyncRetrieveAllBudgets extends AsyncTask<Void, Void, List<Budget>>
     protected void onPostExecute(List<Budget> budgets){
         if(listener != null)
             listener.onTaskCompleted(budgets);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

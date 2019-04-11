@@ -34,13 +34,13 @@ public class FundTesting {
         Log.i(label, "Inserting single fund..");
         Fund fund = new Fund(0, 0, 1, 0, new Date(),
                 100.25, "Salary", "Salary for December", new Date());
-        repository.createFund(fund,() -> {
+        repository.createFund(fund,(id) -> {
             Log.i(label, "One Record Insert Successful..");
             repository.createFund(
                     new Fund(0, 0, 1, 0,
                             new Date(), 100.25, "Salary", "Salary for January",
                             new Date())
-                    , () -> {
+                    , (id2) -> {
                         Log.i(label, "Another Record Insert Successful..");
                         insertMultipleFunds();
                     }

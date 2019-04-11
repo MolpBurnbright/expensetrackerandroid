@@ -22,6 +22,8 @@ public class AsyncRetrieveUserAccounts extends AsyncTask<Long, Void, List<Accoun
     protected void onPostExecute(List<Account> accounts){
         if(listener != null)
             listener.onTaskCompleted(accounts);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

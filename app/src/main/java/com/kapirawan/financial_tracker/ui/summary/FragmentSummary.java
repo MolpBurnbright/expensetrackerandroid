@@ -91,13 +91,6 @@ public class FragmentSummary extends Fragment {
         //Remove observer for this fragment so that no duplicate observers will be created
         //when onCreateView is invoked again
         viewModel.getSelectedAccount().removeObservers(this);
-        viewModel.getAccount().removeObservers(this);
-        viewModel.getExpensesSummary().removeObservers(this);
-        viewModel.getBudgetsSummary().removeObservers(this);
-        viewModel.getFundsSummary().removeObservers(this);
-        viewModel.getTotalBudget().removeObservers(this);
-        viewModel.getTotalExpense().removeObservers(this);
-        viewModel.getTotalFund().removeObservers(this);
     }
 
 }

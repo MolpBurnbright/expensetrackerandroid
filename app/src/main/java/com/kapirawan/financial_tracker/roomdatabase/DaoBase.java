@@ -7,10 +7,10 @@ import android.arch.persistence.room.Update;
 
 public interface DaoBase <T>{
     @Insert
-    void insert(T obj);
+    long insert(T obj);
 
     @Insert (onConflict = OnConflictStrategy.FAIL)
-    void insertMultiple(T[] objs);
+    long[] insertMultiple(T[] objs);
 
     @Update
     void update(T obj);

@@ -20,6 +20,8 @@ public class AsyncRetrieveDatasource extends AsyncTask<Long, Void, Datasource> {
     protected void onPostExecute(Datasource expense){
         if(listener != null)
             listener.onTaskCompleted(expense);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

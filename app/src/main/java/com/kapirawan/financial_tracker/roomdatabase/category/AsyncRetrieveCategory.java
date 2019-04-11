@@ -20,6 +20,8 @@ public class AsyncRetrieveCategory extends AsyncTask<Long, Void, Category> {
     protected void onPostExecute(Category category){
         if(listener != null)
             listener.onTaskCompleted(category);
+        dao = null;
+        listener = null;
     }
 
     public interface OnTaskCompleted {

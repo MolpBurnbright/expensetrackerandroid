@@ -31,7 +31,7 @@ public class AddCategoryDialogViewModel extends AndroidViewModel {
 
     public void addCategory(String name){
         repo.createCategory(new Category(0, 0, accountId, accountDatasourceId,
-                name, new Date()), () ->{});
+                name, new Date()), (id) ->{});
     }
 
     public LiveData<List<Category>> getCategories(){
