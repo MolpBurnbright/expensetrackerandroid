@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.source.Source;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 
@@ -29,14 +30,15 @@ public class SourceFragment extends Fragment {
         registerForContextMenu(recyclerView);
         SourceListAdapter adapter = new SourceListAdapter();
         recyclerView.setAdapter(adapter);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
         viewModel = ViewModelProviders.of(this).get(SourceFragmentViewModel.class);
-
+        viewModel.initUserId(userId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
             if(selectedAccount != null) {
                 String[] parsedValues = selectedAccount.value.split(",");
                 long accountID = Long.parseLong(parsedValues[0]);
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
-                viewModel.init(accountID, accounDatasourceId);
+                viewModel.initAccount(accountID, accounDatasourceId);
                 viewModel.getSources().observe(this, sources -> adapter.setCategories(sources));
                 viewModel.getAccount().observe(this, account -> {
                     TextView textView = rootView.findViewById(R.id.textview_accountname);

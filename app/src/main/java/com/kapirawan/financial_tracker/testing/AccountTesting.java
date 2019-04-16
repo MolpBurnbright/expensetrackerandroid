@@ -33,11 +33,11 @@ public class AccountTesting {
     private void insertAccounts() {
         Log.i(label, "Inserting single account..");
         Account account = new Account(0, 0, 0, "My Account", new Date());
-        repository.createAccount(account,(id) -> {
+        repository.createAccount(account,() -> {
             Log.i(label, "One Record Insert Successful..");
             repository.createAccount(
                     new Account(0, 0, 0, "Another Account", new Date())
-                    , (id2) -> {
+                    , () -> {
                         Log.i(label, "Another Record Insert Successful..");
                         insertMultipleAccounts();
                     }

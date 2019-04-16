@@ -64,56 +64,6 @@ public abstract class AppRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static Callback getCallback(Context context){
-        return new Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-                Executors.newSingleThreadScheduledExecutor().execute(() -> addDefaultData(context));
-            }
-        };
-    }
-
-    //Adding default data
-    private static void addDefaultData(Context context){
-        User defaultUser = new User(0, "Default User", new Date());
-        Datasource defaultDatasource = new Datasource(0, 0,
-                "Default datasource", new Date());
-        Account defaultAccount = new Account(1, 0, 0,
-                "Default Account", new Date());
-        //The 'selected_account' preference stores the currently selected account.the first number
-        //is the accountId and the second number is the accountDatasourceId.
-        Preference[] defaultPrefs = {
-                new Preference(Preference.SELECTED_ACCOUNT, "1,0"),
-                new Preference(Preference.SELECTED_USER, "0"),
-        };
-        Category[] defaultCategories = {
-                new Category(1, 0, 1, 0, "Food",
-                        new Date()),
-                new Category(2, 0, 1, 0, "Fare",
-                        new Date()),
-                new Category(3, 0, 1, 0, "Utilities",
-                        new Date()),
-                new Category(4, 0, 1, 0, "Others",
-                        new Date()),
-        };
-        Source[] defaultSources = {
-                new Source(1, 0, 1, 0, "Salary",
-                        new Date()),
-                new Source(2, 0, 1, 0, "Loan",
-                        new Date()),
-                new Source(3, 0, 1, 0, "Others",
-                        new Date()),
-        };
-        AppRoomDatabase db = getDatabase(context);
-        db.daoUser().insert(defaultUser);
-        db.daoDatasource().insert(defaultDatasource);
-        db.daoAccount().insert(defaultAccount);
-        db.daoCategory().insertMultiple(defaultCategories);
-        db.daoSource().insertMultiple(defaultSources);
-        db.daoPreference().insertMultiple(defaultPrefs);
-    }
-
     private static class Migration_1_2 extends Migration {
 
         public Migration_1_2(){

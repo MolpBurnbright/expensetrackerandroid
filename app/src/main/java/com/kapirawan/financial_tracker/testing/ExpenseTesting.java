@@ -34,13 +34,13 @@ public class ExpenseTesting {
         Log.i(label, "Inserting single expense..");
         Expense expense = new Expense(0, 0, 1, 0, new Date(),
                 100.25, "Food", "Rice Bigas", new Date());
-        repository.createExpense(expense,(id) -> {
+        repository.createExpense(expense, () -> {
             Log.i(label, "One Record Insert Successful..");
             repository.createExpense(
                     new Expense(0, 0, 1, 0,
                             new Date(), 100.25, "Food", "Palay bago ang bigas",
                             new Date())
-                    , (id2) -> {
+                    , () -> {
                         Log.i(label, "Another Record Insert Successful..");
                         insertMultipleExpenses();
                     }

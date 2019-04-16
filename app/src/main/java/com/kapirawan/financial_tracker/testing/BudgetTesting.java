@@ -34,13 +34,13 @@ public class BudgetTesting {
         Log.i(label, "Inserting single budget..");
         Budget budget = new Budget(0, 0, 1, 0, new Date(),
                 100.25, "Food", "Budget for Bigas", new Date());
-        repository.createBudget(budget,(id) -> {
+        repository.createBudget(budget, () -> {
             Log.i(label, "One Record Insert Successful..");
             repository.createBudget(
                     new Budget(0, 0, 1, 0,
                             new Date(), 100.25, "Food", "Another budget for bigas",
                             new Date())
-                    , (id2) -> {
+                    , () -> {
                         Log.i(label, "Another Record Insert Successful..");
                         insertMultipleBudgets();
                     }

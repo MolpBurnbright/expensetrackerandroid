@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 
@@ -30,9 +31,10 @@ public class AddAccountDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Create the ViewModel
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
+        long datasourceId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getDatasource()._id;
         viewModel = ViewModelProviders.of(this.getActivity()).get(AddAccountDialogViewModel.class);
-        //TODO: Add appropriate user
-        viewModel.init(new User(0, "", new Date()));
+        viewModel.init(userId, datasourceId);
         viewModel.getAccounts().observe(this, acc -> accounts = acc);
         View view = inflater.inflate(R.layout.account_dialog_add_account, container, false);
         onCreateViewInitName(view);

@@ -34,12 +34,12 @@ public class CategoryTesting {
         Log.i(label, "Inserting single category..");
         Category category = new Category(0, 0, 1, 0,
                 "Food", new Date());
-        repository.createCategory(category,(id) -> {
+        repository.createCategory(category, () -> {
             Log.i(label, "One Record Insert Successful..");
             repository.createCategory(
                     new Category(0, 0, 1, 0, "Fare",
                             new Date())
-                    , (id2) -> {
+                    , () -> {
                         Log.i(label, "Another Record Insert Successful..");
                         insertMultipleCategories();
                     }

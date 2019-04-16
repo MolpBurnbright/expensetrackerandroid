@@ -2,7 +2,7 @@ package com.kapirawan.financial_tracker.roomdatabase;
 
 import android.os.AsyncTask;
 
-public class AsyncInsert<T>  extends AsyncTask<T, Void, Long> {
+public class AsyncInsert<T>  extends AsyncTask<T, Void, Void> {
     private DaoBase asyncTaskDao;
     private OnTaskCompleted listener;
 
@@ -12,19 +12,20 @@ public class AsyncInsert<T>  extends AsyncTask<T, Void, Long> {
     }
 
     @Override
-    protected Long doInBackground(final T... params) {
-        return asyncTaskDao.insert(params[0]);
+    protected Void doInBackground(final T... params) {
+        asyncTaskDao.insert(params[0]);
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Long id){
+    protected void onPostExecute(Void  v){
         if (listener != null)
-            this.listener.onTaskCompleted(id);
+            this.listener.onTaskCompleted();
         asyncTaskDao = null;
         listener = null;
     }
 
     public interface OnTaskCompleted {
-        void onTaskCompleted(long id);
+        void onTaskCompleted();
     }
 }

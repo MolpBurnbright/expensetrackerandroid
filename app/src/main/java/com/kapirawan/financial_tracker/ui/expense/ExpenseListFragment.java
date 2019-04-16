@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 import com.kapirawan.financial_tracker.roomdatabase.expense.Expense;
 
@@ -35,13 +36,15 @@ public class ExpenseListFragment extends Fragment implements ExpenseListAdapter.
         registerForContextMenu(recyclerView);
         expenseListAdapter = new ExpenseListAdapter(this);
         recyclerView.setAdapter(expenseListAdapter);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
         viewModel = ViewModelProviders.of(this).get(ExpenseListFragmentViewModel.class);
+        viewModel.initUserId(userId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
             if(selectedAccount != null) {
                 String[] parsedValues = selectedAccount.value.split(",");
                 long accountID = Long.parseLong(parsedValues[0]);
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
-                viewModel.init(accountID, accounDatasourceId);
+                viewModel.initAccount(accountID, accounDatasourceId);
                 viewModel.getExpenses().observe(this, expenses -> expenseListAdapter.setExpenses(expenses));
                 viewModel.getAccount().observe(this, account -> {
                     TextView textView = rootView.findViewById(R.id.textview_accountname);

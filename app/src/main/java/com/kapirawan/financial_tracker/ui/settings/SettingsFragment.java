@@ -56,10 +56,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-        //Remove observer for this fragment so that no duplicate observers will be created
-        //when onCreateView is invoked again
-        ViewModelProviders.of(getActivity()).get(ActivityMainViewModel.class).getUserName()
-                .removeObservers(this);
     }
 
     private void signIn(){

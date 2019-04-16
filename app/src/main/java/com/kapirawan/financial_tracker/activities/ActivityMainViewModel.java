@@ -11,14 +11,13 @@ import com.kapirawan.financial_tracker.roomdatabase.datasource.Datasource;
 import com.kapirawan.financial_tracker.roomdatabase.user.User;
 
 public class ActivityMainViewModel extends ViewModel {
-    private final MutableLiveData<String> userName = new MutableLiveData<>();
-    private final MutableLiveData<Datasource> datasource = new MutableLiveData<>();
-    private final MutableLiveData<User> user = new MutableLiveData<>();
+    private User user;
+    private Datasource datasource;
     private GoogleApiClient googleApiClient;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
-    public LiveData<Datasource> getDatasource(){
+    public Datasource getDatasource(){
         return datasource;
     }
 
@@ -34,16 +33,12 @@ public class ActivityMainViewModel extends ViewModel {
         return googleApiClient;
     }
 
-    public LiveData<String> getUserName(){
-        return userName;
-    }
-
-    public LiveData<User> getUser(){
+    public User getUser(){
         return user;
     }
 
     public void setDatasource(Datasource datasource){
-        this.datasource.setValue(datasource);
+        this.datasource = datasource;
     }
 
     public void setFirebaseAuth(FirebaseAuth auth){
@@ -59,10 +54,7 @@ public class ActivityMainViewModel extends ViewModel {
     }
 
     public void setUser(User user){
-        this.user.setValue(user);
+        this.user = user;
     }
 
-    public void setUserName(String name){
-        userName.setValue(name);
-    }
 }

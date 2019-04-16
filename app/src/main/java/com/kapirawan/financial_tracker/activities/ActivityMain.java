@@ -34,11 +34,11 @@ public class ActivityMain extends AppCompatActivity{
     private FirebaseAuth firebaseAuth;
     private AppRepository appRepository;
     private ActivityMainViewModel viewModel;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String userName = "";
         viewModel = ViewModelProviders.of(this).get(ActivityMainViewModel.class);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -56,24 +56,9 @@ public class ActivityMain extends AppCompatActivity{
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
         viewModel.setGoogleApiClient(googleApiClient);
-        viewModel.setUserName(userName);
         viewModel.setFirebaseAuth(firebaseAuth);
         viewModel.setFirebaseUser(firebaseUser);
         onCreateGetUserData(firebaseUser.getEmail());
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if(userName != "")
-            toolbar.setTitle("Hi " + userName + " !");
-        else
-            toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        if (findViewById(R.id.fragment_container) != null){
-            if(savedInstanceState != null)
-                return;
-            mFragmentMain = new FragmentMain();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
-                    mFragmentMain).commit();
-        }
     }
 
     private void onCreateGetUserData(String userId){
@@ -85,13 +70,28 @@ public class ActivityMain extends AppCompatActivity{
                         viewModel.setUser(user);
                         appRepository.readUserFirstDatasource(user._id, datasource -> {
                             viewModel.setDatasource(datasource);
+                            onCreateSetViewLayout();
                         });
                     },
                     error -> {
-                        Log.d(TAG, "error in getting user: " + error.getMessage());
                         openSignInActivity();
                     }
                 );
+    }
+
+    private void onCreateSetViewLayout(){
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if(userName != "")
+            toolbar.setTitle("Hi " + userName + " !");
+        else
+            toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        if (findViewById(R.id.fragment_container) != null){
+            mFragmentMain = new FragmentMain();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
+                    mFragmentMain).commit();
+        }
     }
 
     @Override

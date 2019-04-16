@@ -108,19 +108,19 @@ public class ActivitySignIn extends AppCompatActivity {
     }
 
     private void checkUser() {
-        String userId = firebaseAuth.getCurrentUser().getEmail();
-        appRepository.readUser(userId)
+        String userEmail = firebaseAuth.getCurrentUser().getEmail();
+        appRepository.readUser(userEmail)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user ->
                             openMainActivity(),
                         error -> {
                             if (error.getClass() == EmptyResultSetException.class)
-                                createUserProfile(userId);
+                                createUserProfile(userEmail);
                         });
     }
 
-    private void createUserProfile(String userId) {
+    private void createUserProfile(String userEmail) {
         final String ID = "id";
         firestoreDb.collection(DATASOURCES)
                 .orderBy(ID, Query.Direction.DESCENDING)
@@ -134,7 +134,7 @@ public class ActivitySignIn extends AppCompatActivity {
                         else {
                             newDatasourceId = task.getResult().getDocuments().get(0).getLong(ID) + 1;
                         }
-                        createDatasoure(userId, newDatasourceId);
+                        createDatasoure(userEmail, newDatasourceId);
                     }
                     else
                         Log.d(TAG, "Error in reading firestore: " + task.getException());
@@ -162,7 +162,7 @@ public class ActivitySignIn extends AppCompatActivity {
         User user = new User(0, username, new Date());
         appRepository.createUser(user, newUserId -> {
             Datasource datasource = new Datasource(datasourceId, newUserId, firebaseAuth.getUid(), new Date());
-            appRepository.createDatasource(datasource, id -> {
+            appRepository.createDatasource(datasource, () -> {
                 createDefaulAccount(newUserId, datasourceId);
             });
         });
@@ -172,11 +172,13 @@ public class ActivitySignIn extends AppCompatActivity {
         appRepository.createDefaultAccount(userId, datasourceId, account -> {
             //Once the default account is created, set it as the selected account in the preference.
             String value = String.valueOf(account._id) + "," + String.valueOf(account.datasourceId);
-            Preference pref = new Preference(Preference.SELECTED_ACCOUNT, value);
-            appRepository.updatePreference(pref, () -> {});
-
-            //Finally, open the main activity
-            openMainActivity();
+            Log.d(TAG, "selected account: " + value);
+            Log.d(TAG, "userId:" + userId);
+            Preference pref = new Preference(userId, Preference.SELECTED_ACCOUNT, value);
+            appRepository.createPreference(pref, () -> {
+                //Finally, open the main activity
+                openMainActivity();
+            });
         });
     }
 

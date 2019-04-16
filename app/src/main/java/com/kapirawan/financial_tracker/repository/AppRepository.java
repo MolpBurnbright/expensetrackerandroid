@@ -61,7 +61,7 @@ public class AppRepository {
 
     /*** CRUD for User ***/
     
-    public void createUser (User user, LocalDatabase.CallbackReturnId callback){
+    public void createUser (User user, CallbackReturnObject<Long> callback){
         localDb.createUser(user, callback::onTaskCompleted);
     }
 
@@ -95,7 +95,7 @@ public class AppRepository {
     
     /*** CRUD for Datasource ***/
 
-    public void createDatasource (Datasource datasource, CallbackReturnId callback){
+    public void createDatasource (Datasource datasource, Callback callback){
         localDb.createDatasource(datasource, callback::onTaskCompleted);
     }
 
@@ -129,7 +129,7 @@ public class AppRepository {
     
     /*** CRUD for Account ***/
 
-    public void createAccount (Account account, CallbackReturnId callback){
+    public void createAccount (Account account, Callback callback){
         localDb.createAccount(account, callback::onTaskCompleted);
     }
 
@@ -172,7 +172,7 @@ public class AppRepository {
 
     /*** CRUD for Expense ***/
 
-    public void createExpense (Expense expense, CallbackReturnId callback){
+    public void createExpense (Expense expense, Callback callback){
         localDb.createExpense(expense, callback::onTaskCompleted);
     }
 
@@ -232,7 +232,7 @@ public class AppRepository {
 
     /*** CRUD for Budget ***/
 
-    public void createBudget (Budget budget, CallbackReturnId callback){
+    public void createBudget (Budget budget, Callback callback){
         localDb.createBudget(budget, callback::onTaskCompleted);
     }
 
@@ -280,7 +280,7 @@ public class AppRepository {
     
     /*** CRUD for Fund ***/
 
-    public void createFund (Fund fund, CallbackReturnId callback){
+    public void createFund (Fund fund, Callback callback){
         localDb.createFund(fund, callback::onTaskCompleted);
     }
 
@@ -328,7 +328,7 @@ public class AppRepository {
 
     /*** CRUD for Category ***/
 
-    public void createCategory (Category category, CallbackReturnId callback){
+    public void createCategory (Category category, Callback callback){
         localDb.createCategory(category, callback::onTaskCompleted);
     }
 
@@ -368,7 +368,7 @@ public class AppRepository {
     
     /*** CRUD for Source ***/
 
-    public void createSource (Source source, CallbackReturnId callback){
+    public void createSource (Source source, Callback callback){
         localDb.createSource(source, callback::onTaskCompleted);
     }
 
@@ -426,12 +426,16 @@ public class AppRepository {
 
     /**** Interfaces to get Preferences**/
 
-    public LiveData<Preference> getSelectedAccount(){
-        return localDb.getSelectedAccount();
+    public void createPreference (Preference pref, Callback callback){
+        localDb.createPreference(pref, callback::onTaskCompleted);
     }
 
-    public LiveData<Preference> getSelectedUser(){
-        return localDb.getSelectedUser();
+    public LiveData<Preference> getSelectedAccount(long userId){
+        return localDb.getSelectedAccount(userId);
+    }
+
+    public LiveData<Preference> getSelectedUser(long userId){
+        return localDb.getSelectedUser(userId);
     }
 
     public void updatePreference(Preference pref, Callback callback){

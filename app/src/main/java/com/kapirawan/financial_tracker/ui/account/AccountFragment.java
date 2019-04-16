@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 
@@ -38,17 +39,16 @@ public class AccountFragment extends Fragment {
         registerForContextMenu(recyclerView);
         adapter = new AccountListAdapter();
         recyclerView.setAdapter(adapter);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
         viewModel = ViewModelProviders.of(this).get(AccountFragmentViewModel.class);
-        viewModel.getSelectedUser().observe(this, selectedUser -> {
-            viewModel.init(Long.parseLong(selectedUser.value));
-            viewModel.getSelectedAccount().observe(this, selectedAccount -> {
-                String[] parsedValues = selectedAccount.value.split(",");
-                adapter.setSelectedAccount(Long.parseLong(parsedValues[0]), Long.parseLong(parsedValues[1]));
-            });
-            viewModel.getAccounts().observe(this, accounts  ->
-                    adapter.setAccounts(accounts)
-            );
+        viewModel.init(userId);
+        viewModel.getSelectedAccount().observe(this, selectedAccount -> {
+            String[] parsedValues = selectedAccount.value.split(",");
+            adapter.setSelectedAccount(Long.parseLong(parsedValues[0]), Long.parseLong(parsedValues[1]));
         });
+        viewModel.getAccounts().observe(this, accounts  ->
+                adapter.setAccounts(accounts)
+        );
         rootView.findViewById(R.id.fab_addaccount).setOnClickListener(view -> new AddAccountDialog()
                 .show(this.getActivity().getSupportFragmentManager(), "Add Account Dialog"));
         return rootView;

@@ -20,31 +20,28 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
     private LiveData<Account> account;
     private LiveData<List<String>> categories;
     private LiveData<Preference> selectedAccount;
+    private long userId;
     private long accountId, accountDatasourceId;
-    private Date startDate, endDate;
 
     public ExpenseListFragmentViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(long accountId, long accountDatasourceId) {
+    public void initAccount(long accountId, long accountDatasourceId) {
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
         expenses = repo.readAccountExpenseLD(accountId, accountDatasourceId);
         account = repo.readAccount(accountId, accountDatasourceId);
         categories = repo.readExpenseCategories(accountId, accountDatasourceId);
-        startDate = null;
-        endDate = null;
+    }
 
+    public void initUserId(long userId){
+        this.userId = userId;
     }
 
     public LiveData<Account> getAccount(){
         return account;
-    }
-
-    public Date getEndDate(){
-        return endDate;
     }
 
     public LiveData<List<Expense>> getExpenses() {
@@ -57,16 +54,8 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
 
     public LiveData<Preference> getSelectedAccount(){
         if(selectedAccount == null)
-            selectedAccount = repo.getSelectedAccount();
+            selectedAccount = repo.getSelectedAccount(userId);
         return selectedAccount;
-    }
-
-    public Date getStartDate(){
-        return startDate;
-    }
-
-    public void setEndDate(Date date){
-        endDate = date;
     }
 
     public void setExpenseList() {
@@ -75,10 +64,6 @@ public class ExpenseListFragmentViewModel extends AndroidViewModel {
 
     public void setExpenseList(String type) {
         expenses = repo.readAccountExpenses(accountId, accountDatasourceId, type);
-    }
-
-    public void setStartDate(Date date){
-        startDate = date;
     }
 
 }

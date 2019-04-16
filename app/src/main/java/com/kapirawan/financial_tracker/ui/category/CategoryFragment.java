@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -14,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 import com.kapirawan.financial_tracker.ui._common.ContextMenuRecyclerView;
 
 
 public class CategoryFragment extends Fragment {
     CategoryFragmentViewModel viewModel;
+    private String TAG = "CategoryFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,13 +33,18 @@ public class CategoryFragment extends Fragment {
         registerForContextMenu(recyclerView);
         CategoryListAdapter adapter = new CategoryListAdapter();
         recyclerView.setAdapter(adapter);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
+        //TODO: Remove Log
+        Log.d(TAG, "userId: " + userId);
         viewModel = ViewModelProviders.of(this).get(CategoryFragmentViewModel.class);
+        viewModel.initUserId(userId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
             if(selectedAccount != null) {
+                Log.d(TAG, "selected account: " + selectedAccount);
                 String[] parsedValues = selectedAccount.value.split(",");
                 long accountID = Long.parseLong(parsedValues[0]);
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
-                viewModel.init(accountID, accounDatasourceId);
+                viewModel.initAccount(accountID, accounDatasourceId);
                 viewModel.getCategories().observe(this, categories -> adapter.setCategories(categories));
                 viewModel.getAccount().observe(this, account -> {
                     TextView textView = rootView.findViewById(R.id.textview_accountname);

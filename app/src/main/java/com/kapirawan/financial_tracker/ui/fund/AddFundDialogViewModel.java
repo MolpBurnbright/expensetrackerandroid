@@ -17,12 +17,15 @@ import java.util.List;
 
 public class AddFundDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private long userId;
+    private long datasourceId;
     private long accountId, accountDatasourceId;
     private Date selectedDate;
     private double amount;
     private String description;
     private LiveData<List<Source>> sources;
     private LiveData<List<String>> details;
+    private LiveData<Preference> selectedAccount;
     private int selectedSourcePosition;
 
     public AddFundDialogViewModel(@NonNull Application app) {
@@ -30,7 +33,7 @@ public class AddFundDialogViewModel extends AndroidViewModel {
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(long accountId, long accountDatasourceId){
+    public void initAccount(long accountId, long accountDatasourceId){
         this.amount = 0;
         this.description = "";
         this.accountId = accountId;
@@ -41,10 +44,18 @@ public class AddFundDialogViewModel extends AndroidViewModel {
         this.sources = repo.readAccountSources(accountId, accountDatasourceId);
     }
 
+    public void initUserId(long userId){
+        this.userId = userId;
+    }
+
+    public void initDatasourceId(long datasourceId){
+        this.datasourceId = datasourceId;
+    }
+
     public void addFund(){
-        Fund fund = new Fund(0, 0, accountId, accountDatasourceId,
+        Fund fund = new Fund(0, datasourceId, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedSource(), description, new Date());
-        repo.createFund(fund, (id) -> {});
+        repo.createFund(fund, () -> {});
     }
 
     public double getAmount(){
@@ -60,7 +71,9 @@ public class AddFundDialogViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount(userId);
+        return selectedAccount;
     }
 
     public String getSelectedSource(){

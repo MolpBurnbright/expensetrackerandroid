@@ -14,7 +14,8 @@ import java.util.List;
 
 public class AddAccountDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
-    private User user;
+    private long userId;
+    private long datasource;
     private LiveData<List<Account>> accounts;
 
     public AddAccountDialogViewModel(@NonNull Application app) {
@@ -22,9 +23,10 @@ public class AddAccountDialogViewModel extends AndroidViewModel {
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(User user) {
-        this.user = user;
-        this.accounts = repo.readUserAccounts(user._id);
+    public void init(long userId, long datasource) {
+        this.userId = userId;
+        this.datasource = datasource;
+        this.accounts = repo.readUserAccounts(userId);
     }
 
     public LiveData<List<Account>> getAccounts(){
@@ -32,6 +34,6 @@ public class AddAccountDialogViewModel extends AndroidViewModel {
     }
 
     public void addAccount(String name){
-        repo.createAccount(new Account(0, 0, user._id, name, new Date()), (id) ->{});
+        repo.createAccount(new Account(0, datasource, userId, name, new Date()), () ->{});
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 public class FragmentSummaryViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private long userId;
     private LiveData<List<Sum>> expensesSum;
     private LiveData<List<Sum>> budgetsSum;
     private LiveData<List<Sum>> fundsSum;
@@ -37,6 +38,10 @@ public class FragmentSummaryViewModel extends AndroidViewModel {
         totalFund = repo.readTotalFund(accountId, accountDatasourceId);
     }
 
+    public void initUserId(long userId){
+        this.userId = userId;
+    }
+
     public LiveData<Account> getAccount(){
         return account;
     }
@@ -55,7 +60,7 @@ public class FragmentSummaryViewModel extends AndroidViewModel {
 
     public LiveData<Preference> getSelectedAccount(){
         if(selectedAccount == null)
-            selectedAccount = repo.getSelectedAccount();
+            selectedAccount = repo.getSelectedAccount(userId);
         return selectedAccount;
     }
 
@@ -70,4 +75,5 @@ public class FragmentSummaryViewModel extends AndroidViewModel {
     public LiveData<Double> getTotalFund(){
         return totalFund;
     }
+
 }

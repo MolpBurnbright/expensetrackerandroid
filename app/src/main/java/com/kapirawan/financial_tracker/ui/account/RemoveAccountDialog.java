@@ -27,7 +27,6 @@ public class RemoveAccountDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         viewModel = ViewModelProviders.of(this.getActivity()).get(RemoveAccountDialogViewModel.class);
-        //TODO: Add appropriate user
         View view = inflater.inflate(R.layout.account_dialog_remove_accoount, container, false);
         onCreateViewInitName(view);
         onCreateViewInitRemoveButton(view);

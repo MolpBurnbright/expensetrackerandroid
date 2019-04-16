@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.ui.budget.AddBudgetDialog;
 import com.kapirawan.financial_tracker.ui.expense.AddExpenseDialog;
 import com.kapirawan.financial_tracker.ui.fund.AddFundDialog;
@@ -51,12 +52,17 @@ public class FragmentSummary extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         AdapterRecyclerViewSummary adapter = new AdapterRecyclerViewSummary();
         recyclerView.setAdapter(adapter);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
         viewModel = ViewModelProviders.of(this).get(FragmentSummaryViewModel.class);
+        viewModel.initUserId(userId);
         viewModel.getSelectedAccount().observe(this, selectedAccount ->{
             if (selectedAccount!= null) {
+                Log.d("FragmentSummary", "Selected Account: " + selectedAccount.value);
                 String[] parsedValues = selectedAccount.value.split(",");
                 long accountID = Long.parseLong(parsedValues[0]);
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
+                Log.d("FragmentSummary", "accountId: " + Long.parseLong(parsedValues[0]));
+                Log.d("FragmentSummary", "accounDatasourceId: " + Long.parseLong(parsedValues[1]));
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getExpensesSummary().observe(this, sums -> {
                     expensesSum = sums;
@@ -74,6 +80,8 @@ public class FragmentSummary extends Fragment {
                 });
                 viewModel.getFundsSummary().observe(this, sum -> adapter.setFundsSummaries(sum));
                 viewModel.getAccount().observe(this, account -> {
+                    if(account == null)
+                        Log.d("FragmentSummary", "account is null");
                     TextView textView = rootView.findViewById(R.id.textview_accountname);
                     if(textView != null)
                         textView.setText(account.name);

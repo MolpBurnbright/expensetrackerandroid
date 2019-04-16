@@ -16,6 +16,7 @@ public class AccountFragmentViewModel extends AndroidViewModel {
     private LiveData<List<Account>> accounts;
     private LiveData<Preference> selectedUser;
     private LiveData<Preference> selectedAccount;
+    private long userId;
 
     public AccountFragmentViewModel(@NonNull Application app) {
         super(app);
@@ -24,7 +25,8 @@ public class AccountFragmentViewModel extends AndroidViewModel {
 
     public void init(long userId){
         accounts = repo.readUserAccounts(userId);
-        selectedAccount = repo.getSelectedAccount();
+        selectedAccount = repo.getSelectedAccount(userId);
+        this.userId = userId;
     }
 
     public LiveData<List<Account>> getAccounts(){
@@ -37,13 +39,13 @@ public class AccountFragmentViewModel extends AndroidViewModel {
 
     public LiveData<Preference> getSelectedUser(){
         if(selectedUser == null)
-            selectedUser = repo.getSelectedUser();
+            selectedUser = repo.getSelectedUser(userId);
         return selectedUser;
     }
 
     public void setSelectedAccount(Account account){
         String value = String.valueOf(account._id) + "," + String.valueOf(account.datasourceId);
-        Preference pref = new Preference(Preference.SELECTED_ACCOUNT, value);
+        Preference pref = new Preference(this.userId, Preference.SELECTED_ACCOUNT, value);
         repo.updatePreference(pref, () -> {});
     }
 }

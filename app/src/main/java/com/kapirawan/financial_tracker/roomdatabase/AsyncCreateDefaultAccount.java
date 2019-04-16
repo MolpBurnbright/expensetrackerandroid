@@ -25,10 +25,12 @@ public class AsyncCreateDefaultAccount extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(final Void... params) {
-        defaultAccount = new Account(0, datasourceId, userId,
+        //Derive the next accountId available, by getting the maximum Id that have been used for the datasource then
+        //add it by 1. The next accountId would usually just be 1..
+        long accountId = db.daoAccount().getMaxId(datasourceId) + 1;
+        defaultAccount = new Account(accountId, datasourceId, userId,
                 "Default Account", new Date());
-        long accountId = db.daoAccount().insert(defaultAccount);
-        defaultAccount._id = accountId;
+        db.daoAccount().insert(defaultAccount);
         Category[] defaultCategories = {
                 new Category(1, datasourceId, defaultAccount._id, defaultAccount.datasourceId, "Food",
                         new Date()),

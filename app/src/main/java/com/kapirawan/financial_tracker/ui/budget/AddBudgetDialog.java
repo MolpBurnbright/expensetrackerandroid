@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +36,11 @@ public class AddBudgetDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.budget_dialog_add_budget, container, false);
         //Create the ViewModel
-        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddBudgetDialogViewModel.class);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
+        long datasourceId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getDatasource()._id;
+        viewModel = ViewModelProviders.of(this.getActivity()).get(AddBudgetDialogViewModel.class);
+        viewModel.initUserId(userId);
+        viewModel.initDatasourceId(datasourceId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
             String[] parsedValues = selectedAccount.value.split(",");
             long accountID = Long.parseLong(parsedValues[0]);

@@ -17,12 +17,15 @@ import java.util.List;
 
 public class AddBudgetDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private long userId;
+    private long datasourceId;
     private long accountId, accountDatasourceId;
     private Date selectedDate;
     private double amount;
     private String description;
     private LiveData<List<Category>> categories;
     private LiveData<List<String>> details;
+    private LiveData<Preference> selectedAccount;
     private int selectedCategoryPosition;
 
     public AddBudgetDialogViewModel(@NonNull Application app) {
@@ -41,10 +44,18 @@ public class AddBudgetDialogViewModel extends AndroidViewModel {
         this.categories = repo.readAccountCategories(accountId, accountDatasourceId);
     }
 
+    public void initUserId(long userId){
+        this.userId = userId;
+    }
+
+    public void initDatasourceId(long datasourceId){
+        this.datasourceId = datasourceId;
+    }
+
     public void addBudget(){
-        Budget budget = new Budget(0, 0, accountId, accountDatasourceId,
+        Budget budget = new Budget(0, datasourceId, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedCategory(), description, new Date());
-        repo.createBudget(budget, (id) -> {});
+        repo.createBudget(budget, () -> {});
     }
 
     public double getAmount(){
@@ -60,7 +71,9 @@ public class AddBudgetDialogViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount(userId);
+        return selectedAccount;
     }
 
     public String getSelectedCategory(){

@@ -17,12 +17,15 @@ import java.util.List;
 
 public class AddExpenseDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
+    private long userId;
+    private long datasourceId;
     private long accountId, accountDatasourceId;
     private Date selectedDate;
     private double amount;
     private String description;
     private LiveData<List<Category>> categories;
     private LiveData<List<String>> details;
+    private LiveData<Preference> selectedAccount;
     private int selectedCategoryPosition;
 
     public AddExpenseDialogViewModel(@NonNull Application app) {
@@ -41,10 +44,18 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
         this.details = repo.getDetails(accountId, accountDatasourceId);
     }
 
+    public void initUserId(long userId){
+        this.userId = userId;
+    }
+
+    public void initDatasourceId(long datasourceId){
+        this.datasourceId = datasourceId;
+    }
+
     public void addExpense(){
-        Expense expense = new Expense(0, 0, accountId, accountDatasourceId,
+        Expense expense = new Expense(0, this.datasourceId, accountId, accountDatasourceId,
                 selectedDate, amount, getSelectedCategory(), description, new Date());
-        repo.createExpense(expense, (id) -> {});
+        repo.createExpense(expense, () -> {});
     }
 
     public long getAccountId() {
@@ -68,7 +79,9 @@ public class AddExpenseDialogViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount(userId);
+        return selectedAccount;
     }
 
     public Date getSelectedDate(){

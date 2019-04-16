@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.account.Account;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
@@ -31,12 +32,16 @@ public class AddCategoryDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         View view = inflater.inflate(R.layout.category_dialog_add_category, container, false);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
+        long datasourceId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getDatasource()._id;
         viewModel = ViewModelProviders.of(this.getActivity()).get(AddCategoryDialogViewModel.class);
+        viewModel.initUserId(userId);
+        viewModel.initDatasourceId(datasourceId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
             String[] parsedValues = selectedAccount.value.split(",");
             long accountID = Long.parseLong(parsedValues[0]);
             long accounDatasourceId = Long.parseLong(parsedValues[1]);
-            viewModel.init(accountID, accounDatasourceId);
+            viewModel.initAccount(accountID, accounDatasourceId);
             viewModel.getCategories().observe(this, cats -> categories = cats);
             onCreateViewInitName(view);
             onCreateViewInitAddButton(view);

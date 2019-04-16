@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kapirawan.financial_tracker.R;
+import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
 import java.text.SimpleDateFormat;
@@ -33,9 +34,12 @@ public class AddExpenseDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Create the ViewModel
-        this.viewModel = ViewModelProviders.of(this.getActivity()).get(AddExpenseDialogViewModel.class);
         View view = inflater.inflate(R.layout.expense_dialog_add_expense, container, false);
+        long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
+        long datasourceId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getDatasource()._id;
+        viewModel = ViewModelProviders.of(this.getActivity()).get(AddExpenseDialogViewModel.class);
+        viewModel.initUserId(userId);
+        viewModel.initDatasourceId(datasourceId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {
             String[] parsedValues = selectedAccount.value.split(",");
             long accountID = Long.parseLong(parsedValues[0]);

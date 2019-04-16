@@ -16,22 +16,34 @@ import java.util.List;
 public class AddSourceDialogViewModel extends AndroidViewModel {
     private AppRepository repo;
     private LiveData<List<Source>> sources;
-    private long accountId, accountDatasourceId;
+    private LiveData<Preference> selectedAccount;
+    private long userId;
+    private long datasourceId;
+    private long accountId;
+    private long accountDatasourceId;
 
     public AddSourceDialogViewModel(@NonNull Application app) {
         super(app);
         repo = AppRepository.getInstance(app);
     }
 
-    public void init(long accountId, long accountDatasourceId) {
+    public void initAccount(long accountId, long accountDatasourceId) {
         this.accountId = accountId;
         this.accountDatasourceId = accountDatasourceId;
         this.sources = repo.readAccountSources(accountId, accountDatasourceId);
     }
 
+    public void initUserId(long userId){
+        this.userId = userId;
+    }
+
+    public void initDatasourceId(long datasourceId){
+        this.datasourceId = datasourceId;
+    }
+
     public void addSource(String name){
-        repo.createSource(new Source(0, 0, accountId, accountDatasourceId,
-                name, new Date()), (id) ->{});
+        repo.createSource(new Source(0, datasourceId, accountId, accountDatasourceId,
+                name, new Date()), () ->{});
     }
 
     public LiveData<List<Source>> getSources(){
@@ -39,6 +51,8 @@ public class AddSourceDialogViewModel extends AndroidViewModel {
     }
 
     public LiveData<Preference> getSelectedAccount(){
-        return repo.getSelectedAccount();
+        if(selectedAccount == null)
+            selectedAccount = repo.getSelectedAccount(userId);
+        return selectedAccount;
     }
 }
