@@ -24,12 +24,14 @@ import com.kapirawan.financial_tracker.R;
 import com.kapirawan.financial_tracker.activities.ActivityMainViewModel;
 import com.kapirawan.financial_tracker.roomdatabase.category.Category;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AddBudgetDialog extends DialogFragment {
 
     AddBudgetDialogViewModel viewModel;
+    double totalBudget, totalFund, availableAmount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,16 @@ public class AddBudgetDialog extends DialogFragment {
             onCreateViewInitAmount(view);
             onCreateViewInitAutocomplete(view);
             onCreateViewInitAddButton(view);
+            viewModel.getTotalBudget().observe(this, budget -> {
+                totalBudget = budget;
+                availableAmount = totalFund - totalBudget;
+                onCreateUpdateAvailableAmount(view);
+            });
+            viewModel.getTotalFund().observe(this, fund -> {
+                totalFund = fund;
+                availableAmount = totalFund - totalBudget;
+                onCreateUpdateAvailableAmount(view);
+            });
             view.findViewById(R.id.button_cancel).setOnClickListener(v -> this.getDialog().cancel());
         });
         return view;
@@ -117,7 +129,12 @@ public class AddBudgetDialog extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() > 0){
-                    view.findViewById(R.id.button_update).setEnabled(true);
+                    double amount = Double.parseDouble(
+                            ((EditText) view.findViewById(R.id.edittext_amount)).getText().toString());
+                    if(amount <= availableAmount)
+                        view.findViewById(R.id.button_update).setEnabled(true);
+                    else
+                        view.findViewById(R.id.button_update).setEnabled(false);
                 }else
                     view.findViewById(R.id.button_update).setEnabled(false);
             }
@@ -157,6 +174,12 @@ public class AddBudgetDialog extends DialogFragment {
             }
         });
         button.setEnabled(false);
+    }
+
+    private void onCreateUpdateAvailableAmount(View view){
+        TextView textView = view.findViewById(R.id.textView_availableAmount);
+        DecimalFormat formatter = new DecimalFormat("#,##0.00");
+        textView.setText("Available Amount to Allocate : " + formatter.format(availableAmount));
     }
 
     @Override

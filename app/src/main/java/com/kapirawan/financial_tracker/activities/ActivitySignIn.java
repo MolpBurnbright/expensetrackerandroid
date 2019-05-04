@@ -81,14 +81,16 @@ public class ActivitySignIn extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
+        if(requestCode == RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
+            if(result.isSuccess()) {
+                Log.d(TAG, "authetication successful");
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-            } else
+            }else{
                 Log.e(TAG, "Google Sign-In failed.");
-                Toast.makeText(ActivitySignIn.this, "Authentication failed 1.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySignIn.this, "Authentication failed..", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

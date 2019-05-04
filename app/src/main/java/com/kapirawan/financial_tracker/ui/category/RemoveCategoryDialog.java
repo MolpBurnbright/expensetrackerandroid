@@ -23,7 +23,6 @@ public class RemoveCategoryDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         viewModel = ViewModelProviders.of(this.getActivity()).get(RemoveCategoryDialogViewModel.class);
-        //TODO: Add appropriate user
         View view = inflater.inflate(R.layout.category_dialog_remove_category, container, false);
         onCreateViewInitName(view);
         onCreateViewInitRemoveButton(view);

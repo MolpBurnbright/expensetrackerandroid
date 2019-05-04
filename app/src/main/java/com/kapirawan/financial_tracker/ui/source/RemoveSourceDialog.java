@@ -23,7 +23,6 @@ public class RemoveSourceDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         //Create the ViewModel
         viewModel = ViewModelProviders.of(this.getActivity()).get(RemoveSourceDialogViewModel.class);
-        //TODO: Add appropriate user
         View view = inflater.inflate(R.layout.source_dialog_remove_source, container, false);
         onCreateViewInitName(view);
         onCreateViewInitRemoveButton(view);

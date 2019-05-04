@@ -34,8 +34,6 @@ public class CategoryFragment extends Fragment {
         CategoryListAdapter adapter = new CategoryListAdapter();
         recyclerView.setAdapter(adapter);
         long userId = ViewModelProviders.of(this.getActivity()).get(ActivityMainViewModel.class).getUser()._id;
-        //TODO: Remove Log
-        Log.d(TAG, "userId: " + userId);
         viewModel = ViewModelProviders.of(this).get(CategoryFragmentViewModel.class);
         viewModel.initUserId(userId);
         viewModel.getSelectedAccount().observe(this, selectedAccount -> {

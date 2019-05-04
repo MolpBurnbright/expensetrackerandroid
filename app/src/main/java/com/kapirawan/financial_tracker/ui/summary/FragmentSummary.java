@@ -57,12 +57,9 @@ public class FragmentSummary extends Fragment {
         viewModel.initUserId(userId);
         viewModel.getSelectedAccount().observe(this, selectedAccount ->{
             if (selectedAccount!= null) {
-                Log.d("FragmentSummary", "Selected Account: " + selectedAccount.value);
                 String[] parsedValues = selectedAccount.value.split(",");
                 long accountID = Long.parseLong(parsedValues[0]);
                 long accounDatasourceId = Long.parseLong(parsedValues[1]);
-                Log.d("FragmentSummary", "accountId: " + Long.parseLong(parsedValues[0]));
-                Log.d("FragmentSummary", "accounDatasourceId: " + Long.parseLong(parsedValues[1]));
                 viewModel.init(accountID, accounDatasourceId);
                 viewModel.getExpensesSummary().observe(this, sums -> {
                     expensesSum = sums;
@@ -80,8 +77,6 @@ public class FragmentSummary extends Fragment {
                 });
                 viewModel.getFundsSummary().observe(this, sum -> adapter.setFundsSummaries(sum));
                 viewModel.getAccount().observe(this, account -> {
-                    if(account == null)
-                        Log.d("FragmentSummary", "account is null");
                     TextView textView = rootView.findViewById(R.id.textview_accountname);
                     if(textView != null)
                         textView.setText(account.name);

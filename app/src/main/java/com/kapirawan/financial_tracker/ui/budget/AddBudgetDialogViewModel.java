@@ -26,6 +26,7 @@ public class AddBudgetDialogViewModel extends AndroidViewModel {
     private LiveData<List<Category>> categories;
     private LiveData<List<String>> details;
     private LiveData<Preference> selectedAccount;
+    private LiveData<Double> totalBudget, totalFund;
     private int selectedCategoryPosition;
 
     public AddBudgetDialogViewModel(@NonNull Application app) {
@@ -42,6 +43,8 @@ public class AddBudgetDialogViewModel extends AndroidViewModel {
         this.selectedDate = Calendar.getInstance().getTime();
         this.details = repo.getDetails(accountId, accountDatasourceId);
         this.categories = repo.readAccountCategories(accountId, accountDatasourceId);
+        this.totalBudget = repo.readTotalBudget(accountId, accountDatasourceId);
+        this.totalFund = repo.readTotalFund(accountId, accountDatasourceId);
     }
 
     public void initUserId(long userId){
@@ -86,6 +89,14 @@ public class AddBudgetDialogViewModel extends AndroidViewModel {
 
     public Date getSelectedDate(){
         return this.selectedDate;
+    }
+
+    public LiveData<Double> getTotalBudget(){
+        return totalBudget;
+    }
+
+    public LiveData<Double> getTotalFund(){
+        return totalFund;
     }
 
     public void setAmount(double amount){

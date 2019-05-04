@@ -81,7 +81,6 @@ public class ExpenseListFragment extends Fragment implements ExpenseListAdapter.
                         viewModel.getExpenses().observe(parentFragment,
                                 expenses -> expenseListAdapter.setExpenses(expenses));
                     }
-                    //TODO: filter expenses based on selected categories.
                 }
 
                 @Override
